@@ -20,7 +20,7 @@ Heering, Pevytoe, and Thompson (**HPT**) recommend replacing the current paper-b
 *	Employees will have on-demand access to their individual time-off and attendance records
 *	Supervisors will have on-demand access to time-off and attendance records for their subordinates
 *	CEO’s office is relieved of the responsibility to provide information to employees
-#Contributors
+# Contributors
 * Matthew Heering
 * William Pevytoe
 * Terry Thompson
