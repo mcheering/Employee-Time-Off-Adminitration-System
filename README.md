@@ -1,3 +1,8 @@
+# Introduction
+The Employee Time-Off Administration System (**ETOAS**) is a team collaboration for CS6920-Project 2 (Summer 2025), the final class in the Master of Applied Computer Science program at the University of West Georgia.  This final project requires us to utilize what we have learned over the last two years.
+The team has chosen to create a web browser-based time-off tracking system for a fictitious company.  The application will be developed using Ruby on Rails for the back end and React for the front end.  The team believes it can be easily modified for use in a real company.  See the Contributors section below for a list of team members.
+# Advertisement & Elevator Pitch
+Checkout the link [here](https://www.canva.com/design/DAGpxza_mvA/tiqyjH88lK4A4EKf0quwYA/view?utm_content=DAGpxza_mvA&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hf8a3cab6e5) to learn more about the Employee Time-Off Management System
 # Vision 
 The Employee Time-Off Administration System will replace the current paper-based time-off approval system with a software-based approach, increasing efficiency and reducing costs and paper usage.
 # Project Overview
@@ -20,8 +25,6 @@ Heering, Pevytoe, and Thompson (**HPT**) recommend replacing the current paper-b
 *	Employees will have on-demand access to their individual time-off and attendance records
 *	Supervisors will have on-demand access to time-off and attendance records for their subordinates
 *	CEO’s office is relieved of the responsibility to provide information to employees
-## Advertisement & Elevator Pitch
-Checkout the link [here](https://www.canva.com/design/DAGpxza_mvA/tiqyjH88lK4A4EKf0quwYA/view?utm_content=DAGpxza_mvA&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hf8a3cab6e5) to learn more about the Employee Time-Off Management System
 # Contributors
 * Matthew Heering
 * William Pevytoe
