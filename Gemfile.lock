@@ -103,6 +103,7 @@ GEM
     debug (1.10.0)
       irb (~> 1.10)
       reline (>= 0.3.8)
+    docile (1.4.1)
     dotenv (3.1.8)
     drb (2.2.3)
     ed25519 (1.4.0)
@@ -294,6 +295,12 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
+    simplecov (0.22.0)
+      docile (~> 1.1)
+      simplecov-html (~> 0.11)
+      simplecov_json_formatter (~> 0.1)
+    simplecov-html (0.13.1)
+    simplecov_json_formatter (0.1.4)
     solid_cable (3.0.8)
       actioncable (>= 7.2)
       activejob (>= 7.2)
@@ -374,9 +381,10 @@ DEPENDENCIES
   pg (~> 1.1)
   propshaft
   puma (>= 5.0)
-  rails (~> 8.0.1)
+  rails (~> 8.0.2)
   rubocop-rails-omakase
   selenium-webdriver
+  simplecov
   solid_cable
   solid_cache
   solid_queue
@@ -390,4 +398,4 @@ RUBY VERSION
    ruby 3.4.3p32
 
 BUNDLED WITH
-   2.6.5
+   2.6.7
