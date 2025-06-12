@@ -6,6 +6,9 @@
       <th>Employee Name</th>
       <th>Email</th>
       <th>Hire Date</th>
+      <th>Term Date</th>
+      <th>Is Supervisor</th>
+      <th>Is Administrator</th>
       <th>Supervisor Name</th>
       <th>Actions</th>
     </tr>
@@ -16,6 +19,9 @@
         <td><%= employee.name %></td>
         <td><%= employee.email %></td>
         <td><%= employee.hire_date %></td>
+        <td><%= employee.termination_date %></td>
+        <td><%= employee.is_supervisor? ? 'Yes' : 'No' %></td>
+        <td><%= employee.is_administrator? ? 'Yes' : 'No' %></td>
         <td><%= employee.supervisor_name %><td>
         <td>
           <%= link_to 'Show', employee_path(employee) %> |
