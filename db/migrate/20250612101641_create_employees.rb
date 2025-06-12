@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class DeviseCreateEmployees < ActiveRecord::Migration[8.0]
+class CreateEmployees < ActiveRecord::Migration[8.0]
   def change
     create_table :employees do |t|
       ## Database authenticatable
