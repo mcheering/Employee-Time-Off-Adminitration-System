@@ -1604,3 +1604,73 @@ Completed 200 OK in 17ms (Views: 0.3ms | ActiveRecord: 0.0ms (0 queries, 0 cache
   [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT "employees".* FROM "employees" /* loading for pp */ LIMIT 11 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
   [1m[36mEmployee Delete All (2.7ms)[0m  [1m[31mDELETE FROM "employees" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
   [1m[36mEmployee Load (1.0ms)[0m  [1m[34mSELECT "employees".* FROM "employees" /* loading for pp */ LIMIT 11 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+Started GET "/employees" for ::1 at 2025-06-12 06:30:07 -0500
+  [1m[36mActiveRecord::SchemaMigration Load (1.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  
+ActionController::RoutingError (No route matches [GET] "/employees"):
+  
+Started GET "/employees" for ::1 at 2025-06-12 06:30:49 -0500
+Processing by EmployeesController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering employees/index.html.erb within layouts/application
+  Rendered employees/index.html.erb within layouts/application (Duration: 1.4ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 2.3ms | GC: 0.0ms)
+Completed 500 Internal Server Error in 46ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+  
+ActionView::Template::Error (undefined method 'each' for nil)
+Caused by: NoMethodError (undefined method 'each' for nil)
+
+Information for: ActionView::Template::Error (undefined method 'each' for nil):
+    12:     </tr>
+    13:   </thead>
+    14:   <tbody>
+    15:     <% @employees.each do |employee| %>
+    16:       <tr>
+    17:         <td><%= employee.first_name %></td>
+    18:         <td><%= employee.last_name %></td>
+  
+app/views/employees/index.html.erb:15
+
+Information for cause: NoMethodError (undefined method 'each' for nil):
+  
+app/views/employees/index.html.erb:15
+Started GET "/employees" for ::1 at 2025-06-12 06:32:59 -0500
+Processing by EmployeesController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering employees/index.html.erb within layouts/application
+  Rendered employees/index.html.erb within layouts/application (Duration: 1.8ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 2.4ms | GC: 0.0ms)
+Completed 500 Internal Server Error in 24ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+  
+ActionView::Template::Error (undefined method 'each' for nil)
+Caused by: NoMethodError (undefined method 'each' for nil)
+
+Information for: ActionView::Template::Error (undefined method 'each' for nil):
+    11:     </tr>
+    12:   </thead>
+    13:   <tbody>
+    14:     <% @employees.each do |employee| %>
+    15:       <tr>
+    16:         <td><%= employee.first_name %></td>
+    17:         <td><%= employee.last_name %></td>
+  
+app/views/employees/index.html.erb:14
+
+Information for cause: NoMethodError (undefined method 'each' for nil):
+  
+app/views/employees/index.html.erb:14
+Started GET "/employees" for ::1 at 2025-06-12 06:34:13 -0500
+Processing by EmployeesController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering employees/index.html.erb within layouts/application
+  [1m[36mEmployee Load (17.5ms)[0m  [1m[34mSELECT "employees".* FROM "employees" /*action='index',application='EmployeeTimeOffAdminitrationSystem',controller='employees'*/[0m
+  ↳ app/views/employees/index.html.erb:14
+  Rendered employees/index.html.erb within layouts/application (Duration: 21.8ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 28.5ms | GC: 0.0ms)
+Completed 200 OK in 55ms (Views: 4.5ms | ActiveRecord: 25.1ms (1 query, 0 cached) | GC: 0.1ms)
+
+
