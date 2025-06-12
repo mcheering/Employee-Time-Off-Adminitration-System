@@ -10,6 +10,8 @@ class Employee < ApplicationRecord
   validates :email, presence: true
   validates :email, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
 
+  scope :supervisors, -> { where(is_supervisor: true).select(:id, :first_name, :last_name) }
+  scope :administrators, -> { where(is_administrator: true).select(:id, :first_name, :last_name) }
   # private
 
   # def set_full_name
