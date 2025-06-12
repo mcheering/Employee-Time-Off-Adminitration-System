@@ -23,7 +23,6 @@
         <td><%= employee.is_supervisor? ? 'Yes' : 'No' %></td>
         <td><%= employee.is_administrator? ? 'Yes' : 'No' %></td>
         <td><%= employee.supervisor_name %><td>
-        <td>
           <%= link_to 'Show', employee_path(employee) %> |
           <%= link_to 'Edit', edit_employee_path(employee) %>
         </td>
