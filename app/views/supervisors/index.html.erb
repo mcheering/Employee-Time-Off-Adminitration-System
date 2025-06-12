@@ -1,0 +1,19 @@
+<h1>Supervisors</h1>
+<table border="1">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @supervisors.each do |supervisor| %>
+      <tr>
+        <td><%= supervisor.id %></td>
+        <td><%= supervisor.first_name %></td>
+        <td><%= supervisor.last_name %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
