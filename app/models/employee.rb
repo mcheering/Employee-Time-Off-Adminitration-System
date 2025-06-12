@@ -5,16 +5,19 @@ class Employee < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  # before_validation :set_full_name
 
   validates :email, presence: true
   validates :email, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
 
   scope :supervisors, -> { where(is_supervisor: true).select(:id, :first_name, :last_name) }
   scope :administrators, -> { where(is_administrator: true).select(:id, :first_name, :last_name) }
-  # private
 
-  # def set_full_name
-  #   self.name = "#{first_name} #{last_name}".strip
-  # end
+  def name
+    "#{first_name} #{last_name}"
+  end
+
+  def supervisor_name
+    supervisor = Employee.find_by(id: supervisor_id)
+    supervisor ? supervisor.name : "none"
+  end
 end

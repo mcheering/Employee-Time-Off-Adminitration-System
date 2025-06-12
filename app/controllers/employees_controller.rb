@@ -37,6 +37,10 @@ class EmployeesController < ApplicationController
 
   # PATCH/PUT /employees/1 or /employees/1.json
   def update
+    if params[:employee][:password].blank?
+      params[:employee].delete(:password)
+      params[:employee].delete(:password_confirmation)
+    end
     respond_to do |format|
       if @employee.update(employee_params)
         format.html { redirect_to @employee, notice: "Employee was successfully updated." }
