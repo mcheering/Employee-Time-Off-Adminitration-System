@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_12_101641) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_12_104618) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -22,7 +22,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_12_101641) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "supervisor_id"
+    t.string "first_name", null: false
+    t.string "last_name", null: false
+    t.date "hire_date", null: false
+    t.date "termination_date"
+    t.boolean "is_supervisor", default: false
+    t.boolean "is_administrator", default: false
     t.index ["email"], name: "index_employees_on_email", unique: true
     t.index ["reset_password_token"], name: "index_employees_on_reset_password_token", unique: true
+    t.index ["supervisor_id"], name: "index_employees_on_supervisor_id"
   end
+
+  add_foreign_key "employees", "employees", column: "supervisor_id"
 end
