@@ -1421,3 +1421,186 @@ puma (6.6.0) lib/puma/request.rb:98:in 'Puma::Request#handle_request'
 puma (6.6.0) lib/puma/server.rb:472:in 'Puma::Server#process_client'
 puma (6.6.0) lib/puma/server.rb:254:in 'block in Puma::Server#run'
 puma (6.6.0) lib/puma/thread_pool.rb:167:in 'block in Puma::ThreadPool#spawn_thread'
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_try_advisory_lock(7731605438190297720) /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (2.3ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_advisory_unlock(7731605438190297720) /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_try_advisory_lock(7731605438190297720) /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+Migrating to DeviseCreateEmployees (20250611024536)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_advisory_unlock(7731605438190297720) /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[35mSET search_path TO public /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (7584.0ms)[0m  [1m[35mDROP DATABASE IF EXISTS "employee_time_off_adminitration_system_development" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[35mSET search_path TO public /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (7367.3ms)[0m  [1m[35mDROP DATABASE IF EXISTS "employee_time_off_adminitration_system_development" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.0ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[35mSET search_path TO public /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (64.4ms)[0m  [1m[35mDROP DATABASE IF EXISTS "employee_time_off_adminitration_system_development" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35mSQL (0.8ms)[0m  [1m[35mSET search_path TO public /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (41.4ms)[0m  [1m[35mDROP DATABASE IF EXISTS "employee_time_off_adminitration_system_test" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mSET search_path TO public /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (132.4ms)[0m  [1m[35mCREATE DATABASE "employee_time_off_adminitration_system_development" ENCODING = 'unicode' /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[35mSET search_path TO public /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (52.1ms)[0m  [1m[35mCREATE DATABASE "employee_time_off_adminitration_system_test" ENCODING = 'unicode' /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[35mCREATE EXTENSION IF NOT EXISTS "plpgsql" SCHEMA pg_catalog /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (2.2ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY) /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20250612025211) /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20250611024536); /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL) /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.2ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'development', '2025-06-12 10:07:55.155053', '2025-06-12 10:07:55.155055') RETURNING "key" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.0ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'schema_sha1' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.1ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('schema_sha1', '569bc59678080aec3356e70d43e33877adf85ec3', '2025-06-12 10:07:55.161117', '2025-06-12 10:07:55.161118') RETURNING "key" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[34mSELECT pg_try_advisory_lock(7731605438190297720) /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[34mSELECT pg_advisory_unlock(7731605438190297720) /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[35mSET search_path TO public /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (65.6ms)[0m  [1m[35mDROP DATABASE IF EXISTS "employee_time_off_adminitration_system_development" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[35mSET search_path TO public /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (31.4ms)[0m  [1m[35mDROP DATABASE IF EXISTS "employee_time_off_adminitration_system_test" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[35mSET search_path TO public /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (92.8ms)[0m  [1m[35mCREATE DATABASE "employee_time_off_adminitration_system_development" ENCODING = 'unicode' /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mSET search_path TO public /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (48.8ms)[0m  [1m[35mCREATE DATABASE "employee_time_off_adminitration_system_test" ENCODING = 'unicode' /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[35mCREATE EXTENSION IF NOT EXISTS "plpgsql" SCHEMA pg_catalog /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (8.4ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY) /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.9ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20250612025211) /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20250611024536); /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (5.3ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL) /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Create (1.5ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'development', '2025-06-12 10:08:51.461981', '2025-06-12 10:08:51.461982') RETURNING "key" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'schema_sha1' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.4ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('schema_sha1', '569bc59678080aec3356e70d43e33877adf85ec3', '2025-06-12 10:08:51.469314', '2025-06-12 10:08:51.469314') RETURNING "key" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT pg_try_advisory_lock(7731605438190297720) /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_advisory_unlock(7731605438190297720) /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_try_advisory_lock(7731605438190297720) /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+Migrating to DeviseCreateEmployees (20250611024536)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(7731605438190297720) /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_try_advisory_lock(7731605438190297720) /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+Migrating to CreateEmployees (20250612101641)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (8.4ms)[0m  [1m[35mCREATE TABLE "employees" ("id" bigserial primary key, "email" character varying DEFAULT '' NOT NULL, "encrypted_password" character varying DEFAULT '' NOT NULL, "reset_password_token" character varying, "reset_password_sent_at" timestamp(6), "remember_created_at" timestamp(6), "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL) /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (1.5ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_employees_on_email" ON "employees" ("email") /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_employees_on_reset_password_token" ON "employees" ("reset_password_token") /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20250612101641') RETURNING "version" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT pg_advisory_unlock(7731605438190297720) /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mEmployee Load (0.9ms)[0m  [1m[34mSELECT "employees".* FROM "employees" /* loading for pp */ LIMIT 11 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mEmployee Exists? (5.7ms)[0m  [1m[34mSELECT 1 AS one FROM "employees" WHERE "employees"."email" = 'jdoe@example.com' LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mEmployee Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "employees" WHERE "employees"."email" = 'jdoe@example.com' LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mEmployee Create (1.2ms)[0m  [1m[32mINSERT INTO "employees" ("email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "created_at", "updated_at") VALUES ('jdoe@example.com', '$2a$12$r3a/.E25wLn74ftvoWDDrOedwjWalissyDhehHrpuJbx7LIQwr6ja', NULL, NULL, NULL, '2025-06-12 10:37:55.600052', '2025-06-12 10:37:55.600052') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mEmployee Load (1.4ms)[0m  [1m[34mSELECT "employees".* FROM "employees" /* loading for pp */ LIMIT 11 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+Started GET "/users/sign_in" for ::1 at 2025-06-12 05:41:30 -0500
+  [1m[36mActiveRecord::SchemaMigration Load (1.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+Processing by Devise::SessionsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 3.8ms | GC: 0.0ms)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 11.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 19.0ms | GC: 0.0ms)
+Completed 200 OK in 171ms (Views: 87.5ms | ActiveRecord: 15.1ms (0 queries, 0 cached) | GC: 10.2ms)
+
+
+Started GET "/assets/application-8b441ae0.css" for ::1 at 2025-06-12 05:41:30 -0500
+Started GET "/assets/turbo.min-3a2e143f.js" for ::1 at 2025-06-12 05:41:30 -0500
+Started GET "/assets/stimulus.min-4b1e420e.js" for ::1 at 2025-06-12 05:41:30 -0500
+Started GET "/assets/controllers/hello_controller-708796bd.js" for ::1 at 2025-06-12 05:41:30 -0500
+Started GET "/assets/controllers/index-ee64e1f1.js" for ::1 at 2025-06-12 05:41:30 -0500
+Started GET "/assets/application-bfcdf840.js" for ::1 at 2025-06-12 05:41:30 -0500
+Started GET "/assets/stimulus-loading-1fc53fe7.js" for ::1 at 2025-06-12 05:41:30 -0500
+Started GET "/assets/controllers/application-3affb389.js" for ::1 at 2025-06-12 05:41:30 -0500
+Started POST "/users/sign_in" for ::1 at 2025-06-12 05:41:56 -0500
+Processing by Devise::SessionsController#create as TURBO_STREAM
+  Parameters: {"authenticity_token" => "[FILTERED]", "user" => {"email" => "[FILTERED]", "password" => "[FILTERED]", "remember_me" => "0"}, "commit" => "Log in"}
+  [1m[36mUser Load (2.6ms)[0m  [1m[34mSELECT "employees".* FROM "employees" WHERE "employees"."email" = 'jdoe@example.com' ORDER BY "employees"."id" ASC LIMIT 1 /*action='create',application='EmployeeTimeOffAdminitrationSystem',controller='sessions'*/[0m
+Redirected to http://localhost:3000/
+Completed 303 See Other in 234ms (ActiveRecord: 2.4ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/" for ::1 at 2025-06-12 05:41:56 -0500
+Processing by Rails::WelcomeController#index as TURBO_STREAM
+  Rendering /Users/terry/.local/share/mise/installs/ruby/3.4.3/lib/ruby/gems/3.4.0/gems/railties-8.0.2/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered /Users/terry/.local/share/mise/installs/ruby/3.4.3/lib/ruby/gems/3.4.0/gems/railties-8.0.2/lib/rails/templates/rails/welcome/index.html.erb (Duration: 0.3ms | GC: 0.0ms)
+Completed 200 OK in 20ms (Views: 2.3ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/" for ::1 at 2025-06-12 05:41:56 -0500
+Processing by Rails::WelcomeController#index as HTML
+  Rendering /Users/terry/.local/share/mise/installs/ruby/3.4.3/lib/ruby/gems/3.4.0/gems/railties-8.0.2/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered /Users/terry/.local/share/mise/installs/ruby/3.4.3/lib/ruby/gems/3.4.0/gems/railties-8.0.2/lib/rails/templates/rails/welcome/index.html.erb (Duration: 0.1ms | GC: 0.0ms)
+Completed 200 OK in 17ms (Views: 0.3ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+  [1m[36mEmployee Load (35.6ms)[0m  [1m[34mSELECT "employees".* FROM "employees" /* loading for pp */ LIMIT 11 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT "employees".* FROM "employees" /* loading for pp */ LIMIT 11 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mEmployee Delete All (2.7ms)[0m  [1m[31mDELETE FROM "employees" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mEmployee Load (1.0ms)[0m  [1m[34mSELECT "employees".* FROM "employees" /* loading for pp */ LIMIT 11 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
