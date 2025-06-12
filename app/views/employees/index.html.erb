@@ -3,20 +3,20 @@
 <table>
   <thead>
     <tr>
-      <th>First Name</th>
-      <th>Last Name</th>
+      <th>Employee Name</th>
       <th>Email</th>
       <th>Hire Date</th>
+      <th>Supervisor Name</th>
       <th>Actions</th>
     </tr>
   </thead>
   <tbody>
     <% @employees.each do |employee| %>
       <tr>
-        <td><%= employee.first_name %></td>
-        <td><%= employee.last_name %></td>
+        <td><%= employee.name %></td>
         <td><%= employee.email %></td>
         <td><%= employee.hire_date %></td>
+        <td><%= employee.supervisor_name %><td>
         <td>
           <%= link_to 'Show', employee_path(employee) %> |
           <%= link_to 'Edit', edit_employee_path(employee) %>
