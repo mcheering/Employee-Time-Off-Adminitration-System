@@ -1258,3 +1258,166 @@ Migrating to DropTables (20250609090034)
   [1m[36mTRANSACTION (6.6ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
   [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_advisory_unlock(7731605438190297720) /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
   [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+Started GET "/" for ::1 at 2025-06-12 04:26:34 -0500
+  [1m[36mActiveRecord::SchemaMigration Load (0.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendering /Users/terry/.local/share/mise/installs/ruby/3.4.3/lib/ruby/gems/3.4.0/gems/railties-8.0.2/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered /Users/terry/.local/share/mise/installs/ruby/3.4.3/lib/ruby/gems/3.4.0/gems/railties-8.0.2/lib/rails/templates/rails/welcome/index.html.erb (Duration: 0.6ms | GC: 0.0ms)
+Completed 200 OK in 135ms (Views: 3.3ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 8.7ms)
+
+
+Started GET "/users/sign-in" for ::1 at 2025-06-12 04:26:53 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/users/sign-in"):
+  
+Started GET "/favicon.ico" for ::1 at 2025-06-12 04:26:54 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/favicon.ico"):
+  
+Started GET "/users/sign_in" for ::1 at 2025-06-12 04:30:07 -0500
+Processing by Devise::SessionsController#new as HTML
+Completed 500 Internal Server Error in 46ms (ActiveRecord: 8.7ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+  
+ActiveRecord::StatementInvalid (PG::UndefinedTable: ERROR:  relation "employees" does not exist
+LINE 10:  WHERE a.attrelid = '"employees"'::regclass
+                             ^
+)
+Caused by: PG::UndefinedTable (ERROR:  relation "employees" does not exist
+LINE 10:  WHERE a.attrelid = '"employees"'::regclass
+                             ^
+)
+
+Information for: ActiveRecord::StatementInvalid (PG::UndefinedTable: ERROR:  relation "employees" does not exist
+LINE 10:  WHERE a.attrelid = '"employees"'::regclass
+                             ^
+):
+  
+
+Information for cause: PG::UndefinedTable (ERROR:  relation "employees" does not exist
+LINE 10:  WHERE a.attrelid = '"employees"'::regclass
+                             ^
+):
+  
+activerecord (8.0.2) lib/active_record/connection_adapters/postgresql/database_statements.rb:160:in 'PG::Connection#exec'
+activerecord (8.0.2) lib/active_record/connection_adapters/postgresql/database_statements.rb:160:in 'ActiveRecord::ConnectionAdapters::PostgreSQL::DatabaseStatements#perform_query'
+activerecord (8.0.2) lib/active_record/connection_adapters/abstract/database_statements.rb:556:in 'block (2 levels) in ActiveRecord::ConnectionAdapters::DatabaseStatements#raw_execute'
+activerecord (8.0.2) lib/active_record/connection_adapters/abstract_adapter.rb:1015:in 'block in ActiveRecord::ConnectionAdapters::AbstractAdapter#with_raw_connection'
+activesupport (8.0.2) lib/active_support/concurrency/null_lock.rb:9:in 'ActiveSupport::Concurrency::NullLock#synchronize'
+activerecord (8.0.2) lib/active_record/connection_adapters/abstract_adapter.rb:984:in 'ActiveRecord::ConnectionAdapters::AbstractAdapter#with_raw_connection'
+activerecord (8.0.2) lib/active_record/connection_adapters/abstract/database_statements.rb:555:in 'block in ActiveRecord::ConnectionAdapters::DatabaseStatements#raw_execute'
+activesupport (8.0.2) lib/active_support/notifications/instrumenter.rb:58:in 'ActiveSupport::Notifications::Instrumenter#instrument'
+activerecord (8.0.2) lib/active_record/connection_adapters/abstract_adapter.rb:1135:in 'ActiveRecord::ConnectionAdapters::AbstractAdapter#log'
+activerecord (8.0.2) lib/active_record/connection_adapters/abstract/database_statements.rb:554:in 'ActiveRecord::ConnectionAdapters::DatabaseStatements#raw_execute'
+activerecord (8.0.2) lib/active_record/connection_adapters/abstract/database_statements.rb:591:in 'ActiveRecord::ConnectionAdapters::DatabaseStatements#internal_execute'
+activerecord (8.0.2) lib/active_record/connection_adapters/postgresql/database_statements.rb:15:in 'ActiveRecord::ConnectionAdapters::PostgreSQL::DatabaseStatements#query'
+activerecord (8.0.2) lib/active_record/connection_adapters/postgresql_adapter.rb:1035:in 'ActiveRecord::ConnectionAdapters::PostgreSQLAdapter#column_definitions'
+activerecord (8.0.2) lib/active_record/connection_adapters/abstract/schema_statements.rb:109:in 'ActiveRecord::ConnectionAdapters::SchemaStatements#columns'
+activerecord (8.0.2) lib/active_record/connection_adapters/schema_cache.rb:345:in 'block (2 levels) in ActiveRecord::ConnectionAdapters::SchemaCache#columns'
+activerecord (8.0.2) lib/active_record/connection_adapters/abstract/connection_pool.rb:412:in 'ActiveRecord::ConnectionAdapters::ConnectionPool#with_connection'
+activerecord (8.0.2) lib/active_record/connection_adapters/schema_cache.rb:344:in 'block in ActiveRecord::ConnectionAdapters::SchemaCache#columns'
+activerecord (8.0.2) lib/active_record/connection_adapters/schema_cache.rb:343:in 'Hash#fetch'
+activerecord (8.0.2) lib/active_record/connection_adapters/schema_cache.rb:343:in 'ActiveRecord::ConnectionAdapters::SchemaCache#columns'
+activerecord (8.0.2) lib/active_record/connection_adapters/schema_cache.rb:354:in 'block in ActiveRecord::ConnectionAdapters::SchemaCache#columns_hash'
+activerecord (8.0.2) lib/active_record/connection_adapters/schema_cache.rb:353:in 'Hash#fetch'
+activerecord (8.0.2) lib/active_record/connection_adapters/schema_cache.rb:353:in 'ActiveRecord::ConnectionAdapters::SchemaCache#columns_hash'
+activerecord (8.0.2) lib/active_record/connection_adapters/schema_cache.rb:54:in 'ActiveRecord::ConnectionAdapters::SchemaReflection#columns_hash'
+activerecord (8.0.2) lib/active_record/connection_adapters/schema_cache.rb:198:in 'ActiveRecord::ConnectionAdapters::BoundSchemaReflection#columns_hash'
+activerecord (8.0.2) lib/active_record/model_schema.rb:592:in 'ActiveRecord::ModelSchema::ClassMethods#load_schema!'
+activerecord (8.0.2) lib/active_record/counter_cache.rb:187:in 'ActiveRecord::CounterCache::ClassMethods#load_schema!'
+activerecord (8.0.2) lib/active_record/encryption/encryptable_record.rb:127:in 'ActiveRecord::Encryption::EncryptableRecord::ClassMethods#load_schema!'
+activerecord (8.0.2) lib/active_record/model_schema.rb:539:in 'block in ActiveRecord::ModelSchema::ClassMethods#load_schema'
+activerecord (8.0.2) lib/active_record/model_schema.rb:536:in 'Monitor#synchronize'
+activerecord (8.0.2) lib/active_record/model_schema.rb:536:in 'ActiveRecord::ModelSchema::ClassMethods#load_schema'
+activerecord (8.0.2) lib/active_record/model_schema.rb:428:in 'ActiveRecord::ModelSchema::ClassMethods#columns_hash'
+activerecord (8.0.2) lib/active_record/attributes.rb:244:in 'block in ActiveRecord::Attributes::ClassMethods#_default_attributes'
+activerecord (8.0.2) lib/active_record/connection_adapters/abstract/connection_pool.rb:418:in 'ActiveRecord::ConnectionAdapters::ConnectionPool#with_connection'
+activerecord (8.0.2) lib/active_record/connection_handling.rb:310:in 'ActiveRecord::ConnectionHandling#with_connection'
+activerecord (8.0.2) lib/active_record/attributes.rb:243:in 'ActiveRecord::Attributes::ClassMethods#_default_attributes'
+activemodel (8.0.2) lib/active_model/attribute_registration.rb:38:in 'ActiveModel::AttributeRegistration::ClassMethods#attribute_types'
+activerecord (8.0.2) lib/active_record/attribute_methods.rb:261:in 'ActiveRecord::AttributeMethods::ClassMethods#_has_attribute?'
+activerecord (8.0.2) lib/active_record/inheritance.rb:61:in 'ActiveRecord::Inheritance::ClassMethods#new'
+devise (4.9.4) app/controllers/devise/sessions_controller.rb:11:in 'Devise::SessionsController#new'
+actionpack (8.0.2) lib/action_controller/metal/basic_implicit_render.rb:8:in 'ActionController::BasicImplicitRender#send_action'
+actionpack (8.0.2) lib/abstract_controller/base.rb:226:in 'AbstractController::Base#process_action'
+actionpack (8.0.2) lib/action_controller/metal/rendering.rb:193:in 'ActionController::Rendering#process_action'
+actionpack (8.0.2) lib/abstract_controller/callbacks.rb:261:in 'block in AbstractController::Callbacks#process_action'
+activesupport (8.0.2) lib/active_support/callbacks.rb:120:in 'block in ActiveSupport::Callbacks#run_callbacks'
+turbo-rails (2.0.16) lib/turbo-rails.rb:24:in 'Turbo.with_request_id'
+turbo-rails (2.0.16) app/controllers/concerns/turbo/request_id_tracking.rb:10:in 'Turbo::RequestIdTracking#turbo_tracking_request_id'
+activesupport (8.0.2) lib/active_support/callbacks.rb:129:in 'block in ActiveSupport::Callbacks#run_callbacks'
+actiontext (8.0.2) lib/action_text/rendering.rb:25:in 'ActionText::Rendering::ClassMethods#with_renderer'
+actiontext (8.0.2) lib/action_text/engine.rb:71:in 'block (4 levels) in <class:Engine>'
+activesupport (8.0.2) lib/active_support/callbacks.rb:129:in 'BasicObject#instance_exec'
+activesupport (8.0.2) lib/active_support/callbacks.rb:129:in 'block in ActiveSupport::Callbacks#run_callbacks'
+activesupport (8.0.2) lib/active_support/callbacks.rb:140:in 'ActiveSupport::Callbacks#run_callbacks'
+actionpack (8.0.2) lib/abstract_controller/callbacks.rb:260:in 'AbstractController::Callbacks#process_action'
+actionpack (8.0.2) lib/action_controller/metal/rescue.rb:27:in 'ActionController::Rescue#process_action'
+actionpack (8.0.2) lib/action_controller/metal/instrumentation.rb:76:in 'block in ActionController::Instrumentation#process_action'
+activesupport (8.0.2) lib/active_support/notifications.rb:210:in 'block in ActiveSupport::Notifications.instrument'
+activesupport (8.0.2) lib/active_support/notifications/instrumenter.rb:58:in 'ActiveSupport::Notifications::Instrumenter#instrument'
+activesupport (8.0.2) lib/active_support/notifications.rb:210:in 'ActiveSupport::Notifications.instrument'
+actionpack (8.0.2) lib/action_controller/metal/instrumentation.rb:75:in 'ActionController::Instrumentation#process_action'
+actionpack (8.0.2) lib/action_controller/metal/params_wrapper.rb:259:in 'ActionController::ParamsWrapper#process_action'
+activerecord (8.0.2) lib/active_record/railties/controller_runtime.rb:39:in 'ActiveRecord::Railties::ControllerRuntime#process_action'
+actionpack (8.0.2) lib/abstract_controller/base.rb:163:in 'AbstractController::Base#process'
+actionview (8.0.2) lib/action_view/rendering.rb:40:in 'ActionView::Rendering#process'
+actionpack (8.0.2) lib/action_controller/metal.rb:252:in 'ActionController::Metal#dispatch'
+actionpack (8.0.2) lib/action_controller/metal.rb:335:in 'ActionController::Metal.dispatch'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:67:in 'ActionDispatch::Routing::RouteSet::Dispatcher#dispatch'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:50:in 'ActionDispatch::Routing::RouteSet::Dispatcher#serve'
+actionpack (8.0.2) lib/action_dispatch/routing/mapper.rb:32:in 'block in <class:Constraints>'
+actionpack (8.0.2) lib/action_dispatch/routing/mapper.rb:62:in 'ActionDispatch::Routing::Mapper::Constraints#serve'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:53:in 'block in ActionDispatch::Journey::Router#serve'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:133:in 'block in ActionDispatch::Journey::Router#find_routes'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:126:in 'Array#each'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:126:in 'ActionDispatch::Journey::Router#find_routes'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:34:in 'ActionDispatch::Journey::Router#serve'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:908:in 'ActionDispatch::Routing::RouteSet#call'
+railties (8.0.2) lib/rails/engine/lazy_route_set.rb:68:in 'Rails::Engine::LazyRouteSet#call'
+warden (1.2.9) lib/warden/manager.rb:36:in 'block in Warden::Manager#call'
+warden (1.2.9) lib/warden/manager.rb:34:in 'Kernel#catch'
+warden (1.2.9) lib/warden/manager.rb:34:in 'Warden::Manager#call'
+rack (3.1.16) lib/rack/tempfile_reaper.rb:20:in 'Rack::TempfileReaper#call'
+rack (3.1.16) lib/rack/etag.rb:29:in 'Rack::ETag#call'
+rack (3.1.16) lib/rack/conditional_get.rb:31:in 'Rack::ConditionalGet#call'
+rack (3.1.16) lib/rack/head.rb:15:in 'Rack::Head#call'
+actionpack (8.0.2) lib/action_dispatch/http/permissions_policy.rb:38:in 'ActionDispatch::PermissionsPolicy::Middleware#call'
+actionpack (8.0.2) lib/action_dispatch/http/content_security_policy.rb:38:in 'ActionDispatch::ContentSecurityPolicy::Middleware#call'
+rack-session (2.1.1) lib/rack/session/abstract/id.rb:274:in 'Rack::Session::Abstract::Persisted#context'
+rack-session (2.1.1) lib/rack/session/abstract/id.rb:268:in 'Rack::Session::Abstract::Persisted#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/cookies.rb:706:in 'ActionDispatch::Cookies#call'
+activerecord (8.0.2) lib/active_record/migration.rb:671:in 'ActiveRecord::Migration::CheckPending#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/callbacks.rb:31:in 'block in ActionDispatch::Callbacks#call'
+activesupport (8.0.2) lib/active_support/callbacks.rb:100:in 'ActiveSupport::Callbacks#run_callbacks'
+actionpack (8.0.2) lib/action_dispatch/middleware/callbacks.rb:30:in 'ActionDispatch::Callbacks#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/executor.rb:16:in 'ActionDispatch::Executor#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/actionable_exceptions.rb:18:in 'ActionDispatch::ActionableExceptions#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/debug_exceptions.rb:31:in 'ActionDispatch::DebugExceptions#call'
+web-console (4.2.1) lib/web_console/middleware.rb:132:in 'WebConsole::Middleware#call_app'
+web-console (4.2.1) lib/web_console/middleware.rb:28:in 'block in WebConsole::Middleware#call'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in 'Kernel#catch'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in 'WebConsole::Middleware#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/show_exceptions.rb:32:in 'ActionDispatch::ShowExceptions#call'
+railties (8.0.2) lib/rails/rack/logger.rb:41:in 'Rails::Rack::Logger#call_app'
+railties (8.0.2) lib/rails/rack/logger.rb:29:in 'Rails::Rack::Logger#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/remote_ip.rb:96:in 'ActionDispatch::RemoteIp#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/request_id.rb:34:in 'ActionDispatch::RequestId#call'
+rack (3.1.16) lib/rack/method_override.rb:28:in 'Rack::MethodOverride#call'
+rack (3.1.16) lib/rack/runtime.rb:24:in 'Rack::Runtime#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:61:in 'block in ActionDispatch::ServerTiming#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:26:in 'ActionDispatch::ServerTiming::Subscriber#collect_events'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:60:in 'ActionDispatch::ServerTiming#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/executor.rb:16:in 'ActionDispatch::Executor#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/static.rb:27:in 'ActionDispatch::Static#call'
+rack (3.1.16) lib/rack/sendfile.rb:114:in 'Rack::Sendfile#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/host_authorization.rb:143:in 'ActionDispatch::HostAuthorization#call'
+railties (8.0.2) lib/rails/engine.rb:535:in 'Rails::Engine#call'
+puma (6.6.0) lib/puma/configuration.rb:279:in 'Puma::Configuration::ConfigMiddleware#call'
+puma (6.6.0) lib/puma/request.rb:99:in 'block in Puma::Request#handle_request'
+puma (6.6.0) lib/puma/thread_pool.rb:390:in 'Puma::ThreadPool#with_force_shutdown'
+puma (6.6.0) lib/puma/request.rb:98:in 'Puma::Request#handle_request'
+puma (6.6.0) lib/puma/server.rb:472:in 'Puma::Server#process_client'
+puma (6.6.0) lib/puma/server.rb:254:in 'block in Puma::Server#run'
+puma (6.6.0) lib/puma/thread_pool.rb:167:in 'block in Puma::ThreadPool#spawn_thread'
