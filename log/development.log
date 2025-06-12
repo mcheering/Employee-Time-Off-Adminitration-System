@@ -4637,3 +4637,50 @@ Processing by EmployeesController#index as HTML
 Completed 200 OK in 39ms (Views: 5.7ms | ActiveRecord: 1.5ms (5 queries, 2 cached) | GC: 0.0ms)
 
 
+  [1m[36mActiveRecord::SchemaMigration Load (2.9ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+Started GET "/" for ::1 at 2025-06-12 15:20:06 -0500
+  [1m[36mActiveRecord::SchemaMigration Load (1.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+Processing by EmployeesController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering employees/index.html.erb within layouts/application
+  [1m[36mEmployee Load (19.0ms)[0m  [1m[34mSELECT "employees".* FROM "employees" /*action='index',application='EmployeeTimeOffAdminitrationSystem',controller='employees'*/[0m
+  ↳ app/views/employees/index.html.erb:17
+  [1m[36mEmployee Load (0.3ms)[0m  [1m[34mSELECT "employees".* FROM "employees" WHERE "employees"."id" IS NULL LIMIT 1 /*action='index',application='EmployeeTimeOffAdminitrationSystem',controller='employees'*/[0m
+  ↳ app/models/employee.rb:20:in 'Employee#supervisor_name'
+  [1m[36mCACHE Employee Load (0.0ms)[0m  [1m[34mSELECT "employees".* FROM "employees" WHERE "employees"."id" IS NULL LIMIT 1[0m
+  ↳ app/models/employee.rb:20:in 'Employee#supervisor_name'
+  [1m[36mEmployee Load (0.4ms)[0m  [1m[34mSELECT "employees".* FROM "employees" WHERE "employees"."id" = 3 LIMIT 1 /*action='index',application='EmployeeTimeOffAdminitrationSystem',controller='employees'*/[0m
+  ↳ app/models/employee.rb:20:in 'Employee#supervisor_name'
+  [1m[36mCACHE Employee Load (0.1ms)[0m  [1m[34mSELECT "employees".* FROM "employees" WHERE "employees"."id" = 3 LIMIT 1[0m
+  ↳ app/models/employee.rb:20:in 'Employee#supervisor_name'
+  Rendered employees/index.html.erb within layouts/application (Duration: 69.6ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 79.9ms | GC: 0.0ms)
+Completed 200 OK in 239ms (Views: 37.2ms | ActiveRecord: 45.5ms (5 queries, 2 cached) | GC: 26.3ms)
+
+
+Started GET "/employees/5/edit" for ::1 at 2025-06-12 15:20:14 -0500
+Processing by EmployeesController#edit as HTML
+  Parameters: {"id" => "5"}
+  [1m[36mEmployee Load (1.0ms)[0m  [1m[34mSELECT "employees".* FROM "employees" WHERE "employees"."id" = 5 LIMIT 1 /*action='edit',application='EmployeeTimeOffAdminitrationSystem',controller='employees'*/[0m
+  ↳ app/controllers/employees_controller.rb:59:in 'EmployeesController#set_employee'
+  Rendering layout layouts/application.html.erb
+  Rendering employees/edit.html.erb within layouts/application
+  Rendered employees/_form.html.erb (Duration: 19.9ms | GC: 0.0ms)
+  Rendered employees/edit.html.erb within layouts/application (Duration: 21.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 22.0ms | GC: 0.0ms)
+Completed 200 OK in 53ms (Views: 22.5ms | ActiveRecord: 0.9ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/employees/4/edit" for ::1 at 2025-06-12 15:20:14 -0500
+Processing by EmployeesController#edit as HTML
+  Parameters: {"id" => "4"}
+  [1m[36mEmployee Load (1.1ms)[0m  [1m[34mSELECT "employees".* FROM "employees" WHERE "employees"."id" = 4 LIMIT 1 /*action='edit',application='EmployeeTimeOffAdminitrationSystem',controller='employees'*/[0m
+  ↳ app/controllers/employees_controller.rb:59:in 'EmployeesController#set_employee'
+  Rendering layout layouts/application.html.erb
+  Rendering employees/edit.html.erb within layouts/application
+  Rendered employees/_form.html.erb (Duration: 7.2ms | GC: 0.0ms)
+  Rendered employees/edit.html.erb within layouts/application (Duration: 8.0ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 8.5ms | GC: 0.0ms)
+Completed 200 OK in 29ms (Views: 8.7ms | ActiveRecord: 0.5ms (1 query, 0 cached) | GC: 0.0ms)
+
+
