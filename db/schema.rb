@@ -10,9 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_12_104618) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_13_015943) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "companies", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_companies_on_name", unique: true
+  end
 
   create_table "employees", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -34,5 +41,23 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_12_104618) do
     t.index ["supervisor_id"], name: "index_employees_on_supervisor_id"
   end
 
+  create_table "fiscal_year_employees", force: :cascade do |t|
+    t.bigint "employee_id", null: false
+    t.bigint "fiscal_year_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["employee_id"], name: "index_fiscal_year_employees_on_employee_id"
+    t.index ["fiscal_year_id"], name: "index_fiscal_year_employees_on_fiscal_year_id"
+  end
+
+  create_table "fiscal_years", force: :cascade do |t|
+    t.date "start_date", null: false
+    t.date "end_date", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   add_foreign_key "employees", "employees", column: "supervisor_id"
+  add_foreign_key "fiscal_year_employees", "employees"
+  add_foreign_key "fiscal_year_employees", "fiscal_years"
 end
