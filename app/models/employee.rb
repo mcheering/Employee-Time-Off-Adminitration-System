@@ -12,6 +12,9 @@ class Employee < ApplicationRecord
   scope :supervisors, -> { where(is_supervisor: true).select(:id, :first_name, :last_name) }
   scope :administrators, -> { where(is_administrator: true).select(:id, :first_name, :last_name) }
 
+  has_many :fiscal_year_employees
+  has_many :fiscal_years, through: :fiscal_year_employees
+
   def name
     "#{first_name} #{last_name}"
   end
