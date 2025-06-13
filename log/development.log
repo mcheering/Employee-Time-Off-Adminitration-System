@@ -4684,3 +4684,80 @@ Processing by EmployeesController#edit as HTML
 Completed 200 OK in 29ms (Views: 8.7ms | ActiveRecord: 0.5ms (1 query, 0 cached) | GC: 0.0ms)
 
 
+Started GET "/employees" for ::1 at 2025-06-12 20:28:31 -0500
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+Processing by EmployeesController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering employees/index.html.erb within layouts/application
+  [1m[36mEmployee Load (13.2ms)[0m  [1m[34mSELECT "employees".* FROM "employees" /*action='index',application='EmployeeTimeOffAdminitrationSystem',controller='employees'*/[0m
+  ↳ app/views/employees/index.html.erb:17
+  [1m[36mEmployee Load (0.5ms)[0m  [1m[34mSELECT "employees".* FROM "employees" WHERE "employees"."id" = 1 LIMIT 1 /*action='index',application='EmployeeTimeOffAdminitrationSystem',controller='employees'*/[0m
+  ↳ app/models/employee.rb:20:in 'Employee#supervisor_name'
+  [1m[36mEmployee Load (0.3ms)[0m  [1m[34mSELECT "employees".* FROM "employees" WHERE "employees"."id" IS NULL LIMIT 1 /*action='index',application='EmployeeTimeOffAdminitrationSystem',controller='employees'*/[0m
+  ↳ app/models/employee.rb:20:in 'Employee#supervisor_name'
+  [1m[36mEmployee Load (0.2ms)[0m  [1m[34mSELECT "employees".* FROM "employees" WHERE "employees"."id" = 2 LIMIT 1 /*action='index',application='EmployeeTimeOffAdminitrationSystem',controller='employees'*/[0m
+  ↳ app/models/employee.rb:20:in 'Employee#supervisor_name'
+  Rendered employees/index.html.erb within layouts/application (Duration: 46.3ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 55.6ms | GC: 0.0ms)
+Completed 200 OK in 203ms (Views: 31.3ms | ActiveRecord: 26.8ms (4 queries, 0 cached) | GC: 29.7ms)
+
+
+Started GET "/employees/new" for ::1 at 2025-06-12 20:28:37 -0500
+Processing by EmployeesController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering employees/new.html.erb within layouts/application
+  Rendered employees/_form.html.erb (Duration: 16.2ms | GC: 0.0ms)
+  Rendered employees/new.html.erb within layouts/application (Duration: 17.2ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 17.9ms | GC: 0.0ms)
+Completed 200 OK in 48ms (Views: 18.6ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/employees" for ::1 at 2025-06-12 20:29:25 -0500
+Processing by EmployeesController#create as TURBO_STREAM
+  Parameters: {"authenticity_token" => "[FILTERED]", "employee" => {"first_name" => "George", "last_name" => "Jefferson", "email" => "[FILTERED]", "password" => "[FILTERED]", "hire_date" => "2023-02-15", "termination_date" => "2024-12-31", "is_administrator" => "0", "is_supervisor" => "0", "supervisor_id" => "2"}, "commit" => "Create Employee"}
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*action='create',application='EmployeeTimeOffAdminitrationSystem',controller='employees'*/[0m
+  ↳ app/controllers/employees_controller.rb:28:in 'block in EmployeesController#create'
+  [1m[36mEmployee Exists? (1.3ms)[0m  [1m[34mSELECT 1 AS one FROM "employees" WHERE "employees"."email" = 'george.jefferson@example.com' LIMIT 1 /*action='create',application='EmployeeTimeOffAdminitrationSystem',controller='employees'*/[0m
+  ↳ app/controllers/employees_controller.rb:28:in 'block in EmployeesController#create'
+  [1m[36mCACHE Employee Exists? (1.1ms)[0m  [1m[34mSELECT 1 AS one FROM "employees" WHERE "employees"."email" = 'george.jefferson@example.com' LIMIT 1[0m
+  ↳ app/controllers/employees_controller.rb:28:in 'block in EmployeesController#create'
+  [1m[36mEmployee Create (1.1ms)[0m  [1m[32mINSERT INTO "employees" ("email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "created_at", "updated_at", "supervisor_id", "first_name", "last_name", "hire_date", "termination_date", "is_supervisor", "is_administrator") VALUES ('george.jefferson@example.com', '$2a$12$WM4mN8tLgO4MpKxhXHBbMOoBowqXJ.i/U8vO7fuUBpx9t87ITHR86', NULL, NULL, NULL, '2025-06-13 01:29:25.477660', '2025-06-13 01:29:25.477660', 2, 'George', 'Jefferson', '2023-02-15', '2024-12-31', FALSE, FALSE) RETURNING "id" /*action='create',application='EmployeeTimeOffAdminitrationSystem',controller='employees'*/[0m
+  ↳ app/controllers/employees_controller.rb:28:in 'block in EmployeesController#create'
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT /*action='create',application='EmployeeTimeOffAdminitrationSystem',controller='employees'*/[0m
+  ↳ app/controllers/employees_controller.rb:28:in 'block in EmployeesController#create'
+Redirected to http://localhost:3000/employees/4
+Completed 302 Found in 264ms (ActiveRecord: 3.1ms (3 queries, 1 cached) | GC: 0.0ms)
+
+
+Started GET "/employees/4" for ::1 at 2025-06-12 20:29:25 -0500
+Processing by EmployeesController#show as TURBO_STREAM
+  Parameters: {"id" => "4"}
+  [1m[36mEmployee Load (0.5ms)[0m  [1m[34mSELECT "employees".* FROM "employees" WHERE "employees"."id" = 4 LIMIT 1 /*action='show',application='EmployeeTimeOffAdminitrationSystem',controller='employees'*/[0m
+  ↳ app/controllers/employees_controller.rb:59:in 'EmployeesController#set_employee'
+  Rendering layout layouts/application.html.erb
+  Rendering employees/show.html.erb within layouts/application
+  Rendered employees/_employee.html.erb (Duration: 5.8ms | GC: 0.0ms)
+  Rendered employees/show.html.erb within layouts/application (Duration: 8.9ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 9.4ms | GC: 0.0ms)
+Completed 200 OK in 31ms (Views: 9.8ms | ActiveRecord: 0.5ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/employees" for ::1 at 2025-06-12 20:29:29 -0500
+Processing by EmployeesController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering employees/index.html.erb within layouts/application
+  [1m[36mEmployee Load (0.4ms)[0m  [1m[34mSELECT "employees".* FROM "employees" /*action='index',application='EmployeeTimeOffAdminitrationSystem',controller='employees'*/[0m
+  ↳ app/views/employees/index.html.erb:17
+  [1m[36mEmployee Load (0.4ms)[0m  [1m[34mSELECT "employees".* FROM "employees" WHERE "employees"."id" = 1 LIMIT 1 /*action='index',application='EmployeeTimeOffAdminitrationSystem',controller='employees'*/[0m
+  ↳ app/models/employee.rb:20:in 'Employee#supervisor_name'
+  [1m[36mEmployee Load (0.2ms)[0m  [1m[34mSELECT "employees".* FROM "employees" WHERE "employees"."id" IS NULL LIMIT 1 /*action='index',application='EmployeeTimeOffAdminitrationSystem',controller='employees'*/[0m
+  ↳ app/models/employee.rb:20:in 'Employee#supervisor_name'
+  [1m[36mEmployee Load (0.3ms)[0m  [1m[34mSELECT "employees".* FROM "employees" WHERE "employees"."id" = 2 LIMIT 1 /*action='index',application='EmployeeTimeOffAdminitrationSystem',controller='employees'*/[0m
+  ↳ app/models/employee.rb:20:in 'Employee#supervisor_name'
+  [1m[36mCACHE Employee Load (0.0ms)[0m  [1m[34mSELECT "employees".* FROM "employees" WHERE "employees"."id" = 2 LIMIT 1[0m
+  ↳ app/models/employee.rb:20:in 'Employee#supervisor_name'
+  Rendered employees/index.html.erb within layouts/application (Duration: 21.1ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 22.4ms | GC: 0.0ms)
+Completed 200 OK in 58ms (Views: 23.2ms | ActiveRecord: 1.3ms (5 queries, 1 cached) | GC: 0.0ms)
+
+
