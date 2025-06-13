@@ -4761,3 +4761,37 @@ Processing by EmployeesController#index as HTML
 Completed 200 OK in 58ms (Views: 23.2ms | ActiveRecord: 1.3ms (5 queries, 1 cached) | GC: 0.0ms)
 
 
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT pg_try_advisory_lock(7731605438190297720) /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.9ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+Migrating to CreateFiscalYears (20250613015159)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (7.3ms)[0m  [1m[35mCREATE TABLE "fiscal_years" ("id" bigserial primary key, "start_date" date NOT NULL, "end_date" date NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL) /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20250613015159') RETURNING "version" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (1.1ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+Migrating to CreateFiscalYearEmployees (20250613015223)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (5.7ms)[0m  [1m[35mCREATE TABLE "fiscal_year_employees" ("id" bigserial primary key, "employee_id" bigint NOT NULL, "fiscal_year_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_ac93fdf388"
+FOREIGN KEY ("employee_id")
+  REFERENCES "employees" ("id")
+, CONSTRAINT "fk_rails_a8bf39f78c"
+FOREIGN KEY ("fiscal_year_id")
+  REFERENCES "fiscal_years" ("id")
+) /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (2.5ms)[0m  [1m[35mCREATE INDEX "index_fiscal_year_employees_on_employee_id" ON "fiscal_year_employees" ("employee_id") /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (2.0ms)[0m  [1m[35mCREATE INDEX "index_fiscal_year_employees_on_fiscal_year_id" ON "fiscal_year_employees" ("fiscal_year_id") /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20250613015223') RETURNING "version" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (1.1ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT pg_advisory_unlock(7731605438190297720) /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_try_advisory_lock(7731605438190297720) /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.8ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+Migrating to CreateCompanies (20250613015943)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (7.6ms)[0m  [1m[35mCREATE TABLE "companies" ("id" bigserial primary key, "name" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL) /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (2.3ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_companies_on_name" ON "companies" ("name") /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20250613015943') RETURNING "version" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (1.2ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(7731605438190297720) /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
