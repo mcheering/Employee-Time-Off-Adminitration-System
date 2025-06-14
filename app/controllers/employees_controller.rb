@@ -1,5 +1,5 @@
 class EmployeesController < ApplicationController
-  before_action :set_employee, only: %i[ show edit update]
+  before_action :set_employee, only: %i[show edit update]
 
   # GET /employees or /employees.json
   def index
@@ -22,7 +22,6 @@ class EmployeesController < ApplicationController
   # POST /employees or /employees.json
   def create
     @employee = Employee.new(employee_params)
-    @employee.password_confirmation = @employee.password
 
     respond_to do |format|
       if @employee.save
@@ -41,6 +40,7 @@ class EmployeesController < ApplicationController
       params[:employee].delete(:password)
       params[:employee].delete(:password_confirmation)
     end
+
     respond_to do |format|
       if @employee.update(employee_params)
         format.html { redirect_to @employee, notice: "Employee was successfully updated." }
@@ -52,15 +52,21 @@ class EmployeesController < ApplicationController
     end
   end
 
-
   private
+
     # Use callbacks to share common setup or constraints between actions.
     def set_employee
-      @employee = Employee.find(params.expect(:id))
+      @employee = Employee.find_by(id: params[:id])
+      unless @employee
+        redirect_to employees_path, alert: "Employee not found."
+      end
     end
 
     # Only allow a list of trusted parameters through.
     def employee_params
-      params.expect(employee: [ :first_name, :last_name, :email, :password, :hire_date, :termination_date, :is_administrator, :is_supervisor, :supervisor_id ])
+      params.require(:employee).permit(
+        :first_name, :last_name, :email, :password, :password_confirmation, :hire_date,
+        :termination_date, :is_administrator, :is_supervisor, :supervisor_id
+      )
     end
 end

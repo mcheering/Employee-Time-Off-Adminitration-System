@@ -1,38 +1,3 @@
 <h1>Employees</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Employee Name</th>
-      <th>Email</th>
-      <th>Hire Date</th>
-      <th>Term Date</th>
-      <th>Is Supervisor</th>
-      <th>Is Administrator</th>
-      <th>Supervisor Name</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @employees.each do |employee| %>
-      <tr>
-        <td><%= employee.name %></td>
-        <td><%= employee.email %></td>
-        <td><%= employee.hire_date %></td>
-        <td><%= employee.termination_date %></td>
-        <td><%= employee.is_supervisor? ? 'Yes' : 'No' %></td>
-        <td><%= employee.is_administrator? ? 'Yes' : 'No' %></td>
-        <td><%= employee.supervisor_name %><td>
-          <%= link_to 'Show', employee_path(employee) %> |
-          <%= link_to 'Edit', edit_employee_path(employee) %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Employee', new_employee_path %> | 
-<%= link_to 'View Administrators', administrators_path%> | 
-<%= link_to 'View Supervisors', supervisors_path %>
+<div id="employees-react-table" data-employees="<%= @employees.to_json.gsub('"', '&quot;') %>"></div>
