@@ -6,9 +6,18 @@ Rails.application.routes.draw do
   resources :administrators, only: [:index]
   devise_for :users
 
+  resources :fiscal_years, only: [:create, :update] do
+    member do
+      patch :toggle_status
+    end
+  end
+
   # Health check route
   get "up" => "rails/health#show", as: :rails_health_check
 
+  # gets the admin dashboard
+  get "/admin/dashboard", to: "administrators#dashboard", as: "admin_dashboard"
+  
   # Root path
   root "employees#index"
 end
