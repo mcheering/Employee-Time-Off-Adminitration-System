@@ -21,6 +21,8 @@ gem "devise"
 
 gem "vite_rails"
 
+gem "vite_ruby"
+
 gem "faker"
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]

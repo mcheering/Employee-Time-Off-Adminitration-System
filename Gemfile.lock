@@ -423,6 +423,7 @@ DEPENDENCIES
   turbo-rails
   tzinfo-data
   vite_rails
+  vite_ruby
   web-console
 
 BUNDLED WITH
