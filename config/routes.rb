@@ -9,6 +9,9 @@ Rails.application.routes.draw do
   # Health check route
   get "up" => "rails/health#show", as: :rails_health_check
 
+  # gets the admin dashboard
+  get "/admin/dashboard", to: "administrators#dashboard", as: "admin_dashboard"
+  
   # Root path
   root "employees#index"
 end
