@@ -8,6 +8,7 @@ Date: 6/14/25
 import React from "react";
 import { createRoot } from "react-dom/client";
 
+import AppHeader from "../components/AppHeader";
 import EmployeesTable from "../components/EmployeesTable";
 import NewEmployeeForm from "../components/NewEmployeeForm";
 import EmployeeShow from "../components/EmployeeShow";
@@ -16,6 +17,13 @@ import AdministratorsTable from "../components/AdministratorsTable";
 import AdminDashboard from "../components/AdminDashboard";
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Global header
+  const headerRoot = document.getElementById("react-layout-header");
+  if (headerRoot) {
+    const loggedIn = headerRoot.dataset.loggedIn === "true";
+    createRoot(headerRoot).render(<AppHeader loggedIn={loggedIn} />);
+  }
+
   // Employees index table
   const tableRoot = document.getElementById("employees-react-table");
   if (tableRoot) {

@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Employee Time Off Administration System" %></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Employee Time-Off System</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= vite_client_tag %>
+    <%= vite_javascript_tag "entrypoints/application.jsx", type: "module" %>
   </head>
 
   <body>
-  <%= yield %>
+    <div id="react-layout-header" data-logged-in="<%= user_signed_in? %>"></div>
 
-  <%= vite_client_tag %>
-  <%= vite_javascript_tag 'application.jsx' %>
-</body>
+    <%= yield %>
+  </body>
 </html>
