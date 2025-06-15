@@ -2,7 +2,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "vite build"
+    "build": "node_modules/.bin/vite build"
   },
   "devDependencies": {
     "vite": "^6.3.5",
