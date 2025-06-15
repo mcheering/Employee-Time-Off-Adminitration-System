@@ -15,16 +15,21 @@ export default function AdminDashboard({ employees, fiscalYears, fiscalYearEmplo
   const [activeView, setActiveView] = useState("employees");
 
   const renderActiveView = () => {
-    switch (activeView) {
-      case "fiscalYears":
-        return <FiscalYearsTable fiscalYears={fiscalYears} />;
-      case "fiscalYearEmployees":
-        return <FiscalYearEmployeesTable fiscalYearEmployees={fiscalYearEmployees} />;
-      case "employees":
-      default:
-        return <EmployeesTable employees={employees} />;
-    }
-  };
+      switch (activeView) {
+        case "fiscalYears":
+          return <FiscalYearsTable fiscalYears={fiscalYears} />;
+        case "fiscalYearEmployees":
+          return (
+            <FiscalYearEmployeesTable
+              fiscalYearEmployees={fiscalYearEmployees}
+              fiscalYears={fiscalYears} // ✅ Pass it here
+            />
+          );
+        case "employees":
+        default:
+          return <EmployeesTable employees={employees} />;
+      }
+    };
 
   return (
     <Box sx={{ padding: 4 }}>

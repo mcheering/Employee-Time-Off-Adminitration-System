@@ -1,25 +1,32 @@
 /*
 Author: Matthew Heering
-Description: allows admin to view employees by fiscal yeara dn search 
-Date: 6/14/25
+Description: Allows admin to view employees by fiscal year and search, showing dynamic vacation calculations.
+Date: Updated 6/15/25
 */
+
 import React, { useState } from "react";
 import {
   Table, TableHead, TableRow, TableCell, TableBody,
   Select, MenuItem, InputLabel, FormControl, TextField, Button, Stack
 } from "@mui/material";
 
-export default function FiscalYearEmployeesTable({ fiscalYearEmployees }) {
+function formatCaption(startDate, endDate) {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  return start.getFullYear() === end.getFullYear()
+    ? `${start.getFullYear()}`
+    : `${start.getFullYear()}-${String(end.getFullYear()).slice(-2)}`;
+}
+
+export default function FiscalYearEmployeesTable({ fiscalYearEmployees, fiscalYears }) {
   const [fiscalYearId, setFiscalYearId] = useState("");
   const [search, setSearch] = useState("");
 
   const filtered = fiscalYearEmployees.filter(fye => {
     const matchesYear = fiscalYearId ? fye.fiscal_year_id === Number(fiscalYearId) : true;
-    const matchesSearch = fye.employee_name.toLowerCase().includes(search.toLowerCase());
+    const matchesSearch = fye.employee_name?.toLowerCase().includes(search.toLowerCase());
     return matchesYear && matchesSearch;
   });
-
-  const uniqueFiscalYears = [...new Set(fiscalYearEmployees.map(fye => fye.fiscal_year_id))];
 
   return (
     <>
@@ -28,8 +35,10 @@ export default function FiscalYearEmployeesTable({ fiscalYearEmployees }) {
           <InputLabel>Fiscal Year</InputLabel>
           <Select value={fiscalYearId} onChange={(e) => setFiscalYearId(e.target.value)} label="Fiscal Year">
             <MenuItem value="">All</MenuItem>
-            {uniqueFiscalYears.map((id) => (
-              <MenuItem key={id} value={id}>FY {id}</MenuItem>
+            {fiscalYears.map((fy) => (
+              <MenuItem key={fy.id} value={fy.id}>
+                {formatCaption(fy.start_date, fy.end_date)}
+              </MenuItem>
             ))}
           </Select>
         </FormControl>

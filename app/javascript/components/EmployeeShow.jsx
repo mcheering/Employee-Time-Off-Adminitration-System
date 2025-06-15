@@ -14,6 +14,17 @@ export default function EmployeeShow({ employee }) {
     window.location.href = path;
   };
 
+  const handleBack = () => {
+    const params = new URLSearchParams(window.location.search);
+    const returnTo = params.get("return_to");
+
+    if (returnTo === "admin_dashboard_fiscal_year_employees") {
+      window.location.href = "/admin/dashboard";
+    } else {
+      window.history.back();
+    }
+  };
+
   const handleDelete = async () => {
     if (!confirm("Are you sure you want to delete this employee?")) return;
 
@@ -51,7 +62,7 @@ export default function EmployeeShow({ employee }) {
 
       <Stack direction="row" spacing={2} sx={{ marginTop: 3 }}>
         <Button variant="outlined" onClick={() => handleNavigation(`/employees/${employee.id}/edit`)}>Edit</Button>
-        <Button variant="outlined" onClick={() => handleNavigation("/employees")}>Back</Button>
+        <Button variant="outlined" onClick={handleBack}>Back</Button>
         <Button variant="contained" color="error" onClick={handleDelete}>Delete</Button>
       </Stack>
     </>
