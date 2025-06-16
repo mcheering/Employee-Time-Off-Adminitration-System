@@ -6,6 +6,8 @@ services:
     buildCommand: "corepack enable && bundle install && yarn install && yarn build"
     startCommand: "bundle exec puma -C config/puma.rb"
     envVars:
+      - key: NODE_VERSION
+        value: 18.19.1
       - key: DATABASE_URL
         fromDatabase:
           name: etoas-db
