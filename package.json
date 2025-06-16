@@ -5,8 +5,7 @@
     "check-vite": "ls -la node_modules/vite && yarn list --pattern vite",
     "build": "vite build"
   },
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
