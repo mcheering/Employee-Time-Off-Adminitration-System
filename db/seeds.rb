@@ -2,9 +2,10 @@ require 'faker'
 
 puts "Resetting database..."
 
-Company.destroy_all
-Employee.destroy_all
+FiscalYearEmployee.destroy_all
 FiscalYear.destroy_all
+Employee.destroy_all
+Company.destroy_all
 
 puts "Creating company..."
 company = Company.create!(name: "Demo Company")
@@ -15,9 +16,9 @@ admin = Employee.create!(
   last_name: "Admin",
   email: "admin@example.com",
   password: "SecurePass123!",
+  hire_date: Date.new(2020, 1, 1),
   is_administrator: true,
-  is_supervisor: true,
-  company: company
+  is_supervisor: true
 )
 
 puts "Creating second supervisor..."
@@ -26,9 +27,8 @@ supervisor2 = Employee.create!(
   last_name: "Supervisor",
   email: "bob@example.com",
   password: "SecurePass123!",
-  is_supervisor: true,
-  is_administrator: false,
-  company: company
+  hire_date: Date.new(2021, 5, 10),
+  is_supervisor: true
 )
 
 puts "Creating employees under administrator..."
@@ -38,8 +38,8 @@ puts "Creating employees under administrator..."
     last_name: Faker::Name.last_name,
     email: Faker::Internet.unique.email,
     password: "Password123!",
-    supervisor_id: admin.id,
-    company: company
+    hire_date: Faker::Date.between(from: 2.years.ago, to: Date.today),
+    supervisor_id: admin.id
   )
 end
 
@@ -50,9 +50,9 @@ puts "Creating employees under second supervisor..."
     last_name: Faker::Name.last_name,
     email: Faker::Internet.unique.email,
     password: "Password123!",
-    supervisor_id: supervisor2.id,
-    company: company
+    hire_date: Faker::Date.between(from: 2.years.ago, to: Date.today),
+    supervisor_id: supervisor2.id
   )
 end
 
-puts "✅ Seed complete."
+puts "✅ Seed data created successfully."
