@@ -59,18 +59,29 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Admin dashboard view
-  const dashboardRoot = document.getElementById("admin-dashboard");
-  if (dashboardRoot) {
-    const employees = JSON.parse(dashboardRoot.dataset.employees.replaceAll("&quot;", '"'));
-    const fiscalYears = JSON.parse(dashboardRoot.dataset.fiscalYears.replaceAll("&quot;", '"'));
-    const fiscalYearEmployees = JSON.parse(dashboardRoot.dataset.fiscalYearEmployees.replaceAll("&quot;", '"'));
+const dashboardRoot = document.getElementById("admin-dashboard");
+if (dashboardRoot) {
+  const parseScriptJSON = (id) => {
+    const el = document.getElementById(id);
+    if (!el) return [];
+    try {
+      return JSON.parse(el.textContent);
+    } catch (err) {
+      console.error(`Failed to parse #${id}:`, err);
+      return [];
+    }
+  };
 
-    createRoot(dashboardRoot).render(
-      <AdminDashboard
-        employees={employees}
-        fiscalYears={fiscalYears}
-        fiscalYearEmployees={fiscalYearEmployees}
-      />
-    );
-  }
+  const employees = parseScriptJSON("employees-data");
+  const fiscalYears = parseScriptJSON("fiscal-years-data");
+  const fiscalYearEmployees = parseScriptJSON("fiscal-year-employees-data");
+
+  createRoot(dashboardRoot).render(
+    <AdminDashboard
+      employees={employees}
+      fiscalYears={fiscalYears}
+      fiscalYearEmployees={fiscalYearEmployees}
+    />
+  );
+}
 });
