@@ -1,12 +1,1 @@
-<% content_for :title, "Editing employee" %>
-
-<h1>Editing employee</h1>
-
-<%= render "form", employee: @employee %>
-
-<br>
-
-<div>
-  <%= link_to "Show this employee", @employee %> |
-  <%= link_to "Back to employees", employees_path %>
-</div>
+<div id="new-employee-form" data-employee="<%= raw @employee.to_json %>"></div>
