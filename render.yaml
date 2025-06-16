@@ -3,7 +3,7 @@ services:
     name: etoas-app
     env: ruby
     plan: free
-    buildCommand: "bundle install && yarn install && bundle exec vite build"
+    buildCommand: "corepack enable && bundle install && yarn install && yarn build"
     startCommand: "bundle exec puma -C config/puma.rb"
     envVars:
       - key: DATABASE_URL
