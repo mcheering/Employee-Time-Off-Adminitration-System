@@ -58,5 +58,3 @@ build/
 # Optional: ignore OS/system files
 .DS_Store
 Thumbs.db
-
-*.log

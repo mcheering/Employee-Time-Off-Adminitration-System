@@ -9,7 +9,7 @@ class Employee < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
 
-  validates :email, presence: true
+  validates :first_name, :last_name, :hire_date, :is_administrator, :is_supervisor, :email, presence: true
   validates :email, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
 
   has_many :fiscal_year_employees
