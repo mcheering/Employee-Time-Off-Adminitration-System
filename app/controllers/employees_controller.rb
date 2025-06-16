@@ -20,6 +20,23 @@ class EmployeesController < ApplicationController
     @employee = Employee.find(params[:id])
   end
 
+  # DELETE /employees/1/delete
+  def destroy
+    @employee = Employee.find_by(id: params[:id])
+    if @employee
+      @employee.destroy
+      respond_to do |format|
+        format.html { redirect_to employees_url, notice: "Employee was successfully deleted." }
+        format.json { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to employees_url, alert: "Employee not found." }
+        format.json { render json: { error: "Not found" }, status: :not_found }
+      end
+    end
+  end
+
   # POST /employees or /employees.json
   def create
     @employee = Employee.new(employee_params)

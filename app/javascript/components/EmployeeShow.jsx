@@ -18,23 +18,6 @@ export default function EmployeeShow({ employee }) {
     window.location.href = "/admin/dashboard";
   };
 
-  const handleDelete = async () => {
-    if (!confirm("Are you sure you want to delete this employee?")) return;
-
-    const response = await fetch(`/employees/${employee.id}`, {
-      method: "DELETE",
-      headers: {
-        Accept: "application/json",
-      },
-    });
-
-    if (response.ok) {
-      handleNavigation("/employees");
-    } else {
-      alert("Failed to delete employee.");
-    }
-  };
-
   return (
     <>
       <Typography variant="h5" gutterBottom>Employee Details</Typography>
@@ -56,7 +39,6 @@ export default function EmployeeShow({ employee }) {
       <Stack direction="row" spacing={2} sx={{ marginTop: 3 }}>
         <Button variant="outlined" onClick={() => handleNavigation(`/employees/${employee.id}/edit`)}>Edit</Button>
         <Button variant="outlined" onClick={handleBack}>Back</Button>
-        <Button variant="contained" color="error" onClick={handleDelete}>Delete</Button>
       </Stack>
     </>
   );

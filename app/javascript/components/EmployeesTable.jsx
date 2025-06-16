@@ -120,7 +120,7 @@ export default function EmployeesTable({ employees }) {
                     size="small"
                     onClick={() => handleNavigation(`/employees/${emp.id}`)}
                   >
-                    View
+                    Manage
                   </Button>
                 </TableCell>
               </TableRow>

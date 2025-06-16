@@ -60,7 +60,7 @@ export default function FiscalYearEmployeesTable({ fiscalYearEmployees, fiscalYe
               <TableCell>{fye.earned_vacation_days}</TableCell>
               <TableCell>{fye.allotted_pto_days}</TableCell>
               <TableCell>
-                <Button variant="contained" href={`/employees/${fye.employee_id}`}>View</Button>
+                <Button variant="contained" href={`/employees/${fye.employee_id}`}>Manage</Button>
               </TableCell>
             </TableRow>
           ))}
