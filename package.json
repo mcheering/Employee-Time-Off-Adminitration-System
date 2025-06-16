@@ -2,6 +2,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "check-vite": "ls -la node_modules/vite && yarn list --pattern vite",
     "build": "vite build"
   },
   "devDependencies": {
