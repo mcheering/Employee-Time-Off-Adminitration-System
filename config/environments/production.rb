@@ -1,90 +1,66 @@
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
-  # Settings specified here will take precedence over those in config/application.rb.
-
   # Code is not reloaded between requests.
   config.enable_reloading = false
 
-  # Eager load code on boot for better performance and memory savings (ignored by Rake tasks).
+  # Eager load code on boot for better performance.
   config.eager_load = true
 
   # Full error reports are disabled.
   config.consider_all_requests_local = false
 
-  # Turn on fragment caching in view templates.
+  # Enable caching.
   config.action_controller.perform_caching = true
 
-  # Cache assets for far-future expiry since they are all digest stamped.
-  config.public_file_server.headers = { "cache-control" => "public, max-age=#{1.year.to_i}" }
+  # Serve static files from the /public folder (e.g., Vite output).
+  config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
+  config.public_file_server.headers = {
+    "Cache-Control" => "public, max-age=#{1.year.to_i}"
+  }
 
-  # Enable serving of images, stylesheets, and JavaScripts from an asset server.
-  # config.asset_host = "http://assets.example.com"
-
-  # Store uploaded files on the local file system (see config/storage.yml for options).
+  # Use local storage for ActiveStorage unless deploying to cloud.
   config.active_storage.service = :local
 
-  # Assume all access to the app is happening through a SSL-terminating reverse proxy.
+  # Assume SSL is handled by Heroku (or a reverse proxy).
   config.assume_ssl = true
-
-  # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = true
 
-  # Skip http-to-https redirect for the default health check endpoint.
-  # config.ssl_options = { redirect: { exclude: ->(request) { request.path == "/up" } } }
-
-  # Log to STDOUT with the current request id as a default log tag.
-  config.log_tags = [ :request_id ]
-  config.logger   = ActiveSupport::TaggedLogging.logger(STDOUT)
-
-  # Change to "debug" to log everything (including potentially personally-identifiable information!)
+  # Logging
+  config.log_tags = [:request_id]
+  config.logger = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
   config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")
 
-  # Prevent health checks from clogging up the logs.
+  # Suppress health check path noise
   config.silence_healthcheck_path = "/up"
 
-  # Don't log any deprecations.
+  # Ignore deprecation warnings in production
   config.active_support.report_deprecations = false
 
-  # Replace the default in-process memory cache store with a durable alternative.
+  # Cache and queue backend
   config.cache_store = :solid_cache_store
-
-  # Replace the default in-process and non-durable queuing backend for Active Job.
   config.active_job.queue_adapter = :solid_queue
   config.solid_queue.connects_to = { database: { writing: :queue } }
 
-  # Ignore bad email addresses and do not raise email delivery errors.
-  # Set this to true and configure the email server for immediate delivery to raise delivery errors.
-  # config.action_mailer.raise_delivery_errors = false
-
-  # Set host to be used by links generated in mailer templates.
-  config.action_mailer.default_url_options = { host: "example.com" }
-
-  # Specify outgoing SMTP server. Remember to add smtp/* credentials via rails credentials:edit.
+  # Action Mailer (update this when you configure SMTP)
+  config.action_mailer.default_url_options = { host: "your-app-name.herokuapp.com" }
   # config.action_mailer.smtp_settings = {
+  #   address: "smtp.sendgrid.net",
+  #   port: 587,
+  #   domain: "heroku.com",
   #   user_name: Rails.application.credentials.dig(:smtp, :user_name),
   #   password: Rails.application.credentials.dig(:smtp, :password),
-  #   address: "smtp.example.com",
-  #   port: 587,
-  #   authentication: :plain
+  #   authentication: "plain",
+  #   enable_starttls_auto: true
   # }
 
-  # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
-  # the I18n.default_locale when a translation cannot be found).
+  # Locale fallbacks
   config.i18n.fallbacks = true
 
-  # Do not dump schema after migrations.
+  # Do not dump schema after migrations
   config.active_record.dump_schema_after_migration = false
+  config.active_record.attributes_for_inspect = [:id]
 
-  # Only use :id for inspections in production.
-  config.active_record.attributes_for_inspect = [ :id ]
-
-  # Enable DNS rebinding protection and other `Host` header attacks.
-  # config.hosts = [
-  #   "example.com",     # Allow requests from example.com
-  #   /.*\.example\.com/ # Allow requests from subdomains like `www.example.com`
-  # ]
-  #
-  # Skip DNS rebinding protection for the default health check endpoint.
-  # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+  # Optional: uncomment and set allowed hosts if needed
+  # config.hosts << "your-app-name.herokuapp.com"
 end
