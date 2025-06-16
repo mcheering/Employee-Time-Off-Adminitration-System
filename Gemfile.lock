@@ -128,10 +128,6 @@ GEM
       activesupport (>= 6.1)
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
-    importmap-rails (2.1.0)
-      actionpack (>= 6.0.0)
-      activesupport (>= 6.0.0)
-      railties (>= 6.0.0)
     io-console (0.8.0)
     irb (1.15.2)
       pp (>= 0.6.0)
@@ -405,7 +401,6 @@ DEPENDENCIES
   debug
   devise
   faker
-  importmap-rails
   jbuilder
   kamal
   pg (~> 1.5)
@@ -423,7 +418,6 @@ DEPENDENCIES
   turbo-rails
   tzinfo-data
   vite_rails
-  vite_ruby
   web-console
 
 BUNDLED WITH
