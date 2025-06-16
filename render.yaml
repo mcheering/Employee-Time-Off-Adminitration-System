@@ -3,7 +3,15 @@ services:
     name: etoas-app
     env: ruby
     plan: free
-    buildCommand: "corepack enable && bundle install && yarn install && yarn build"
+    buildCommand: |
+      corepack enable
+      corepack prepare yarn@1.22.22 --activate
+      yarn set version 1.22.22
+      yarn cache clean
+      bundle install
+      yarn install --force
+      ls node_modules/vite || echo "vite not found"
+      yarn build
     startCommand: "bundle exec puma -C config/puma.rb"
     envVars:
       - key: NODE_VERSION
