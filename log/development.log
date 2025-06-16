@@ -15916,3 +15916,316 @@ Skipping vite build. Watched files have not changed since the last build at 2025
 Completed 200 OK in 68ms (Views: 5.8ms | ActiveRecord: 23.3ms (5 queries, 0 cached) | GC: 0.0ms)
 
 
+  [1m[36mActiveRecord::SchemaMigration Load (1.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.3ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[35mSET search_path TO public /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (52.6ms)[0m  [1m[35mDROP DATABASE IF EXISTS "employee_time_off_adminitration_system_development" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mSET search_path TO public /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (44.2ms)[0m  [1m[35mDROP DATABASE IF EXISTS "employee_time_off_adminitration_system_test" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mSET search_path TO public /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (111.7ms)[0m  [1m[35mCREATE DATABASE "employee_time_off_adminitration_system_development" ENCODING = 'unicode' /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mSET search_path TO public /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (46.1ms)[0m  [1m[35mCREATE DATABASE "employee_time_off_adminitration_system_test" ENCODING = 'unicode' /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35mSQL (6.0ms)[0m  [1m[35mCREATE EXTENSION IF NOT EXISTS "plpgsql" SCHEMA pg_catalog /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "companies" CASCADE /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (2.3ms)[0m  [1m[35mCREATE TABLE "companies" ("id" bigserial primary key, "name" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL) /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_companies_on_name" ON "companies" ("name") /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "employees" CASCADE /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE TABLE "employees" ("id" bigserial primary key, "email" character varying DEFAULT '' NOT NULL, "encrypted_password" character varying DEFAULT '' NOT NULL, "reset_password_token" character varying, "reset_password_sent_at" timestamp(6), "remember_created_at" timestamp(6), "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, "supervisor_id" bigint, "first_name" character varying NOT NULL, "last_name" character varying NOT NULL, "hire_date" date NOT NULL, "termination_date" date, "is_supervisor" boolean DEFAULT FALSE, "is_administrator" boolean DEFAULT FALSE) /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_employees_on_email" ON "employees" ("email") /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_employees_on_reset_password_token" ON "employees" ("reset_password_token") /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE INDEX "index_employees_on_supervisor_id" ON "employees" ("supervisor_id") /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "fiscal_year_employees" CASCADE /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.8ms)[0m  [1m[35mCREATE TABLE "fiscal_year_employees" ("id" bigserial primary key, "employee_id" bigint NOT NULL, "fiscal_year_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL) /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE INDEX "index_fiscal_year_employees_on_employee_id" ON "fiscal_year_employees" ("employee_id") /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE INDEX "index_fiscal_year_employees_on_fiscal_year_id" ON "fiscal_year_employees" ("fiscal_year_id") /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "fiscal_years" CASCADE /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.6ms)[0m  [1m[35mCREATE TABLE "fiscal_years" ("id" bigserial primary key, "start_date" date NOT NULL, "end_date" date NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL) /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (1.3ms)[0m  [1m[35mALTER TABLE "employees" ADD CONSTRAINT "fk_rails_0821c6df5c"
+FOREIGN KEY ("supervisor_id")
+  REFERENCES "employees" ("id")
+ /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "fiscal_year_employees" ADD CONSTRAINT "fk_rails_ac93fdf388"
+FOREIGN KEY ("employee_id")
+  REFERENCES "employees" ("id")
+ /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "fiscal_year_employees" ADD CONSTRAINT "fk_rails_a8bf39f78c"
+FOREIGN KEY ("fiscal_year_id")
+  REFERENCES "fiscal_years" ("id")
+ /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.9ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY) /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20250613015943) /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20250613015223),
+(20250613015159),
+(20250612104618),
+(20250612101641); /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL) /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.1ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'development', '2025-06-16 02:52:40.554998', '2025-06-16 02:52:40.554999') RETURNING "key" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'schema_sha1' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.1ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('schema_sha1', 'e099ad677bf4e97af70c0de66c6363f936c9d571', '2025-06-16 02:52:40.556729', '2025-06-16 02:52:40.556730') RETURNING "key" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35mSQL (5.8ms)[0m  [1m[35mCREATE EXTENSION IF NOT EXISTS "plpgsql" SCHEMA pg_catalog /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "companies" CASCADE /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (2.5ms)[0m  [1m[35mCREATE TABLE "companies" ("id" bigserial primary key, "name" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL) /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_companies_on_name" ON "companies" ("name") /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "employees" CASCADE /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE TABLE "employees" ("id" bigserial primary key, "email" character varying DEFAULT '' NOT NULL, "encrypted_password" character varying DEFAULT '' NOT NULL, "reset_password_token" character varying, "reset_password_sent_at" timestamp(6), "remember_created_at" timestamp(6), "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, "supervisor_id" bigint, "first_name" character varying NOT NULL, "last_name" character varying NOT NULL, "hire_date" date NOT NULL, "termination_date" date, "is_supervisor" boolean DEFAULT FALSE, "is_administrator" boolean DEFAULT FALSE) /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_employees_on_email" ON "employees" ("email") /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_employees_on_reset_password_token" ON "employees" ("reset_password_token") /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE INDEX "index_employees_on_supervisor_id" ON "employees" ("supervisor_id") /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "fiscal_year_employees" CASCADE /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.7ms)[0m  [1m[35mCREATE TABLE "fiscal_year_employees" ("id" bigserial primary key, "employee_id" bigint NOT NULL, "fiscal_year_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL) /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE INDEX "index_fiscal_year_employees_on_employee_id" ON "fiscal_year_employees" ("employee_id") /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE INDEX "index_fiscal_year_employees_on_fiscal_year_id" ON "fiscal_year_employees" ("fiscal_year_id") /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "fiscal_years" CASCADE /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.6ms)[0m  [1m[35mCREATE TABLE "fiscal_years" ("id" bigserial primary key, "start_date" date NOT NULL, "end_date" date NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL) /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (1.0ms)[0m  [1m[35mALTER TABLE "employees" ADD CONSTRAINT "fk_rails_0821c6df5c"
+FOREIGN KEY ("supervisor_id")
+  REFERENCES "employees" ("id")
+ /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "fiscal_year_employees" ADD CONSTRAINT "fk_rails_ac93fdf388"
+FOREIGN KEY ("employee_id")
+  REFERENCES "employees" ("id")
+ /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.4ms)[0m  [1m[35mALTER TABLE "fiscal_year_employees" ADD CONSTRAINT "fk_rails_a8bf39f78c"
+FOREIGN KEY ("fiscal_year_id")
+  REFERENCES "fiscal_years" ("id")
+ /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY) /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20250613015943) /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20250613015223),
+(20250613015159),
+(20250612104618),
+(20250612101641); /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL) /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.2ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'development', '2025-06-16 02:52:40.595171', '2025-06-16 02:52:40.595172') RETURNING "key" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Update (0.1ms)[0m  [1m[33mUPDATE "ar_internal_metadata" SET "value" = 'test', "updated_at" = '2025-06-16 02:52:40.596401' WHERE "ar_internal_metadata"."key" = 'environment' /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.0ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'schema_sha1' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.1ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('schema_sha1', 'e099ad677bf4e97af70c0de66c6363f936c9d571', '2025-06-16 02:52:40.597375', '2025-06-16 02:52:40.597376') RETURNING "key" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYear Create (1.1ms)[0m  [1m[32mINSERT INTO "fiscal_years" ("start_date", "end_date", "created_at", "updated_at") VALUES ('2020-07-01', '2021-06-30', '2025-06-16 02:52:40.624929', '2025-06-16 02:52:40.624929') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYear Create (0.8ms)[0m  [1m[32mINSERT INTO "fiscal_years" ("start_date", "end_date", "created_at", "updated_at") VALUES ('2021-07-01', '2022-06-30', '2025-06-16 02:52:40.627941', '2025-06-16 02:52:40.627941') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYear Create (0.8ms)[0m  [1m[32mINSERT INTO "fiscal_years" ("start_date", "end_date", "created_at", "updated_at") VALUES ('2022-07-01', '2023-06-30', '2025-06-16 02:52:40.630227', '2025-06-16 02:52:40.630227') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYear Create (0.8ms)[0m  [1m[32mINSERT INTO "fiscal_years" ("start_date", "end_date", "created_at", "updated_at") VALUES ('2023-07-01', '2024-06-30', '2025-06-16 02:52:40.632523', '2025-06-16 02:52:40.632523') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYear Create (0.8ms)[0m  [1m[32mINSERT INTO "fiscal_years" ("start_date", "end_date", "created_at", "updated_at") VALUES ('2024-07-01', '2025-06-30', '2025-06-16 02:52:40.634635', '2025-06-16 02:52:40.634635') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (4.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mEmployee Exists? (6.7ms)[0m  [1m[34mSELECT 1 AS one FROM "employees" WHERE "employees"."email" = 'mandy.heering@gmail.com' LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mCACHE Employee Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "employees" WHERE "employees"."email" = 'mandy.heering@gmail.com' LIMIT 1[0m
+  [1m[36mEmployee Create (1.6ms)[0m  [1m[32mINSERT INTO "employees" ("email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "created_at", "updated_at", "supervisor_id", "first_name", "last_name", "hire_date", "termination_date", "is_supervisor", "is_administrator") VALUES ('mandy.heering@gmail.com', '$2a$12$MK9D2MWXgppds2pYs2qgsew.2AJC7O2EFy4e1hu1hdjXyhR/kJR.G', NULL, NULL, NULL, '2025-06-16 02:52:40.926800', '2025-06-16 02:52:40.926800', NULL, 'Mandy', 'Heering', '2019-08-01', NULL, TRUE, TRUE) RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mEmployee Exists? (1.7ms)[0m  [1m[34mSELECT 1 AS one FROM "employees" WHERE "employees"."email" = 'matthew.heering01@gmail.com' LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mCACHE Employee Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "employees" WHERE "employees"."email" = 'matthew.heering01@gmail.com' LIMIT 1[0m
+  [1m[36mEmployee Create (0.4ms)[0m  [1m[32mINSERT INTO "employees" ("email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "created_at", "updated_at", "supervisor_id", "first_name", "last_name", "hire_date", "termination_date", "is_supervisor", "is_administrator") VALUES ('matthew.heering01@gmail.com', '$2a$12$988M1.TFwei6YOrBezrjH.vPmIOyHItO3PW1jNmpKWQPq1ZTWIZC.', NULL, NULL, NULL, '2025-06-16 02:52:41.172277', '2025-06-16 02:52:41.172277', NULL, 'Matthew', 'Heering', '2020-08-01', NULL, TRUE, FALSE) RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (5.4ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mEmployee Exists? (1.5ms)[0m  [1m[34mSELECT 1 AS one FROM "employees" WHERE "employees"."email" = 'palma@auer.example' LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mCACHE Employee Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "employees" WHERE "employees"."email" = 'palma@auer.example' LIMIT 1[0m
+  [1m[36mEmployee Create (0.9ms)[0m  [1m[32mINSERT INTO "employees" ("email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "created_at", "updated_at", "supervisor_id", "first_name", "last_name", "hire_date", "termination_date", "is_supervisor", "is_administrator") VALUES ('palma@auer.example', '$2a$12$Ax/zSLhlbuQvSuNT.VzCvOagHL.WX0BrQdPGd9e6gWSi.LO9uNJo.', NULL, NULL, NULL, '2025-06-16 02:52:41.555338', '2025-06-16 02:52:41.555338', 1, 'Larissa', 'Nitzsche', '2020-08-04', NULL, FALSE, FALSE) RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mEmployee Exists? (1.3ms)[0m  [1m[34mSELECT 1 AS one FROM "employees" WHERE "employees"."email" = 'virgil@schinner.test' LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mCACHE Employee Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "employees" WHERE "employees"."email" = 'virgil@schinner.test' LIMIT 1[0m
+  [1m[36mEmployee Create (0.5ms)[0m  [1m[32mINSERT INTO "employees" ("email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "created_at", "updated_at", "supervisor_id", "first_name", "last_name", "hire_date", "termination_date", "is_supervisor", "is_administrator") VALUES ('virgil@schinner.test', '$2a$12$20vgs6bMjMEc79D0HBPwBesMr4GTlYWesN5WpXHmlWVRNbR8sMNRK', NULL, NULL, NULL, '2025-06-16 02:52:41.801137', '2025-06-16 02:52:41.801137', 1, 'Gabriela', 'Bartell', '2022-05-08', NULL, FALSE, FALSE) RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.8ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mEmployee Exists? (2.0ms)[0m  [1m[34mSELECT 1 AS one FROM "employees" WHERE "employees"."email" = 'russel.jenkins@bednar-zboncak.test' LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mCACHE Employee Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "employees" WHERE "employees"."email" = 'russel.jenkins@bednar-zboncak.test' LIMIT 1[0m
+  [1m[36mEmployee Create (0.4ms)[0m  [1m[32mINSERT INTO "employees" ("email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "created_at", "updated_at", "supervisor_id", "first_name", "last_name", "hire_date", "termination_date", "is_supervisor", "is_administrator") VALUES ('russel.jenkins@bednar-zboncak.test', '$2a$12$MTP8w0FEL5ajsrqDPUuuAO3CERF1swQOduYMu5aAaoatTVbJcFWB.', NULL, NULL, NULL, '2025-06-16 02:52:42.043930', '2025-06-16 02:52:42.043930', 1, 'Millard', 'Weber', '2021-07-30', NULL, FALSE, FALSE) RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mEmployee Exists? (1.2ms)[0m  [1m[34mSELECT 1 AS one FROM "employees" WHERE "employees"."email" = 'rey@barrows.test' LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mCACHE Employee Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "employees" WHERE "employees"."email" = 'rey@barrows.test' LIMIT 1[0m
+  [1m[36mEmployee Create (0.7ms)[0m  [1m[32mINSERT INTO "employees" ("email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "created_at", "updated_at", "supervisor_id", "first_name", "last_name", "hire_date", "termination_date", "is_supervisor", "is_administrator") VALUES ('rey@barrows.test', '$2a$12$lHxQBTtgrtqyJe2S.tDAd.Hx7A7tZjlqt9KNCrg10elDTtKWt5DrC', NULL, NULL, NULL, '2025-06-16 02:52:42.288648', '2025-06-16 02:52:42.288648', 1, 'Frankie', 'Klocko', '2022-01-19', NULL, FALSE, FALSE) RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mEmployee Exists? (1.5ms)[0m  [1m[34mSELECT 1 AS one FROM "employees" WHERE "employees"."email" = 'solomon@gleason.example' LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mCACHE Employee Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "employees" WHERE "employees"."email" = 'solomon@gleason.example' LIMIT 1[0m
+  [1m[36mEmployee Create (0.5ms)[0m  [1m[32mINSERT INTO "employees" ("email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "created_at", "updated_at", "supervisor_id", "first_name", "last_name", "hire_date", "termination_date", "is_supervisor", "is_administrator") VALUES ('solomon@gleason.example', '$2a$12$fywiMYrzbuHm2hH/rDmy7enEfUL6a/JTMqfPE3CU8w1waNNcxqW6.', NULL, NULL, NULL, '2025-06-16 02:52:42.533775', '2025-06-16 02:52:42.533775', 2, 'Mauricio', 'Kuhn', '2020-10-22', NULL, FALSE, FALSE) RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.9ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mEmployee Exists? (2.4ms)[0m  [1m[34mSELECT 1 AS one FROM "employees" WHERE "employees"."email" = 'michelina_von@renner.example' LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mCACHE Employee Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "employees" WHERE "employees"."email" = 'michelina_von@renner.example' LIMIT 1[0m
+  [1m[36mEmployee Create (0.8ms)[0m  [1m[32mINSERT INTO "employees" ("email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "created_at", "updated_at", "supervisor_id", "first_name", "last_name", "hire_date", "termination_date", "is_supervisor", "is_administrator") VALUES ('michelina_von@renner.example', '$2a$12$3UzHp/O4KKS9gd1Sxtes3O18IgJYgNLRC6OSDqqz1NNOw/knH6ScW', NULL, NULL, NULL, '2025-06-16 02:52:42.780320', '2025-06-16 02:52:42.780320', 2, 'Alisha', 'Abbott', '2019-11-11', NULL, FALSE, FALSE) RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mEmployee Exists? (2.2ms)[0m  [1m[34mSELECT 1 AS one FROM "employees" WHERE "employees"."email" = 'esther@franecki.test' LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mCACHE Employee Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "employees" WHERE "employees"."email" = 'esther@franecki.test' LIMIT 1[0m
+  [1m[36mEmployee Create (0.6ms)[0m  [1m[32mINSERT INTO "employees" ("email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "created_at", "updated_at", "supervisor_id", "first_name", "last_name", "hire_date", "termination_date", "is_supervisor", "is_administrator") VALUES ('esther@franecki.test', '$2a$12$UMtpnc1adp5TjF/ms7kWk.cQP5ZVhKpRKWD0WimCG1iRGGW1nmV3m', NULL, NULL, NULL, '2025-06-16 02:52:43.025472', '2025-06-16 02:52:43.025472', 2, 'Lowell', 'Romaguera', '2021-09-03', NULL, FALSE, FALSE) RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mEmployee Exists? (2.6ms)[0m  [1m[34mSELECT 1 AS one FROM "employees" WHERE "employees"."email" = 'zonia_hyatt@stamm-dare.test' LIMIT 1 /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mCACHE Employee Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "employees" WHERE "employees"."email" = 'zonia_hyatt@stamm-dare.test' LIMIT 1[0m
+  [1m[36mEmployee Create (0.7ms)[0m  [1m[32mINSERT INTO "employees" ("email", "encrypted_password", "reset_password_token", "reset_password_sent_at", "remember_created_at", "created_at", "updated_at", "supervisor_id", "first_name", "last_name", "hire_date", "termination_date", "is_supervisor", "is_administrator") VALUES ('zonia_hyatt@stamm-dare.test', '$2a$12$oSAJIUcx6igxhQm.q7dptuEfEjtKkyd0KOQczv4pzsUx/S9DlpOk6', NULL, NULL, NULL, '2025-06-16 02:52:43.270348', '2025-06-16 02:52:43.270348', 2, 'Roscoe', 'Champlin', '2022-10-15', NULL, FALSE, FALSE) RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (1.3ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (2.4ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (3, 1, '2025-06-16 02:52:43.284666', '2025-06-16 02:52:43.284666') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.9ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (3, 2, '2025-06-16 02:52:43.288749', '2025-06-16 02:52:43.288749') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.9ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (3, 3, '2025-06-16 02:52:43.290899', '2025-06-16 02:52:43.290899') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.9ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (3, 4, '2025-06-16 02:52:43.292946', '2025-06-16 02:52:43.292946') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (1.0ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (3, 5, '2025-06-16 02:52:43.295028', '2025-06-16 02:52:43.295028') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (1.7ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (1.0ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (4, 1, '2025-06-16 02:52:43.298729', '2025-06-16 02:52:43.298729') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.8ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (4, 2, '2025-06-16 02:52:43.300951', '2025-06-16 02:52:43.300951') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.7ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (4, 3, '2025-06-16 02:52:43.303041', '2025-06-16 02:52:43.303041') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.8ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (4, 4, '2025-06-16 02:52:43.304821', '2025-06-16 02:52:43.304821') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.9ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (4, 5, '2025-06-16 02:52:43.306840', '2025-06-16 02:52:43.306840') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.9ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (5, 1, '2025-06-16 02:52:43.309140', '2025-06-16 02:52:43.309140') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.9ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (5, 2, '2025-06-16 02:52:43.311441', '2025-06-16 02:52:43.311441') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.9ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (5, 3, '2025-06-16 02:52:43.313667', '2025-06-16 02:52:43.313667') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.9ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (5, 4, '2025-06-16 02:52:43.315809', '2025-06-16 02:52:43.315809') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.8ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (5, 5, '2025-06-16 02:52:43.318083', '2025-06-16 02:52:43.318083') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.8ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (6, 1, '2025-06-16 02:52:43.320124', '2025-06-16 02:52:43.320124') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.9ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (6, 2, '2025-06-16 02:52:43.322177', '2025-06-16 02:52:43.322177') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.8ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (6, 3, '2025-06-16 02:52:43.324234', '2025-06-16 02:52:43.324234') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.8ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (6, 4, '2025-06-16 02:52:43.326220', '2025-06-16 02:52:43.326220') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.8ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (6, 5, '2025-06-16 02:52:43.328191', '2025-06-16 02:52:43.328191') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.9ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (7, 1, '2025-06-16 02:52:43.330178', '2025-06-16 02:52:43.330178') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.8ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (7, 2, '2025-06-16 02:52:43.332260', '2025-06-16 02:52:43.332260') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.8ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (7, 3, '2025-06-16 02:52:43.334199', '2025-06-16 02:52:43.334199') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.8ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (7, 4, '2025-06-16 02:52:43.336176', '2025-06-16 02:52:43.336176') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.9ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (7, 5, '2025-06-16 02:52:43.338121', '2025-06-16 02:52:43.338121') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.8ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (8, 1, '2025-06-16 02:52:43.340237', '2025-06-16 02:52:43.340237') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.9ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (8, 2, '2025-06-16 02:52:43.342543', '2025-06-16 02:52:43.342543') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.8ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (8, 3, '2025-06-16 02:52:43.344655', '2025-06-16 02:52:43.344655') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (1.3ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (8, 4, '2025-06-16 02:52:43.346664', '2025-06-16 02:52:43.346664') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (1.0ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (8, 5, '2025-06-16 02:52:43.349206', '2025-06-16 02:52:43.349206') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.8ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (9, 1, '2025-06-16 02:52:43.351404', '2025-06-16 02:52:43.351404') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (1.0ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (9, 2, '2025-06-16 02:52:43.353415', '2025-06-16 02:52:43.353415') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.9ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (9, 3, '2025-06-16 02:52:43.355662', '2025-06-16 02:52:43.355662') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.7ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (9, 4, '2025-06-16 02:52:43.357769', '2025-06-16 02:52:43.357769') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.8ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (9, 5, '2025-06-16 02:52:43.359632', '2025-06-16 02:52:43.359632') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.8ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (10, 1, '2025-06-16 02:52:43.361520', '2025-06-16 02:52:43.361520') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.8ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (10, 2, '2025-06-16 02:52:43.363484', '2025-06-16 02:52:43.363484') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.8ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (10, 3, '2025-06-16 02:52:43.365648', '2025-06-16 02:52:43.365648') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.8ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (10, 4, '2025-06-16 02:52:43.367633', '2025-06-16 02:52:43.367633') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.9ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (10, 5, '2025-06-16 02:52:43.369555', '2025-06-16 02:52:43.369555') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.8ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (1, 1, '2025-06-16 02:52:43.371667', '2025-06-16 02:52:43.371667') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.8ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (1, 2, '2025-06-16 02:52:43.373744', '2025-06-16 02:52:43.373744') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.8ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (1, 3, '2025-06-16 02:52:43.376209', '2025-06-16 02:52:43.376209') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.8ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (1, 4, '2025-06-16 02:52:43.378365', '2025-06-16 02:52:43.378365') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.8ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (1, 5, '2025-06-16 02:52:43.380544', '2025-06-16 02:52:43.380544') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.9ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (2, 1, '2025-06-16 02:52:43.382530', '2025-06-16 02:52:43.382530') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.8ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (2, 2, '2025-06-16 02:52:43.384685', '2025-06-16 02:52:43.384685') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.9ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (2, 3, '2025-06-16 02:52:43.386643', '2025-06-16 02:52:43.386643') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.9ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (2, 4, '2025-06-16 02:52:43.393673', '2025-06-16 02:52:43.393673') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mFiscalYearEmployee Create (0.7ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (2, 5, '2025-06-16 02:52:43.395828', '2025-06-16 02:52:43.395828') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
