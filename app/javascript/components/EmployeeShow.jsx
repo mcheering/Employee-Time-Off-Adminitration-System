@@ -15,14 +15,7 @@ export default function EmployeeShow({ employee }) {
   };
 
   const handleBack = () => {
-    const params = new URLSearchParams(window.location.search);
-    const returnTo = params.get("return_to");
-
-    if (returnTo === "admin_dashboard_fiscal_year_employees") {
-      window.location.href = "/admin/dashboard";
-    } else {
-      window.history.back();
-    }
+    window.location.href = "/admin/dashboard";
   };
 
   const handleDelete = async () => {
