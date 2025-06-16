@@ -31,10 +31,17 @@ document.addEventListener("DOMContentLoaded", () => {
     createRoot(tableRoot).render(<EmployeesTable employees={data} />);
   }
 
-  // New employee form
+  // New or Edit employee form
   const formRoot = document.getElementById("new-employee-form");
   if (formRoot) {
-    createRoot(formRoot).render(<NewEmployeeForm />);
+    const employeeData = formRoot.dataset.employee;
+    const parsedEmployee = employeeData
+      ? JSON.parse(employeeData.replaceAll("&quot;", '"'))
+      : null;
+
+    createRoot(formRoot).render(
+      <NewEmployeeForm employee={parsedEmployee} />
+    );
   }
 
   // Employee show page
