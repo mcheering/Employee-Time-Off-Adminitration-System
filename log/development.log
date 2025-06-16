@@ -16229,3 +16229,148 @@ FOREIGN KEY ("fiscal_year_id")
   [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
   [1m[36mFiscalYearEmployee Create (0.7ms)[0m  [1m[32mINSERT INTO "fiscal_year_employees" ("employee_id", "fiscal_year_id", "created_at", "updated_at") VALUES (2, 5, '2025-06-16 02:52:43.395828', '2025-06-16 02:52:43.395828') RETURNING "id" /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
   [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+Started GET "/admin/dashboard" for ::1 at 2025-06-15 21:55:13 -0500
+  [1m[36mActiveRecord::SchemaMigration Load (1.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+Processing by AdministratorsController#dashboard as HTML
+  [1m[36mFiscalYearEmployee Load (15.5ms)[0m  [1m[34mSELECT "fiscal_year_employees".* FROM "fiscal_year_employees" /*action='dashboard',application='EmployeeTimeOffAdminitrationSystem',controller='administrators'*/[0m
+  ↳ app/controllers/administrators_controller.rb:13:in 'Enumerable#map'
+  [1m[36mEmployee Load (2.3ms)[0m  [1m[34mSELECT "employees".* FROM "employees" WHERE "employees"."id" IN (3, 4, 5, 6, 7, 8, 9, 10, 1, 2) /*action='dashboard',application='EmployeeTimeOffAdminitrationSystem',controller='administrators'*/[0m
+  ↳ app/controllers/administrators_controller.rb:13:in 'Enumerable#map'
+  [1m[36mFiscalYear Load (0.4ms)[0m  [1m[34mSELECT "fiscal_years".* FROM "fiscal_years" WHERE "fiscal_years"."id" IN (1, 2, 3, 4, 5) /*action='dashboard',application='EmployeeTimeOffAdminitrationSystem',controller='administrators'*/[0m
+  ↳ app/controllers/administrators_controller.rb:13:in 'Enumerable#map'
+  Rendering layout layouts/application.html.erb
+  Rendering administrators/dashboard.html.erb within layouts/application
+  [1m[36mEmployee Load (0.5ms)[0m  [1m[34mSELECT "employees".* FROM "employees" /*action='dashboard',application='EmployeeTimeOffAdminitrationSystem',controller='administrators'*/[0m
+  ↳ app/views/administrators/dashboard.html.erb:2
+  [1m[36mFiscalYear Load (0.2ms)[0m  [1m[34mSELECT "fiscal_years".* FROM "fiscal_years" /*action='dashboard',application='EmployeeTimeOffAdminitrationSystem',controller='administrators'*/[0m
+  ↳ app/views/administrators/dashboard.html.erb:3
+  Rendered administrators/dashboard.html.erb within layouts/application (Duration: 3.5ms | GC: 0.0ms)
+Skipping vite build. Watched files have not changed since the last build at 2025-06-15 21:42:17
+  Rendered layout layouts/application.html.erb (Duration: 9.4ms | GC: 0.0ms)
+Completed 200 OK in 206ms (Views: 11.0ms | ActiveRecord: 46.5ms (5 queries, 0 cached) | GC: 32.0ms)
+
+
+Started GET "/admin/dashboard" for ::1 at 2025-06-15 21:55:15 -0500
+Processing by AdministratorsController#dashboard as HTML
+  [1m[36mFiscalYearEmployee Load (1.4ms)[0m  [1m[34mSELECT "fiscal_year_employees".* FROM "fiscal_year_employees" /*action='dashboard',application='EmployeeTimeOffAdminitrationSystem',controller='administrators'*/[0m
+  ↳ app/controllers/administrators_controller.rb:13:in 'Enumerable#map'
+  [1m[36mEmployee Load (0.5ms)[0m  [1m[34mSELECT "employees".* FROM "employees" WHERE "employees"."id" IN (3, 4, 5, 6, 7, 8, 9, 10, 1, 2) /*action='dashboard',application='EmployeeTimeOffAdminitrationSystem',controller='administrators'*/[0m
+  ↳ app/controllers/administrators_controller.rb:13:in 'Enumerable#map'
+  [1m[36mFiscalYear Load (0.3ms)[0m  [1m[34mSELECT "fiscal_years".* FROM "fiscal_years" WHERE "fiscal_years"."id" IN (1, 2, 3, 4, 5) /*action='dashboard',application='EmployeeTimeOffAdminitrationSystem',controller='administrators'*/[0m
+  ↳ app/controllers/administrators_controller.rb:13:in 'Enumerable#map'
+  Rendering layout layouts/application.html.erb
+  Rendering administrators/dashboard.html.erb within layouts/application
+  [1m[36mEmployee Load (0.3ms)[0m  [1m[34mSELECT "employees".* FROM "employees" /*action='dashboard',application='EmployeeTimeOffAdminitrationSystem',controller='administrators'*/[0m
+  ↳ app/views/administrators/dashboard.html.erb:2
+  [1m[36mFiscalYear Load (0.2ms)[0m  [1m[34mSELECT "fiscal_years".* FROM "fiscal_years" /*action='dashboard',application='EmployeeTimeOffAdminitrationSystem',controller='administrators'*/[0m
+  ↳ app/views/administrators/dashboard.html.erb:3
+  Rendered administrators/dashboard.html.erb within layouts/application (Duration: 3.8ms | GC: 0.0ms)
+Skipping vite build. Watched files have not changed since the last build at 2025-06-15 21:42:17
+  Rendered layout layouts/application.html.erb (Duration: 7.2ms | GC: 0.0ms)
+Completed 200 OK in 48ms (Views: 6.9ms | ActiveRecord: 2.7ms (5 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/admin/dashboard" for ::1 at 2025-06-15 21:57:50 -0500
+  [1m[36mActiveRecord::SchemaMigration Load (1.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+Processing by AdministratorsController#dashboard as HTML
+  [1m[36mFiscalYearEmployee Load (15.6ms)[0m  [1m[34mSELECT "fiscal_year_employees".* FROM "fiscal_year_employees" /*action='dashboard',application='EmployeeTimeOffAdminitrationSystem',controller='administrators'*/[0m
+  ↳ app/controllers/administrators_controller.rb:13:in 'Enumerable#map'
+  [1m[36mEmployee Load (0.9ms)[0m  [1m[34mSELECT "employees".* FROM "employees" WHERE "employees"."id" IN (3, 4, 5, 6, 7, 8, 9, 10, 1, 2) /*action='dashboard',application='EmployeeTimeOffAdminitrationSystem',controller='administrators'*/[0m
+  ↳ app/controllers/administrators_controller.rb:13:in 'Enumerable#map'
+  [1m[36mFiscalYear Load (0.5ms)[0m  [1m[34mSELECT "fiscal_years".* FROM "fiscal_years" WHERE "fiscal_years"."id" IN (1, 2, 3, 4, 5) /*action='dashboard',application='EmployeeTimeOffAdminitrationSystem',controller='administrators'*/[0m
+  ↳ app/controllers/administrators_controller.rb:13:in 'Enumerable#map'
+  Rendering layout layouts/application.html.erb
+  Rendering administrators/dashboard.html.erb within layouts/application
+  [1m[36mEmployee Load (0.4ms)[0m  [1m[34mSELECT "employees".* FROM "employees" /*action='dashboard',application='EmployeeTimeOffAdminitrationSystem',controller='administrators'*/[0m
+  ↳ app/views/administrators/dashboard.html.erb:2
+  [1m[36mFiscalYear Load (0.2ms)[0m  [1m[34mSELECT "fiscal_years".* FROM "fiscal_years" /*action='dashboard',application='EmployeeTimeOffAdminitrationSystem',controller='administrators'*/[0m
+  ↳ app/views/administrators/dashboard.html.erb:3
+  Rendered administrators/dashboard.html.erb within layouts/application (Duration: 2.9ms | GC: 0.0ms)
+Skipping vite build. Watched files have not changed since the last build at 2025-06-15 21:42:17
+  Rendered layout layouts/application.html.erb (Duration: 6.2ms | GC: 0.0ms)
+Completed 200 OK in 193ms (Views: 7.0ms | ActiveRecord: 33.8ms (5 queries, 0 cached) | GC: 32.1ms)
+
+
+Started GET "/employees/3" for ::1 at 2025-06-15 21:58:06 -0500
+Processing by EmployeesController#show as HTML
+  Parameters: {"id" => "3"}
+  [1m[36mEmployee Load (1.3ms)[0m  [1m[34mSELECT "employees".* FROM "employees" WHERE "employees"."id" = 3 LIMIT 1 /*action='show',application='EmployeeTimeOffAdminitrationSystem',controller='employees'*/[0m
+  ↳ app/controllers/employees_controller.rb:59:in 'EmployeesController#set_employee'
+  Rendering layout layouts/application.html.erb
+  Rendering employees/show.html.erb within layouts/application
+  Rendered employees/show.html.erb within layouts/application (Duration: 0.5ms | GC: 0.0ms)
+Skipping vite build. Watched files have not changed since the last build at 2025-06-15 21:42:17
+  Rendered layout layouts/application.html.erb (Duration: 4.7ms | GC: 0.0ms)
+Completed 200 OK in 44ms (Views: 5.4ms | ActiveRecord: 1.3ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/employees/3" for ::1 at 2025-06-15 21:58:16 -0500
+Processing by EmployeesController#show as HTML
+  Parameters: {"id" => "3"}
+  [1m[36mEmployee Load (0.8ms)[0m  [1m[34mSELECT "employees".* FROM "employees" WHERE "employees"."id" = 3 LIMIT 1 /*action='show',application='EmployeeTimeOffAdminitrationSystem',controller='employees'*/[0m
+  ↳ app/controllers/employees_controller.rb:59:in 'EmployeesController#set_employee'
+  Rendering layout layouts/application.html.erb
+  Rendering employees/show.html.erb within layouts/application
+  Rendered employees/show.html.erb within layouts/application (Duration: 0.3ms | GC: 0.0ms)
+Skipping vite build. Watched files have not changed since the last build at 2025-06-15 21:42:17
+  Rendered layout layouts/application.html.erb (Duration: 3.9ms | GC: 0.0ms)
+Completed 200 OK in 37ms (Views: 4.1ms | ActiveRecord: 0.8ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started DELETE "/employees/3" for ::1 at 2025-06-15 21:58:22 -0500
+  
+AbstractController::ActionNotFound (The action 'destroy' could not be found for EmployeesController):
+  
+actionpack (8.0.2) lib/abstract_controller/base.rb:158:in 'AbstractController::Base#process'
+actionview (8.0.2) lib/action_view/rendering.rb:40:in 'ActionView::Rendering#process'
+actionpack (8.0.2) lib/action_controller/metal.rb:252:in 'ActionController::Metal#dispatch'
+actionpack (8.0.2) lib/action_controller/metal.rb:335:in 'ActionController::Metal.dispatch'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:67:in 'ActionDispatch::Routing::RouteSet::Dispatcher#dispatch'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:50:in 'ActionDispatch::Routing::RouteSet::Dispatcher#serve'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:53:in 'block in ActionDispatch::Journey::Router#serve'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:133:in 'block in ActionDispatch::Journey::Router#find_routes'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:126:in 'Array#each'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:126:in 'ActionDispatch::Journey::Router#find_routes'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:34:in 'ActionDispatch::Journey::Router#serve'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:908:in 'ActionDispatch::Routing::RouteSet#call'
+railties (8.0.2) lib/rails/engine/lazy_route_set.rb:68:in 'Rails::Engine::LazyRouteSet#call'
+warden (1.2.9) lib/warden/manager.rb:36:in 'block in Warden::Manager#call'
+warden (1.2.9) lib/warden/manager.rb:34:in 'Kernel#catch'
+warden (1.2.9) lib/warden/manager.rb:34:in 'Warden::Manager#call'
+rack (3.1.16) lib/rack/etag.rb:29:in 'Rack::ETag#call'
+rack (3.1.16) lib/rack/conditional_get.rb:43:in 'Rack::ConditionalGet#call'
+rack (3.1.16) lib/rack/head.rb:15:in 'Rack::Head#call'
+activerecord (8.0.2) lib/active_record/migration.rb:671:in 'ActiveRecord::Migration::CheckPending#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/callbacks.rb:31:in 'block in ActionDispatch::Callbacks#call'
+activesupport (8.0.2) lib/active_support/callbacks.rb:100:in 'ActiveSupport::Callbacks#run_callbacks'
+actionpack (8.0.2) lib/action_dispatch/middleware/callbacks.rb:30:in 'ActionDispatch::Callbacks#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/executor.rb:16:in 'ActionDispatch::Executor#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/actionable_exceptions.rb:18:in 'ActionDispatch::ActionableExceptions#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/debug_exceptions.rb:31:in 'ActionDispatch::DebugExceptions#call'
+web-console (4.2.1) lib/web_console/middleware.rb:132:in 'WebConsole::Middleware#call_app'
+web-console (4.2.1) lib/web_console/middleware.rb:28:in 'block in WebConsole::Middleware#call'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in 'Kernel#catch'
+web-console (4.2.1) lib/web_console/middleware.rb:17:in 'WebConsole::Middleware#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/show_exceptions.rb:32:in 'ActionDispatch::ShowExceptions#call'
+railties (8.0.2) lib/rails/rack/logger.rb:41:in 'Rails::Rack::Logger#call_app'
+railties (8.0.2) lib/rails/rack/logger.rb:29:in 'Rails::Rack::Logger#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/remote_ip.rb:96:in 'ActionDispatch::RemoteIp#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/request_id.rb:34:in 'ActionDispatch::RequestId#call'
+rack (3.1.16) lib/rack/runtime.rb:24:in 'Rack::Runtime#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:61:in 'block in ActionDispatch::ServerTiming#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:26:in 'ActionDispatch::ServerTiming::Subscriber#collect_events'
+actionpack (8.0.2) lib/action_dispatch/middleware/server_timing.rb:60:in 'ActionDispatch::ServerTiming#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/executor.rb:16:in 'ActionDispatch::Executor#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/static.rb:27:in 'ActionDispatch::Static#call'
+rack (3.1.16) lib/rack/sendfile.rb:114:in 'Rack::Sendfile#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/host_authorization.rb:143:in 'ActionDispatch::HostAuthorization#call'
+vite_ruby (3.9.2) lib/vite_ruby/dev_server_proxy.rb:22:in 'ViteRuby::DevServerProxy#perform_request'
+rack-proxy (0.7.7) lib/rack/proxy.rb:87:in 'Rack::Proxy#call'
+railties (8.0.2) lib/rails/engine.rb:535:in 'Rails::Engine#call'
+puma (6.6.0) lib/puma/configuration.rb:279:in 'Puma::Configuration::ConfigMiddleware#call'
+puma (6.6.0) lib/puma/request.rb:99:in 'block in Puma::Request#handle_request'
+puma (6.6.0) lib/puma/thread_pool.rb:390:in 'Puma::ThreadPool#with_force_shutdown'
+puma (6.6.0) lib/puma/request.rb:98:in 'Puma::Request#handle_request'
+puma (6.6.0) lib/puma/server.rb:472:in 'Puma::Server#process_client'
+puma (6.6.0) lib/puma/server.rb:254:in 'block in Puma::Server#run'
+puma (6.6.0) lib/puma/thread_pool.rb:167:in 'block in Puma::ThreadPool#spawn_thread'

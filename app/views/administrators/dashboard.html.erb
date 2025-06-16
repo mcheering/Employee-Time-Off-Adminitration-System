@@ -1,5 +1,5 @@
 <div id="admin-dashboard"
-     data-employees="<%= j @employees.to_json %>"
-     data-fiscal-years="<%= j @fiscal_years.to_json %>"
-     data-fiscal-year-employees="<%= j @fiscal_year_employees.to_json %>">
+     data-employees='<%= raw(@employees.to_json) %>'
+     data-fiscal-years='<%= raw(@fiscal_years.to_json) %>'
+     data-fiscal-year-employees='<%= raw(@fiscal_year_employees.to_json) %>'>
 </div>
