@@ -13,4 +13,11 @@ class EmployeeTest < ActiveSupport::TestCase
     assert employee.errors[:email].any?
     assert employee.errors[:password].any?
   end
+
+  test "hire date before termination date" do
+    employee = employees(:one)
+    employee.termination_date = employee.hire_date + 1.day
+    assert employee.valid?
+    assert employee.errors[:termination_date].any?
+  end
 end
