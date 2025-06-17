@@ -33,7 +33,7 @@ class Employee < ApplicationRecord
   private
   def hire_date_before_termination_date
     if hire_date.present? && termination_date.present? && hire_date >= termination_date
-      errors.add(:hire_date, "must be before termination date")
+      errors.add(:termination_date, "must be before termination date")
     end
   end
 end

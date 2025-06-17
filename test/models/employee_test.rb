@@ -15,9 +15,18 @@ class EmployeeTest < ActiveSupport::TestCase
   end
 
   test "hire date before termination date" do
-    employee = employees(:one)
-    employee.termination_date = employee.hire_date + 1.day
-    assert employee.valid?
-    assert employee.errors[:termination_date].any?
+    employee = Employee.new(
+      first_name: "John",
+      last_name: "Doe",
+      hire_date: "2025-01-01",
+      termination_date: "2024-01-01",
+      is_administrator: false,
+      is_supervisor: false,
+      email: "john.doe@example.com",
+      password: "password123",
+      password_confirmation: "password123"
+    )
+    assert employee.invalid?
+    assert_includes employee.errors[:termination_date], "must be before termination date"
   end
 end
