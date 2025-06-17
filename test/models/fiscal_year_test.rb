@@ -62,26 +62,20 @@ class FiscalYearTest < ActiveSupport::TestCase
   # Author: Terry Thompson
   # Date: 6/16/2025
   test "start_date does is not in the middle of an existing fiscal year" do
-    existing_fiscal_year = FiscalYear.create!(start_date: Date.new(2024, 1, 1), end_date: Date.new(2024, 12, 31))
+    # create a year with a start date that is in :one (in fiscal_years.yml)
     new_fiscal_year = FiscalYear.new(start_date: Date.new(2024, 6, 1), end_date: Date.new(2025, 6, 30))
 
     assert new_fiscal_year.invalid?
     assert_includes new_fiscal_year.errors[:start_date], "overlaps with an existing fiscal year"
-
-    # Clean up
-    existing_fiscal_year.destroy
   end
 
   # Author: Terry Thompson
   # Date: 6/16/2025
   test "end_date is not in the middle of an existing fiscal year" do
-    existing_fiscal_year = FiscalYear.create!(start_date: Date.new(2024, 1, 1), end_date: Date.new(2024, 12, 31))
+    # Create a year with an end date that is in :one (in fiscal_years.yml)
     new_fiscal_year = FiscalYear.new(start_date: Date.new(2023, 6, 1), end_date: Date.new(2024, 6, 30))
 
     assert new_fiscal_year.invalid?
     assert_includes new_fiscal_year.errors[:end_date], "overlaps with an existing fiscal year"
-
-    # Clean up
-    existing_fiscal_year.destroy
   end
 end
