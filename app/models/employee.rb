@@ -8,12 +8,12 @@ class Employee < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  has_many :fiscal_years, through: :fiscal_year_employees
 
   validates :first_name, :last_name, :hire_date, :is_administrator, :is_supervisor, :email, presence: true
   validates :email, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
 
-  has_many :fiscal_year_employees
-  has_many :fiscal_years, through: :fiscal_year_employees
+  validate :hire_date_before_termination_date
 
   # Author: Terry Thompson
   # Date: 2024-06-20
@@ -28,5 +28,12 @@ class Employee < ApplicationRecord
   def supervisor_name
     supervisor = Employee.find_by(id: supervisor_id)
     supervisor ? supervisor.name : "none"
+  end
+
+  private
+  def hire_date_before_termination_date
+    if hire_date.present? && termination_date.present? && hire_date >= termination_date
+      errors.add(:hire_date, "must be before termination date")
+    end
   end
 end

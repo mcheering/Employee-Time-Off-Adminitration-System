@@ -1,5 +1,9 @@
 require "test_helper"
 
+# Author: Terry Thompson
+# Date: 6/16/2025
+# Description: Tests for the FiscalYear model.
+# This test suite ensures that the FiscalYear model buiness rules are correctly implemented.
 class FiscalYearTest < ActiveSupport::TestCase
   # Author: Terry Thompson
   # Date: 6/16/2025
