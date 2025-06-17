@@ -9,6 +9,7 @@ class FiscalYearTest < ActiveSupport::TestCase
     assert fiscal_year.invalid?
     assert fiscal_year.errors[:start_date].any?
     assert fiscal_year.errors[:end_date].any?
+    assert fiscal_year.errors[:is_open].none?
   end
 
   # Test that the start_date must be before the end_date
