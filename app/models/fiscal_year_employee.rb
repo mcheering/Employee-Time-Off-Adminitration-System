@@ -6,6 +6,8 @@ class FiscalYearEmployee < ApplicationRecord
   belongs_to :employee
   belongs_to :fiscal_year
 
+  validates :fiscal_year_id, :employee_id, presence: true
+
   # Author: Terry Thompson
   # Date: 2024-06-20
   # Description: Returns the employee's full name.
