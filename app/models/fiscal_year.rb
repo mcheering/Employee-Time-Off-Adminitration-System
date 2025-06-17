@@ -20,7 +20,7 @@ class FiscalYear < ApplicationRecord
     # Date: 2024-06-20
     # Description: Displays a string that whether the fiscal year is open or closed
     def status
-      is_posted ? "open" : "closed"
+      is_open ? "open" : "closed"
     end
 
     private

@@ -44,4 +44,21 @@ class FiscalYearTest < ActiveSupport::TestCase
     fiscal_year = FiscalYear.new(start_date: Date.new(2024, 7, 1), end_date: Date.new(2025, 06, 30))
     assert_equal "2024-25", fiscal_year.caption
   end
+
+  # Author: Terry Thompson
+  # Date: 6/16/2025
+  # Tests that status returns "open" when is_open is true
+  def test_status_returns_open_when_is_open_true
+    fiscal_year = FiscalYear.new
+    assert_equal "open", fiscal_year.status
+  end
+
+  # Author: Terry Thompson
+  # Date: 6/16/2025
+  # Tests that status returns "closed" when is_open is false
+  def test_status_returns_closed_when_is_open_false
+    fiscal_year = FiscalYear.new
+    fiscal_year.is_open = false
+    assert_equal "closed", fiscal_year.status
+  end
 end
