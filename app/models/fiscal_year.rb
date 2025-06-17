@@ -15,6 +15,10 @@ class FiscalYear < ApplicationRecord
         start_date.year == end_date.year ? "#{start_date.year}" : "#{start_date.year}-#{end_date.strftime('%y')}"
     end
 
+    def status
+      is_posted ? "open" : "closed"
+    end
+
     private
     def start_date_before_end_date
         if start_date.present? && end_date.present? && start_date >= end_date
