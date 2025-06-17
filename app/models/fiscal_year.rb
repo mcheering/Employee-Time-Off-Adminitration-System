@@ -8,8 +8,8 @@ class FiscalYear < ApplicationRecord
 
     validates :start_date, :end_date, :is_open, presence: true
     validate :start_date_before_end_date
-    validate :start_date_does_not_overlap_with_existing_fiscal_years
-    validate :end_date_does_not_overlap_with_existing_fiscal_years
+    validate :start_date_not_in_existing_fiscal_years
+    validate :end_date_not_in_existing_fiscal_years
 
     # Author: Terry Thompson
     # Date: 2024-06-20
@@ -36,20 +36,22 @@ class FiscalYear < ApplicationRecord
         end
     end
 
-    def start_date_does_not_overlap_with_existing_fiscal_years
+    def start_date_not_in_existing_fiscal_years
+        puts("Test start #{start_date}")
         if start_date.present?
             overlapping_fiscal_years = FiscalYear.where.not(id: id)
-                                                  .where("start_date < ? AND end_date > ?", start_date, start_date)
+                                                  .where("start_date <= ? AND end_date >= ?", start_date, start_date)
             if overlapping_fiscal_years.exists?
+                puts("start date in existing fiscal year #{start_date}")
                 errors.add(:start_date, "overlaps with an existing fiscal year")
             end
         end
     end
 
-    def end_date_does_not_overlap_with_existing_fiscal_years
+    def end_date_not_in_existing_fiscal_years
         if end_date.present?
             overlapping_fiscal_years = FiscalYear.where.not(id: id)
-                                                  .where("start_date < ? AND end_date > ?", end_date, end_date)
+                                                  .where("start_date <= ? AND end_date >= ?", end_date, end_date)
             if overlapping_fiscal_years.exists?
                 errors.add(:end_date, "overlaps with an existing fiscal year")
             end
