@@ -37,12 +37,10 @@ class FiscalYear < ApplicationRecord
     end
 
     def start_date_not_in_existing_fiscal_years
-        puts("Test start #{start_date}")
         if start_date.present?
             overlapping_fiscal_years = FiscalYear.where.not(id: id)
                                                   .where("start_date <= ? AND end_date >= ?", start_date, start_date)
             if overlapping_fiscal_years.exists?
-                puts("start date in existing fiscal year #{start_date}")
                 errors.add(:start_date, "overlaps with an existing fiscal year")
             end
         end
