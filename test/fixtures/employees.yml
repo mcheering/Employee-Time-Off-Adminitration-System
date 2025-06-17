@@ -13,5 +13,23 @@ two:
   hire_date: 2024-02-01
   email: jane.smith@example.com
   encrypted_password: <%= Devise::Encryptor.digest(User, 'password123') %>
-  is_administrator: true
+  is_administrator: false
+  is_supervisor: false
+
+supervisor:
+  first_name: Samuel
+  last_name: Johnson
+  hire_date: 2024-03-01
+  email: samuel.johnson@example.com
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password123') %>
+  is_administrator: false
   is_supervisor: true
+
+administrator:
+  first_name: Mary
+  last_name: Johnson
+  hire_date: 2024-03-01
+  email: mary.johnson@example.com
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password123') %>
+  is_administrator: true
+  is_supervisor: false

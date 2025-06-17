@@ -5,6 +5,8 @@ class Employee < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
 
+  after_initialize :set_default_is_administrator, :set_default_is_supervisor
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
@@ -32,8 +34,16 @@ class Employee < ApplicationRecord
 
   private
   def hire_date_before_termination_date
-    if hire_date.present? && termination_date.present? && hire_date >= termination_date
+    if hire_date.present? && termination_date.present? && hire_date > termination_date
       errors.add(:termination_date, "must be before termination date")
     end
+  end
+
+  def set_default_is_administrator
+    self.is_administrator ||= false
+  end
+
+  def set_default_is_supervisor
+    self.is_supervisor ||= false
   end
 end
