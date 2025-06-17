@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+ 
   get    'employees',          to: 'employees#index',  as: :employees
   post   'employees',          to: 'employees#create'
   get    'employees/new',      to: 'employees#new',    as: :new_employee
@@ -10,7 +11,7 @@ Rails.application.routes.draw do
 
   resources :supervisors, only: [:index]
   resources :administrators, only: [:index]
-  devise_for :users
+  
 
   resources :fiscal_years, only: [:create, :update] do
     member do
@@ -22,4 +23,6 @@ Rails.application.routes.draw do
   get "/admin/dashboard", to: "administrators#dashboard", as: "admin_dashboard"
 
   root "employees#index"
+
+  devise_for :employees
 end
