@@ -10,4 +10,11 @@ class FiscalYearTest < ActiveSupport::TestCase
     assert fiscal_year.errors[:start_date].any?
     assert fiscal_year.errors[:end_date].any?
   end
+
+  # Test that the start_date must be before the end_date
+  def test_start_date_before_end_date
+    fiscal_year = FiscalYear.new(start_date: Date.today, end_date: Date.yesterday)
+    assert fiscal_year.invalid?
+    assert_includes fiscal_year.errors[:start_date], "must be before end date"
+  end
 end
