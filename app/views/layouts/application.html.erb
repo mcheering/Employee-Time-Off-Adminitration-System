@@ -1,18 +1,29 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Employee Time Off Administration System" %></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Employee Time-Off System</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= vite_client_tag %>
+    <%= vite_javascript_tag "entrypoints/application.jsx", type: "module" %>
+    <%= vite_client_tag %>
+    <%= vite_javascript_tag 'application' %>
+    <!--
+      If using a TypeScript entrypoint file:
+        vite_typescript_tag 'application'
+
+      If using a .jsx or .tsx entrypoint, add the extension:
+        vite_javascript_tag 'application.jsx'
+
+      Visit the guide for more information: https://vite-ruby.netlify.app/guide/rails
+    -->
+
   </head>
 
   <body>
-  <%= yield %>
+    <div id="react-layout-header" data-logged-in="<%= employee_signed_in? %>"></div>
 
-  <%= vite_client_tag %>
-  <%= vite_javascript_tag 'application.jsx' %>
-</body>
+    <%= yield %>
+  </body>
 </html>

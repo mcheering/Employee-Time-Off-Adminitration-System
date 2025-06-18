@@ -9140,6 +9140,11 @@ Skipping vite build. Watched files have not changed since the last build at 2025
 Completed 200 OK in 48ms (Views: 7.5ms | ActiveRecord: 0.7ms (1 query, 0 cached) | GC: 0.5ms)
 
 
+<<<<<<< Updated upstream
+  [1m[36mActiveRecord::SchemaMigration Load (0.9ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+=======
+Started GET "/" for 127.0.0.1 at 2025-06-14 18:06:50 -0500
+Started GET "/" for 127.0.0.1 at 2025-06-14 18:06:50 -0500
   [1m[36mActiveRecord::SchemaMigration Load (0.9ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
   [1m[36mActiveRecord::SchemaMigration Load (3.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
   [1m[36mActiveRecord::SchemaMigration Load (1.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m

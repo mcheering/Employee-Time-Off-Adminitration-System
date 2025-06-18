@@ -1,0 +1,5 @@
+<div id="admin-dashboard"></div>
+
+<%= tag.script raw(@employees.to_json), id: "employees-data", type: "application/json" %>
+<%= tag.script raw(@fiscal_years.to_json), id: "fiscal-years-data", type: "application/json" %>
+<%= tag.script raw(@fiscal_year_employees.to_json), id: "fiscal-year-employees-data", type: "application/json" %>
