@@ -12,7 +12,8 @@ class Employee < ApplicationRecord
 
   has_many :fiscal_years, through: :fiscal_year_employees
 
-  validates :first_name, :last_name, :hire_date, :is_administrator, :is_supervisor, :email, presence: true
+  validates :first_name, :last_name, :hire_date, :email, presence: true
+  validates :is_administrator, :is_supervisor, inclusion: { in: [ true, false ] }
   validates :email, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
 
   validate :hire_date_before_termination_date
