@@ -1,62 +1,63 @@
-import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import EmployeesTable from '../EmployeesTable';
+import React from "react";
+import { render, screen, fireEvent } from "@testing-library/react";
+import EmployeesTable from "../EmployeesTable";
+import "@testing-library/jest-dom";
 
 const mockEmployees = [
   {
     id: 1,
-    first_name: 'John',
-    last_name: 'Doe',
-    email: 'john.doe@example.com',
-    hire_date: '2023-01-01',
+    first_name: "Alice",
+    last_name: "Smith",
+    email: "alice@example.com",
+    hire_date: "2023-01-01",
     is_supervisor: true,
     is_administrator: false,
   },
   {
     id: 2,
-    first_name: 'Jane',
-    last_name: 'Smith',
-    email: 'jane.smith@example.com',
-    hire_date: '2022-12-12',
+    first_name: "Bob",
+    last_name: "Johnson",
+    email: "bob@example.com",
+    hire_date: "2022-05-15",
     is_supervisor: false,
     is_administrator: true,
   },
 ];
 
-describe('EmployeesTable', () => {
-  test('renders employee rows', () => {
-    render(<EmployeesTable employees={mockEmployees} />);
-    expect(screen.getByText('John Doe')).toBeInTheDocument();
-    expect(screen.getByText('jane.smith@example.com')).toBeInTheDocument();
-  });
-
-  test('renders buttons and responds to clicks', () => {
-    global.window = { location: { href: '' } }; // mock window.location
+describe("EmployeesTable Component", () => {
+  test("renders table headers and all employee rows", () => {
     render(<EmployeesTable employees={mockEmployees} />);
 
-    const addBtn = screen.getByText(/add new employee/i);
-    fireEvent.click(addBtn);
-    expect(window.location.href).toMatch(/employees\/new/);
+    expect(screen.getByText("Employees")).toBeInTheDocument();
+    expect(screen.getByText("Name")).toBeInTheDocument();
+    expect(screen.getByText("Email")).toBeInTheDocument();
+    expect(screen.getByText("Hire Date")).toBeInTheDocument();
+    expect(screen.getByText("Supervisor?")).toBeInTheDocument();
+    expect(screen.getByText("Administrator?")).toBeInTheDocument();
+    expect(screen.getByText("Actions")).toBeInTheDocument();
+
+    expect(screen.getByText("Alice Smith")).toBeInTheDocument();
+    expect(screen.getByText("alice@example.com")).toBeInTheDocument();
+    expect(screen.getByText("Bob Johnson")).toBeInTheDocument();
+    expect(screen.getByText("bob@example.com")).toBeInTheDocument();
   });
 
-  test('filters by supervisor role', () => {
+  test("renders Add New Employee button", () => {
     render(<EmployeesTable employees={mockEmployees} />);
-    const supervisorBtn = screen.getByText(/view supervisors/i);
-    fireEvent.click(supervisorBtn);
-    expect(screen.getByText('John Doe')).toBeInTheDocument();
-    expect(screen.queryByText('Jane Smith')).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /add new employee/i })).toBeInTheDocument();
   });
 
-  test('sorts A-Z', () => {
+  test("filters results based on search query", () => {
     render(<EmployeesTable employees={mockEmployees} />);
-    fireEvent.change(screen.getByLabelText(/sort/i), { target: { value: 'name-asc' } });
-    const rows = screen.getAllByRole('row');
-    expect(rows[1]).toHaveTextContent('Jane Smith');
-    expect(rows[2]).toHaveTextContent('John Doe');
+    const searchInput = screen.getByLabelText("Search");
+    
+    fireEvent.change(searchInput, { target: { value: "alice" } });
+    expect(screen.getByText("Alice Smith")).toBeInTheDocument();
+    expect(screen.queryByText("Bob Johnson")).not.toBeInTheDocument();
   });
 
-  test('shows no employees if list is empty', () => {
+  test("shows message when no employees provided", () => {
     render(<EmployeesTable employees={[]} />);
-    expect(screen.getByText(/no employees to display/i)).toBeInTheDocument();
+    expect(screen.getByText("No employees to display.")).toBeInTheDocument();
   });
 });

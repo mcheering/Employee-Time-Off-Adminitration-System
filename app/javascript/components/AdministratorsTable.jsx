@@ -33,7 +33,7 @@ export default function AdministratorsTable({ administrators }) {
           ))}
         </TableBody>
       </Table>
-      <Button variant="outlined" sx={{ mt: 2, ml: 2 }} onClick={() => window.location.href = "/employees"}>
+      <Button variant="outlined" sx={{ mt: 2, ml: 2 }} onClick={() => window.location.assign("/employees")}>
         Back to Employees
       </Button>
     </TableContainer>

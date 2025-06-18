@@ -7,29 +7,25 @@ import React, { useState } from "react";
 import {
   Table, TableBody, TableCell, TableContainer,
   TableHead, TableRow, Paper, Typography,
-  Button, Stack, TextField, MenuItem, Select, FormControl, InputLabel
+  Button, Stack, TextField, MenuItem, Select,
+  FormControl, InputLabel, TablePagination
 } from "@mui/material";
 
 export default function EmployeesTable({ employees }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOption, setSortOption] = useState("A-Z");
   const [filter, setFilter] = useState("all");
+  const [page, setPage] = useState(0);
+  const rowsPerPage = 10;
 
   const handleNavigation = (path) => {
     window.location.href = path;
   };
 
-  const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value.toLowerCase());
-  };
-
-  const handleSortChange = (e) => {
-    setSortOption(e.target.value);
-  };
-
-  const handleFilter = (type) => {
-    setFilter(type);
-  };
+  const handleSearchChange = (e) => setSearchQuery(e.target.value.toLowerCase());
+  const handleSortChange = (e) => setSortOption(e.target.value);
+  const handleFilter = (type) => setFilter(type);
+  const handleChangePage = (_, newPage) => setPage(newPage);
 
   const filteredEmployees = employees
     .filter(emp => {
@@ -58,6 +54,11 @@ export default function EmployeesTable({ employees }) {
       }
     });
 
+  const paginatedEmployees = filteredEmployees.slice(
+    page * rowsPerPage,
+    page * rowsPerPage + rowsPerPage
+  );
+
   if (!employees || employees.length === 0) {
     return <div>No employees to display.</div>;
   }
@@ -68,7 +69,14 @@ export default function EmployeesTable({ employees }) {
         Employees
       </Typography>
 
-      {/* Controls */}
+      {/* Add Employee Button at Top */}
+      <Stack direction="row" spacing={2} justifyContent="flex-end" sx={{ mb: 2 }}>
+        <Button variant="contained" color="primary" onClick={() => handleNavigation("/employees/new")} data-turbo="false">
+          ➕ Add New Employee
+        </Button>
+      </Stack>
+
+      {/* Filters and Sort */}
       <Stack direction="row" spacing={2} sx={{ mb: 2 }} alignItems="center" justifyContent="center">
         <TextField
           label="Search"
@@ -78,11 +86,7 @@ export default function EmployeesTable({ employees }) {
         />
         <FormControl sx={{ minWidth: 180 }}>
           <InputLabel>Sort By</InputLabel>
-          <Select
-            value={sortOption}
-            onChange={handleSortChange}
-            label="Sort By"
-          >
+          <Select value={sortOption} onChange={handleSortChange} label="Sort By">
             <MenuItem value="A-Z">A–Z (Last Name)</MenuItem>
             <MenuItem value="Z-A">Z–A (Last Name)</MenuItem>
             <MenuItem value="Hire Date ↑">Hire Date ↑</MenuItem>
@@ -94,6 +98,7 @@ export default function EmployeesTable({ employees }) {
         <Button variant={filter === "administrators" ? "contained" : "outlined"} onClick={() => handleFilter("administrators")}>Administrators</Button>
       </Stack>
 
+      {/* Employee Table */}
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -107,7 +112,7 @@ export default function EmployeesTable({ employees }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {filteredEmployees.map((emp) => (
+            {paginatedEmployees.map((emp) => (
               <TableRow key={emp.id}>
                 <TableCell>{emp.first_name} {emp.last_name}</TableCell>
                 <TableCell>{emp.email}</TableCell>
@@ -127,14 +132,18 @@ export default function EmployeesTable({ employees }) {
             ))}
           </TableBody>
         </Table>
+        {/* Pagination */}
+        {filteredEmployees.length > rowsPerPage && (
+          <TablePagination
+            component="div"
+            count={filteredEmployees.length}
+            page={page}
+            onPageChange={handleChangePage}
+            rowsPerPage={rowsPerPage}
+            rowsPerPageOptions={[]}
+          />
+        )}
       </TableContainer>
-
-      {/* Action Buttons */}
-      <Stack direction="row" spacing={2} justifyContent="center" sx={{ mt: 3 }}>
-        <Button variant="contained" color="primary" onClick={() => handleNavigation("/employees/new")} data-turbo="false">
-          ➕ Add New Employee
-        </Button>
-      </Stack>
     </>
   );
 }

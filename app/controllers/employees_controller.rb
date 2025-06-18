@@ -13,11 +13,13 @@ class EmployeesController < ApplicationController
   # GET /employees/new
   def new
     @employee = Employee.new
+    @supervisors = Employee.where(is_supervisor: true).map { |s| { id: s.id, name: "#{s.first_name} #{s.last_name}" } }
   end
 
   # GET /employees/1/edit
   def edit
     @employee = Employee.find(params[:id])
+    @supervisors = Employee.where(is_supervisor: true).map { |s| { id: s.id, name: "#{s.first_name} #{s.last_name}" } }
   end
 
   # DELETE /employees/1/delete
