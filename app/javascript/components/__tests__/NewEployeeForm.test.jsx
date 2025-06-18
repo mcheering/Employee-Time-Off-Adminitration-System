@@ -15,8 +15,7 @@ describe("NewEmployeeForm Component", () => {
 
     expect(screen.getByLabelText(/Hire Date/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Termination Date/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/Supervisor ID/i)).toBeInTheDocument();
-
+    expect(screen.getByLabelText("Supervisor")).toBeInTheDocument();
     expect(screen.getByLabelText(/Is Supervisor/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Is Administrator/i)).toBeInTheDocument();
 
