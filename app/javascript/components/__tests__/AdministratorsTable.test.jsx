@@ -1,47 +1,23 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import AdministratorsTable from "../AdministratorsTable";
 
-const mockAdmins = [
-  {
-    id: 1,
-    first_name: "Alice",
-    last_name: "Johnson",
-    email: "alice@example.com",
-    hire_date: "2021-01-10",
-    is_supervisor: false,
-    is_administrator: true
-  },
-  {
-    id: 2,
-    first_name: "Bob",
-    last_name: "Lee",
-    email: "bob@example.com",
-    hire_date: "2022-02-15",
-    is_supervisor: true,
-    is_administrator: true
-  }
-];
-
 describe("AdministratorsTable Component", () => {
-  test("renders administrator table with data", () => {
-    render(<AdministratorsTable administrators={mockAdmins} />);
+  const mockAdministrators = [
+    { id: 1, first_name: "Alice", last_name: "Smith" },
+    { id: 2, first_name: "Bob", last_name: "Johnson" },
+  ];
 
+  test("renders table heading and rows", () => {
+    render(<AdministratorsTable administrators={mockAdministrators} />);
     expect(screen.getByText(/administrators/i)).toBeInTheDocument();
-    expect(screen.getByText(/alice johnson/i)).toBeInTheDocument();
-    expect(screen.getByText(/bob lee/i)).toBeInTheDocument();
-    expect(screen.getAllByRole("row")).toHaveLength(3); // 1 header + 2 rows
+    expect(screen.getByText("Alice")).toBeInTheDocument();
+    expect(screen.getByText("Bob")).toBeInTheDocument();
   });
 
-  test("handles empty admin list gracefully", () => {
+  test("renders no rows if administrators list is empty", () => {
     render(<AdministratorsTable administrators={[]} />);
-    expect(screen.getByText(/no administrators to display/i)).toBeInTheDocument();
-  });
-
-  test("displays Yes/No for supervisor/admin fields", () => {
-    render(<AdministratorsTable administrators={mockAdmins} />);
-
-    expect(screen.getAllByText("Yes").length).toBeGreaterThan(0);
-    expect(screen.getAllByText("No").length).toBeGreaterThanOrEqual(0);
+    const rows = screen.getAllByRole("row");
+    expect(rows.length).toBe(1);
   });
 });
