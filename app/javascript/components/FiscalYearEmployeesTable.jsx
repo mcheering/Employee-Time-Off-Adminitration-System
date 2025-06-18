@@ -45,26 +45,32 @@ export default function FiscalYearEmployeesTable({ fiscalYearEmployees, fiscalYe
         <TextField label="Search Employee" value={search} onChange={(e) => setSearch(e.target.value)} />
       </Stack>
       <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Employee</TableCell>
-            <TableCell>Available Vacation</TableCell>
-            <TableCell>Available PTO</TableCell>
-            <TableCell>Actions</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {filtered.map((fye) => (
-            <TableRow key={fye.id}>
-              <TableCell>{fye.employee_name}</TableCell>
-              <TableCell>{fye.earned_vacation_days}</TableCell>
-              <TableCell>{fye.allotted_pto_days}</TableCell>
-              <TableCell>
-                <Button variant="contained" href={`/employees/${fye.employee_id}`}>Manage</Button>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
+      <TableHead>
+  <TableRow>
+    <TableCell>Employee</TableCell>
+    <TableCell>Hire Date</TableCell>
+    <TableCell>Fiscal Year</TableCell>
+    <TableCell>Available Vacation</TableCell>
+    <TableCell>Available PTO</TableCell>
+    <TableCell>Actions</TableCell>
+  </TableRow>
+</TableHead>
+<TableBody>
+  {filtered.map((fye) => (
+    <TableRow key={fye.id}>
+      <TableCell>{fye.employee_name}</TableCell>
+      <TableCell>{fye.hire_date}</TableCell>
+      <TableCell>{fye.fiscal_year_caption}</TableCell>
+      <TableCell>{fye.earned_vacation_days}</TableCell>
+      <TableCell>{fye.allotted_pto_days}</TableCell>
+      <TableCell>
+        <Button variant="contained" href={`/employees/${fye.employee_id}`}>
+          Manage
+        </Button>
+      </TableCell>
+    </TableRow>
+  ))}
+</TableBody>
       </Table>
     </>
   );

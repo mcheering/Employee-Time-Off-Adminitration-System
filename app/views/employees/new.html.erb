@@ -1,2 +1,3 @@
-<h1>Add New Employee</h1>
-<div id="new-employee-form"></div>
+<div id="new-employee-form"
+     data-supervisors="<%= @supervisors.to_json.gsub('"', '&quot;') %>">
+</div>

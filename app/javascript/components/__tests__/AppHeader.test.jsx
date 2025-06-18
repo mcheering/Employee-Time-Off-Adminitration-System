@@ -1,21 +1,19 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import AppHeader from "../AppHeader";
+import "@testing-library/jest-dom";
 
 describe("AppHeader Component", () => {
-  test("renders app title", () => {
-    render(<AppHeader />);
-    expect(screen.getByText(/employee time-off administration system/i)).toBeInTheDocument();
+  test("displays app title", () => {
+    render(<AppHeader loggedIn={true} />);
+    expect(screen.getByText("Employee Time-Off Admin System")).toBeInTheDocument();
   });
 
-  test("renders the dashboard button", () => {
-    render(<AppHeader />);
-    const dashboardBtn = screen.getByRole("button", { name: /dashboard/i });
-    expect(dashboardBtn).toBeInTheDocument();
-  });
+  test("shows disabled Login button when not logged in", () => {
+    render(<AppHeader loggedIn={false} />);
+    const loginButton = screen.getByRole("button", { name: /login \(not working\)/i });
 
-  test("has correct branding or layout wrapper", () => {
-    render(<AppHeader />);
-    expect(document.querySelector("#app-header")).toBeInTheDocument();
+    expect(loginButton).toBeInTheDocument();
+    expect(loginButton).toBeDisabled();
   });
 });

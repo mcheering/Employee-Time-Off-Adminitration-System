@@ -82,7 +82,7 @@ class FiscalYearEmployee < ApplicationRecord
       months_remaining += 12
     end
 
-    if hire_date <= fiscal_year.start_date
+    if employee.hire_date <= fiscal_year.start_date
       9
     else
       (9 * months_remaining / 12).round(0)
