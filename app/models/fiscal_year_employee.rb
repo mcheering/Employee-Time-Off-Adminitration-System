@@ -39,8 +39,9 @@ class FiscalYearEmployee < ApplicationRecord
   # Author: Terry Thompson
   # Date: 2024-06-20
   # Description: Number of year's the employee the employee has worked for the company at
-  # the start of the fiscal year.  Credits a full year if the employee was hired before
-  # July 1.  Employee hired on or after the fiscal year start date have 0 years of service.
+  # the start of the fiscal year.  Credits a full year if the employee was hired more than
+  # six months before the fiscal year start date.  Employee hired on or after the fiscal
+  # year start date have 0 years of service.
   def years_of_service
     if employee.hire_date < fiscal_year.end_date
       if employee.hire_date.month < 7
@@ -54,12 +55,11 @@ class FiscalYearEmployee < ApplicationRecord
   end
 
   # Author: Terry Thompson
-  # Date: 2024-06-20
-  # Description: The number of vacation days the employee earned before
-  # the start of the fiscal year.
+  # Date: 6/18/2025
+  # Description: The number of vacation days the employee will earn during the fiscal year
+  # based on years of service.
   def earned_vacation_days
-    years = years_of_service
-    case years
+    case years_of_service
     when 0
       0
     when 1..5
@@ -72,22 +72,18 @@ class FiscalYearEmployee < ApplicationRecord
   end
 
   # Author: Terry Thompson
-  # Date: 2024-06-20
-  # Description: Employees hired before the start of the fiscal year are allotted 9 PTO days.
-  # Employees hired during the fiscal year are allotted a prorated number of PTO days.
+  # Date: 6/18/2025
+  # Description: Employees hired before the start of the fiscal year are allotted 9 PTO days for the
+  # Employees hired during the fiscal year are allotted a prorated amount of PTO days based on
+  # the number of days remaining in the year rounded to the nearest half day.
   # PTO days can be used for sick leave or personal days.
-  #
-  # NOTE: This first version assumes a January 1 fiscal year start date.  If most be modified
   def allotted_pto_days
-    months_remaining = (fiscal_year.end_date.month - employee.hire_date.month) + 1
-    if months_remaining < 0
-      months_remaining += 12
-    end
-
-    if hire_date <= fiscal_year.start_date
+    if employee.hire_date < fiscal_year.start_date
       9
     else
-      (9 * months_remaining / 12).round(0)
+      days_remaining = fiscal_year.end_date - employee.hire_date + 1
+      days_in_year = fiscal_year.end_date - fiscal_year.start_date + 1
+      (9 * days_remaining / days_in_year / 0.5).round(0) * 0.5
     end
   end
 end
