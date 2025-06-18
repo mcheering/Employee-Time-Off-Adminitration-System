@@ -139,4 +139,58 @@ class FiscalYearEmployeeTest < ActiveSupport::TestCase
     fiscal_year_employee = FiscalYearEmployee.create(employee: employee, fiscal_year: fiscal_year)
     assert_equal 0, fiscal_year_employee.earned_vacation_days
   end
+
+  # Author: Terry Thompson
+  # Date: 6/18/2025
+  test "earned vacation days for 1 year of service" do
+    employee = Employee.new(hire_date: "2024-06-01")
+    fiscal_year = FiscalYear.new(start_date: "2025-01-01", end_date: "2025-12-31")
+    fiscal_year_employee = FiscalYearEmployee.create(employee: employee, fiscal_year: fiscal_year)
+    assert_equal 10, fiscal_year_employee.earned_vacation_days
+  end
+
+  # Author: Terry Thompson
+  # Date: 6/18/2025
+  test "earned vacation days for 5 years of service" do
+    employee = Employee.new(hire_date: "2019-07-01")
+    fiscal_year = FiscalYear.new(start_date: "2025-01-01", end_date: "2025-12-31")
+    fiscal_year_employee = FiscalYearEmployee.create(employee: employee, fiscal_year: fiscal_year)
+    assert_equal 10, fiscal_year_employee.earned_vacation_days
+  end
+
+  # Author: Terry Thompson
+  # Date: 6/18/2025
+  test "earned vacation days for 6 years of service" do
+    employee = Employee.new(hire_date: "2019-06-30")
+    fiscal_year = FiscalYear.new(start_date: "2025-01-01", end_date: "2025-12-31")
+    fiscal_year_employee = FiscalYearEmployee.create(employee: employee, fiscal_year: fiscal_year)
+    assert_equal 15, fiscal_year_employee.earned_vacation_days
+  end
+
+  # Author: Terry Thompson
+  # Date: 6/18/2025
+  test "earned vacation days for 15 years of service" do
+    employee = Employee.new(hire_date: "2009-07-01")
+    fiscal_year = FiscalYear.new(start_date: "2025-01-01", end_date: "2025-12-31")
+    fiscal_year_employee = FiscalYearEmployee.create(employee: employee, fiscal_year: fiscal_year)
+    assert_equal 15, fiscal_year_employee.earned_vacation_days
+  end
+
+  # Author: Terry Thompson
+  # Date: 6/18/2025
+  test "earned vacation days for 16 years of service" do
+    employee = Employee.new(hire_date: "2009-06-30")
+    fiscal_year = FiscalYear.new(start_date: "2025-01-01", end_date: "2025-12-31")
+    fiscal_year_employee = FiscalYearEmployee.create(employee: employee, fiscal_year: fiscal_year)
+    assert_equal 20, fiscal_year_employee.earned_vacation_days
+  end
+
+  # Author: Terry Thompson
+  # Date: 6/18/2025
+  test "earned vacation days for 20 years of service" do
+    employee = Employee.new(hire_date: "2005-07-01")
+    fiscal_year = FiscalYear.new(start_date: "2025-01-01", end_date: "2025-12-31")
+    fiscal_year_employee = FiscalYearEmployee.create(employee: employee, fiscal_year: fiscal_year)
+    assert_equal 20, fiscal_year_employee.earned_vacation_days
+  end
 end
