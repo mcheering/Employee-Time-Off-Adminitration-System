@@ -1,13 +1,13 @@
-require 'simplecov'
-SimpleCov.start 'rails' do
+require "simplecov"
+SimpleCov.start "rails" do
   enable_coverage :branch
-  add_filter '/test/'
-  add_filter '/config/'
-  add_filter '/vendor/'
-  add_group 'Controllers', 'app/controllers'
-  add_group 'Models', 'app/models'
-  add_group 'Helpers', 'app/helpers'
-  add_group 'Jobs', 'app/jobs'
+  add_filter "/test/"
+  add_filter "/config/"
+  add_filter "/vendor/"
+  add_group "Controllers", "app/controllers"
+  add_group "Models", "app/models"
+  add_group "Helpers", "app/helpers"
+  add_group "Jobs", "app/jobs"
 end
 
 puts "Code coverage tracking is on with SimpleCov"
@@ -22,7 +22,7 @@ module ActiveSupport
     parallelize(workers: :number_of_processors)
 
     # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
-    #fixtures :all
+    fixtures :all
 
     # Add more helper methods to be used by all tests here...
   end
