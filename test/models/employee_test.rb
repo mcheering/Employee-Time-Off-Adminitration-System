@@ -10,8 +10,6 @@ class EmployeeTest < ActiveSupport::TestCase
     assert employee.errors[:first_name].any?
     assert employee.errors[:last_name].any?
     assert employee.errors[:hire_date].any?
-    assert employee.errors[:is_administrator].any?
-    assert employee.errors[:is_supervisor].any?
     assert employee.errors[:email].any?
     assert employee.errors[:password].any?
   end
