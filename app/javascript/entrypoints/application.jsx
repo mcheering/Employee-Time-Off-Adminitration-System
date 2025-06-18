@@ -31,18 +31,26 @@ document.addEventListener("DOMContentLoaded", () => {
     createRoot(tableRoot).render(<EmployeesTable employees={data} />);
   }
 
-  // New or Edit employee form
-  const formRoot = document.getElementById("new-employee-form");
-  if (formRoot) {
-    const employeeData = formRoot.dataset.employee;
-    const parsedEmployee = employeeData
-      ? JSON.parse(employeeData.replaceAll("&quot;", '"'))
-      : null;
+// New or Edit employee form
+const formRoot = document.getElementById("new-employee-form");
+if (formRoot) {
+  const employeeData = formRoot.dataset.employee;
+  const parsedEmployee = employeeData
+    ? JSON.parse(employeeData.replaceAll("&quot;", '"'))
+    : null;
 
-    createRoot(formRoot).render(
-      <NewEmployeeForm employee={parsedEmployee} />
-    );
-  }
+  const supervisorsData = formRoot.dataset.supervisors;
+  const parsedSupervisors = supervisorsData
+    ? JSON.parse(supervisorsData.replaceAll("&quot;", '"'))
+    : [];
+
+  createRoot(formRoot).render(
+    <NewEmployeeForm
+      employee={parsedEmployee}
+      supervisors={parsedSupervisors}
+    />
+  );
+}
 
   // Employee show page
   const showRoot = document.getElementById("employee-react-show");

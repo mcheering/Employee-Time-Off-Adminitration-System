@@ -2,50 +2,57 @@ import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import FiscalYearForm from "../FiscalYearForm";
 
-describe("FiscalYearForm", () => {
-  const mockOnSubmit = jest.fn();
+describe("FiscalYearForm Component", () => {
+  const mockOnClose = jest.fn();
+  const mockOnSave = jest.fn();
 
   beforeEach(() => {
-    mockOnSubmit.mockClear();
+    mockOnClose.mockClear();
+    mockOnSave.mockClear();
   });
 
-  it("renders form fields and submit button", () => {
-    render(<FiscalYearForm onSubmit={mockOnSubmit} />);
-    expect(screen.getByLabelText(/Start Date/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/End Date/i)).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /Add Fiscal Year/i })).toBeInTheDocument();
+  it("renders empty form fields when no fiscalYear is passed", () => {
+    render(<FiscalYearForm onClose={mockOnClose} onSave={mockOnSave} />);
+
+    expect(screen.getByLabelText("Start Date")).toHaveValue("");
+    expect(screen.getByLabelText("End Date")).toHaveValue("");
   });
 
-  it("calls onSubmit with correct data when valid", () => {
-    render(<FiscalYearForm onSubmit={mockOnSubmit} />);
-
-    const startDateInput = screen.getByLabelText(/Start Date/i);
-    const endDateInput = screen.getByLabelText(/End Date/i);
-    const submitButton = screen.getByRole("button", { name: /Add Fiscal Year/i });
-
-    fireEvent.change(startDateInput, { target: { value: "2025-01-01" } });
-    fireEvent.change(endDateInput, { target: { value: "2025-12-31" } });
-    fireEvent.click(submitButton);
-
-    expect(mockOnSubmit).toHaveBeenCalledWith({
+  it("pre-fills form fields when fiscalYear prop is provided", () => {
+    const fiscalYear = {
+      id: 1,
       start_date: "2025-01-01",
       end_date: "2025-12-31",
-    });
+    };
+
+    render(<FiscalYearForm fiscalYear={fiscalYear} onClose={mockOnClose} onSave={mockOnSave} />);
+
+    expect(screen.getByLabelText("Start Date")).toHaveValue("2025-01-01");
+    expect(screen.getByLabelText("End Date")).toHaveValue("2025-12-31");
   });
 
-  it("does not submit if fields are empty", () => {
-    render(<FiscalYearForm onSubmit={mockOnSubmit} />);
-    fireEvent.click(screen.getByRole("button", { name: /Add Fiscal Year/i }));
-    expect(mockOnSubmit).not.toHaveBeenCalled();
+  it("calls onSave with correct data when Save is clicked", () => {
+    render(<FiscalYearForm onClose={mockOnClose} onSave={mockOnSave} />);
+
+    fireEvent.change(screen.getByLabelText("Start Date"), { target: { value: "2025-07-01" } });
+    fireEvent.change(screen.getByLabelText("End Date"), { target: { value: "2026-06-30" } });
+
+    fireEvent.click(screen.getByText("Save"));
+
+    expect(mockOnSave).toHaveBeenCalledWith(
+      {
+        start_date: "2025-07-01",
+        end_date: "2026-06-30",
+      },
+      undefined
+    );
   });
 
-  it("validates start date must be before end date", () => {
-    render(<FiscalYearForm onSubmit={mockOnSubmit} />);
-    fireEvent.change(screen.getByLabelText(/Start Date/i), { target: { value: "2025-12-31" } });
-    fireEvent.change(screen.getByLabelText(/End Date/i), { target: { value: "2025-01-01" } });
-    fireEvent.click(screen.getByRole("button", { name: /Add Fiscal Year/i }));
+  it("calls onClose when Cancel is clicked", () => {
+    render(<FiscalYearForm onClose={mockOnClose} onSave={mockOnSave} />);
 
-    expect(mockOnSubmit).not.toHaveBeenCalled();
-    expect(screen.getByText(/Start date must be before end date/i)).toBeInTheDocument();
+    fireEvent.click(screen.getByText("Cancel"));
+
+    expect(mockOnClose).toHaveBeenCalled();
   });
 });

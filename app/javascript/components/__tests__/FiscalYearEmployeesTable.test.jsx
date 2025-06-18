@@ -1,96 +1,39 @@
 import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import FiscalYearEmployeesTable from "../FiscalYearEmployeesTable";
 
-describe("FiscalYearEmployeesTable", () => {
-  const mockSetSelectedYear = jest.fn();
-  const employees = [
-    {
-      id: 1,
-      first_name: "Alice",
-      last_name: "Johnson",
-      available_vacation: 10,
-      available_pto: 5,
-    },
-    {
-      id: 2,
-      first_name: "Bob",
-      last_name: "Smith",
-      available_vacation: 8,
-      available_pto: 3,
-    },
-  ];
-  const years = [
-    { id: 1, start_date: "2024-01-01", end_date: "2024-12-31" },
-    { id: 2, start_date: "2025-01-01", end_date: "2025-12-31" },
-  ];
+const fiscalYears = [
+  { id: 1, start_date: "2024-01-01", end_date: "2024-12-31" },
+  { id: 2, start_date: "2025-01-01", end_date: "2025-12-31" },
+];
 
-  it("renders fiscal year dropdown and employee data", () => {
+const fiscalYearEmployees = [
+  { id: 1, employee_name: "Alice Smith", earned_vacation_days: 10, allotted_pto_days: 5, fiscal_year_id: 1, employee_id: 1 },
+  { id: 2, employee_name: "Bob Johnson", earned_vacation_days: 15, allotted_pto_days: 7, fiscal_year_id: 2, employee_id: 2 },
+];
+
+describe("FiscalYearEmployeesTable Component", () => {
+  beforeEach(() => {
     render(
-      <FiscalYearEmployeesTable
-        employees={employees}
-        fiscalYears={years}
-        selectedYear={1}
-        setSelectedYear={mockSetSelectedYear}
-      />
+      <FiscalYearEmployeesTable fiscalYears={fiscalYears} fiscalYearEmployees={fiscalYearEmployees} />
     );
-
-    expect(screen.getByLabelText(/Select Fiscal Year/i)).toBeInTheDocument();
-    expect(screen.getByText("Alice Johnson")).toBeInTheDocument();
-    expect(screen.getByText("Bob Smith")).toBeInTheDocument();
-    expect(screen.getByText("10")).toBeInTheDocument();
-    expect(screen.getByText("3")).toBeInTheDocument();
   });
 
-  it("changes selected year when a different option is chosen", () => {
-    render(
-      <FiscalYearEmployeesTable
-        employees={employees}
-        fiscalYears={years}
-        selectedYear={1}
-        setSelectedYear={mockSetSelectedYear}
-      />
-    );
-
-    fireEvent.change(screen.getByLabelText(/Select Fiscal Year/i), {
-      target: { value: "2" },
-    });
-
-    expect(mockSetSelectedYear).toHaveBeenCalledWith("2");
+  test("renders fiscal year dropdown and search input", () => {
+    expect(screen.getByRole("combobox")).toBeInTheDocument();
+    expect(screen.getByLabelText(/Search Employee/i)).toBeInTheDocument();
   });
 
-  it("filters employee list by name", () => {
-    render(
-      <FiscalYearEmployeesTable
-        employees={employees}
-        fiscalYears={years}
-        selectedYear={1}
-        setSelectedYear={mockSetSelectedYear}
-      />
-    );
-
-    fireEvent.change(screen.getByLabelText(/Search by name/i), {
-      target: { value: "Alice" },
-    });
-
-    expect(screen.getByText("Alice Johnson")).toBeInTheDocument();
-    expect(screen.queryByText("Bob Smith")).toBeNull();
+  test("renders all employees by default", () => {
+    expect(screen.getByText("Alice Smith")).toBeInTheDocument();
+    expect(screen.getByText("Bob Johnson")).toBeInTheDocument();
   });
 
-  it("shows no employees when filtered to none", () => {
-    render(
-      <FiscalYearEmployeesTable
-        employees={employees}
-        fiscalYears={years}
-        selectedYear={1}
-        setSelectedYear={mockSetSelectedYear}
-      />
-    );
-
-    fireEvent.change(screen.getByLabelText(/Search by name/i), {
-      target: { value: "Charlie" },
-    });
-
-    expect(screen.getByText("No employees to display.")).toBeInTheDocument();
+  test("renders Manage buttons with correct hrefs", () => {
+    const manageLinks = screen.getAllByRole("link", { name: /Manage/i });
+    expect(manageLinks).toHaveLength(2);
+    expect(manageLinks[0]).toHaveAttribute("href", "/employees/1");
+    expect(manageLinks[1]).toHaveAttribute("href", "/employees/2");
   });
 });

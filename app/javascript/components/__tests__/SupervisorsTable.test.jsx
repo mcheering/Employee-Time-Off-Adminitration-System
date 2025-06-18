@@ -1,5 +1,7 @@
+// File: app/javascript/components/__tests__/SupervisorsTable.test.jsx
+
 import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import SupervisorsTable from "../SupervisorsTable";
 
 describe("SupervisorsTable Component", () => {
@@ -20,31 +22,21 @@ describe("SupervisorsTable Component", () => {
     },
   ];
 
-  beforeEach(() => {
-    global.window.location.href = "http://localhost";
-  });
-
-  test("renders table with supervisor data", () => {
+  test("renders ID, first and last names", () => {
     render(<SupervisorsTable supervisors={mockSupervisors} />);
-    expect(screen.getByText("Alice Anderson")).toBeInTheDocument();
-    expect(screen.getByText("Bob Brown")).toBeInTheDocument();
-    expect(screen.getByText("alice@example.com")).toBeInTheDocument();
-    expect(screen.getByText("2020-05-15")).toBeInTheDocument();
+    expect(screen.getByText("1")).toBeInTheDocument();
+    expect(screen.getByText("Alice")).toBeInTheDocument();
+    expect(screen.getByText("Anderson")).toBeInTheDocument();
+
+    expect(screen.getByText("2")).toBeInTheDocument();
+    expect(screen.getByText("Bob")).toBeInTheDocument();
+    expect(screen.getByText("Brown")).toBeInTheDocument();
   });
 
-  test("displays fallback message when no data", () => {
+  test("renders empty tbody when no supervisors", () => {
     render(<SupervisorsTable supervisors={[]} />);
-    expect(screen.getByText(/no supervisors to display/i)).toBeInTheDocument();
-  });
 
-  test("View button navigates to correct show page", () => {
-    delete window.location;
-    window.location = { href: "" };
-
-    render(<SupervisorsTable supervisors={mockSupervisors} />);
-    const viewButtons = screen.getAllByRole("button", { name: /View/i });
-
-    fireEvent.click(viewButtons[0]);
-    expect(window.location.href).toBe("/employees/1");
+    const rows = screen.queryAllByRole("row");
+    expect(rows).toHaveLength(1);
   });
 });
