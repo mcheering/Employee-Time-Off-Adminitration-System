@@ -20442,3 +20442,200 @@ Skipping vite build. Watched files have not changed since the last build at 2025
 Completed 200 OK in 49ms (Views: 5.4ms | ActiveRecord: 3.6ms (7 queries, 0 cached) | GC: 0.4ms)
 
 
+Started GET "/admin/dashboard" for ::1 at 2025-06-17 17:42:47 -0500
+  [1m[36mActiveRecord::SchemaMigration Load (2.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='EmployeeTimeOffAdminitrationSystem'*/[0m
+Processing by AdministratorsController#dashboard as HTML
+⚙️ DASHBOARD action called
+  [1m[36mEmployee Count (20.9ms)[0m  [1m[34mSELECT COUNT(*) FROM "employees" /*action='dashboard',application='EmployeeTimeOffAdminitrationSystem',controller='administrators'*/[0m
+  ↳ app/controllers/administrators_controller.rb:6:in 'AdministratorsController#dashboard'
+📋 Employees loaded: 10
+  [1m[36mEmployee Load (0.6ms)[0m  [1m[34mSELECT "employees".* FROM "employees" /*action='dashboard',application='EmployeeTimeOffAdminitrationSystem',controller='administrators'*/[0m
+  ↳ app/controllers/administrators_controller.rb:7:in 'AdministratorsController#dashboard'
+👤 1: Mandy Heering
+👤 2: Matthew Heering
+👤 4: Gabriela Bartell
+👤 5: Millard Weber
+👤 6: Frankie Klocko
+👤 7: Mauricio Kuhn
+👤 9: Lowell Romaguera
+👤 10: Roscoe Champlin
+👤 3: Larissa Nitzsche
+👤 8: Alisha Abbott
+  [1m[36mFiscalYear Count (1.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "fiscal_years" /*action='dashboard',application='EmployeeTimeOffAdminitrationSystem',controller='administrators'*/[0m
+  ↳ app/controllers/administrators_controller.rb:10:in 'AdministratorsController#dashboard'
+📅 Fiscal Years loaded: 10
+  [1m[36mFiscalYear Load (0.3ms)[0m  [1m[34mSELECT "fiscal_years".* FROM "fiscal_years" /*action='dashboard',application='EmployeeTimeOffAdminitrationSystem',controller='administrators'*/[0m
+  ↳ app/controllers/administrators_controller.rb:11:in 'AdministratorsController#dashboard'
+🗓 1: 2020-07-01 - 2021-06-30
+🗓 2: 2021-07-01 - 2022-06-30
+🗓 3: 2022-07-01 - 2023-06-30
+🗓 4: 2023-07-01 - 2024-06-30
+🗓 5: 2024-07-01 - 2025-06-30
+🗓 6: 2020-07-01 - 2021-06-30
+🗓 7: 2021-07-01 - 2022-06-30
+🗓 8: 2022-07-01 - 2023-06-30
+🗓 9: 2023-07-01 - 2024-06-30
+🗓 10: 2024-07-01 - 2025-06-30
+  [1m[36mFiscalYearEmployee Load (1.5ms)[0m  [1m[34mSELECT "fiscal_year_employees".* FROM "fiscal_year_employees" /*action='dashboard',application='EmployeeTimeOffAdminitrationSystem',controller='administrators'*/[0m
+  ↳ app/controllers/administrators_controller.rb:13:in 'Enumerable#map'
+  [1m[36mEmployee Load (0.6ms)[0m  [1m[34mSELECT "employees".* FROM "employees" WHERE "employees"."id" IN (3, 4, 5, 6, 7, 8, 9, 10, 1, 2) /*action='dashboard',application='EmployeeTimeOffAdminitrationSystem',controller='administrators'*/[0m
+  ↳ app/controllers/administrators_controller.rb:13:in 'Enumerable#map'
+  [1m[36mFiscalYear Load (0.2ms)[0m  [1m[34mSELECT "fiscal_years".* FROM "fiscal_years" WHERE "fiscal_years"."id" IN (1, 2, 3, 4, 5) /*action='dashboard',application='EmployeeTimeOffAdminitrationSystem',controller='administrators'*/[0m
+  ↳ app/controllers/administrators_controller.rb:13:in 'Enumerable#map'
+📦 FiscalYearEmployee #1: {id: 1, employee_id: 3, employee_name: "Larissa Nitzsche", hire_date: Tue, 04 Aug 2020, fiscal_year_id: 1, fiscal_year_caption: "2020-21", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #2: {id: 2, employee_id: 3, employee_name: "Larissa Nitzsche", hire_date: Tue, 04 Aug 2020, fiscal_year_id: 2, fiscal_year_caption: "2021-22", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #3: {id: 3, employee_id: 3, employee_name: "Larissa Nitzsche", hire_date: Tue, 04 Aug 2020, fiscal_year_id: 3, fiscal_year_caption: "2022-23", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #4: {id: 4, employee_id: 3, employee_name: "Larissa Nitzsche", hire_date: Tue, 04 Aug 2020, fiscal_year_id: 4, fiscal_year_caption: "2023-24", earned_vacation_days: 15, allotted_pto_days: 0}
+📦 FiscalYearEmployee #5: {id: 5, employee_id: 3, employee_name: "Larissa Nitzsche", hire_date: Tue, 04 Aug 2020, fiscal_year_id: 5, fiscal_year_caption: "2024-25", earned_vacation_days: 15, allotted_pto_days: 0}
+📦 FiscalYearEmployee #6: {id: 6, employee_id: 4, employee_name: "Gabriela Bartell", hire_date: Sun, 08 May 2022, fiscal_year_id: 1, fiscal_year_caption: "2020-21", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #7: {id: 7, employee_id: 4, employee_name: "Gabriela Bartell", hire_date: Sun, 08 May 2022, fiscal_year_id: 2, fiscal_year_caption: "2021-22", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #8: {id: 8, employee_id: 4, employee_name: "Gabriela Bartell", hire_date: Sun, 08 May 2022, fiscal_year_id: 3, fiscal_year_caption: "2022-23", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #9: {id: 9, employee_id: 4, employee_name: "Gabriela Bartell", hire_date: Sun, 08 May 2022, fiscal_year_id: 4, fiscal_year_caption: "2023-24", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #10: {id: 10, employee_id: 4, employee_name: "Gabriela Bartell", hire_date: Sun, 08 May 2022, fiscal_year_id: 5, fiscal_year_caption: "2024-25", earned_vacation_days: 15, allotted_pto_days: 0}
+📦 FiscalYearEmployee #11: {id: 11, employee_id: 5, employee_name: "Millard Weber", hire_date: Fri, 30 Jul 2021, fiscal_year_id: 1, fiscal_year_caption: "2020-21", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #12: {id: 12, employee_id: 5, employee_name: "Millard Weber", hire_date: Fri, 30 Jul 2021, fiscal_year_id: 2, fiscal_year_caption: "2021-22", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #13: {id: 13, employee_id: 5, employee_name: "Millard Weber", hire_date: Fri, 30 Jul 2021, fiscal_year_id: 3, fiscal_year_caption: "2022-23", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #14: {id: 14, employee_id: 5, employee_name: "Millard Weber", hire_date: Fri, 30 Jul 2021, fiscal_year_id: 4, fiscal_year_caption: "2023-24", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #15: {id: 15, employee_id: 5, employee_name: "Millard Weber", hire_date: Fri, 30 Jul 2021, fiscal_year_id: 5, fiscal_year_caption: "2024-25", earned_vacation_days: 15, allotted_pto_days: 0}
+📦 FiscalYearEmployee #16: {id: 16, employee_id: 6, employee_name: "Frankie Klocko", hire_date: Wed, 19 Jan 2022, fiscal_year_id: 1, fiscal_year_caption: "2020-21", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #17: {id: 17, employee_id: 6, employee_name: "Frankie Klocko", hire_date: Wed, 19 Jan 2022, fiscal_year_id: 2, fiscal_year_caption: "2021-22", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #18: {id: 18, employee_id: 6, employee_name: "Frankie Klocko", hire_date: Wed, 19 Jan 2022, fiscal_year_id: 3, fiscal_year_caption: "2022-23", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #19: {id: 19, employee_id: 6, employee_name: "Frankie Klocko", hire_date: Wed, 19 Jan 2022, fiscal_year_id: 4, fiscal_year_caption: "2023-24", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #20: {id: 20, employee_id: 6, employee_name: "Frankie Klocko", hire_date: Wed, 19 Jan 2022, fiscal_year_id: 5, fiscal_year_caption: "2024-25", earned_vacation_days: 15, allotted_pto_days: 0}
+📦 FiscalYearEmployee #21: {id: 21, employee_id: 7, employee_name: "Mauricio Kuhn", hire_date: Thu, 22 Oct 2020, fiscal_year_id: 1, fiscal_year_caption: "2020-21", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #22: {id: 22, employee_id: 7, employee_name: "Mauricio Kuhn", hire_date: Thu, 22 Oct 2020, fiscal_year_id: 2, fiscal_year_caption: "2021-22", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #23: {id: 23, employee_id: 7, employee_name: "Mauricio Kuhn", hire_date: Thu, 22 Oct 2020, fiscal_year_id: 3, fiscal_year_caption: "2022-23", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #24: {id: 24, employee_id: 7, employee_name: "Mauricio Kuhn", hire_date: Thu, 22 Oct 2020, fiscal_year_id: 4, fiscal_year_caption: "2023-24", earned_vacation_days: 15, allotted_pto_days: 0}
+📦 FiscalYearEmployee #25: {id: 25, employee_id: 7, employee_name: "Mauricio Kuhn", hire_date: Thu, 22 Oct 2020, fiscal_year_id: 5, fiscal_year_caption: "2024-25", earned_vacation_days: 15, allotted_pto_days: 0}
+📦 FiscalYearEmployee #26: {id: 26, employee_id: 8, employee_name: "Alisha Abbott", hire_date: Mon, 11 Nov 2019, fiscal_year_id: 1, fiscal_year_caption: "2020-21", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #27: {id: 27, employee_id: 8, employee_name: "Alisha Abbott", hire_date: Mon, 11 Nov 2019, fiscal_year_id: 2, fiscal_year_caption: "2021-22", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #28: {id: 28, employee_id: 8, employee_name: "Alisha Abbott", hire_date: Mon, 11 Nov 2019, fiscal_year_id: 3, fiscal_year_caption: "2022-23", earned_vacation_days: 15, allotted_pto_days: 0}
+📦 FiscalYearEmployee #29: {id: 29, employee_id: 8, employee_name: "Alisha Abbott", hire_date: Mon, 11 Nov 2019, fiscal_year_id: 4, fiscal_year_caption: "2023-24", earned_vacation_days: 15, allotted_pto_days: 0}
+📦 FiscalYearEmployee #30: {id: 30, employee_id: 8, employee_name: "Alisha Abbott", hire_date: Mon, 11 Nov 2019, fiscal_year_id: 5, fiscal_year_caption: "2024-25", earned_vacation_days: 15, allotted_pto_days: 0}
+📦 FiscalYearEmployee #31: {id: 31, employee_id: 9, employee_name: "Lowell Romaguera", hire_date: Fri, 03 Sep 2021, fiscal_year_id: 1, fiscal_year_caption: "2020-21", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #32: {id: 32, employee_id: 9, employee_name: "Lowell Romaguera", hire_date: Fri, 03 Sep 2021, fiscal_year_id: 2, fiscal_year_caption: "2021-22", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #33: {id: 33, employee_id: 9, employee_name: "Lowell Romaguera", hire_date: Fri, 03 Sep 2021, fiscal_year_id: 3, fiscal_year_caption: "2022-23", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #34: {id: 34, employee_id: 9, employee_name: "Lowell Romaguera", hire_date: Fri, 03 Sep 2021, fiscal_year_id: 4, fiscal_year_caption: "2023-24", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #35: {id: 35, employee_id: 9, employee_name: "Lowell Romaguera", hire_date: Fri, 03 Sep 2021, fiscal_year_id: 5, fiscal_year_caption: "2024-25", earned_vacation_days: 15, allotted_pto_days: 0}
+📦 FiscalYearEmployee #36: {id: 36, employee_id: 10, employee_name: "Roscoe Champlin", hire_date: Sat, 15 Oct 2022, fiscal_year_id: 1, fiscal_year_caption: "2020-21", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #37: {id: 37, employee_id: 10, employee_name: "Roscoe Champlin", hire_date: Sat, 15 Oct 2022, fiscal_year_id: 2, fiscal_year_caption: "2021-22", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #38: {id: 38, employee_id: 10, employee_name: "Roscoe Champlin", hire_date: Sat, 15 Oct 2022, fiscal_year_id: 3, fiscal_year_caption: "2022-23", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #39: {id: 39, employee_id: 10, employee_name: "Roscoe Champlin", hire_date: Sat, 15 Oct 2022, fiscal_year_id: 4, fiscal_year_caption: "2023-24", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #40: {id: 40, employee_id: 10, employee_name: "Roscoe Champlin", hire_date: Sat, 15 Oct 2022, fiscal_year_id: 5, fiscal_year_caption: "2024-25", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #41: {id: 41, employee_id: 1, employee_name: "Mandy Heering", hire_date: Thu, 01 Aug 2019, fiscal_year_id: 1, fiscal_year_caption: "2020-21", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #42: {id: 42, employee_id: 1, employee_name: "Mandy Heering", hire_date: Thu, 01 Aug 2019, fiscal_year_id: 2, fiscal_year_caption: "2021-22", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #43: {id: 43, employee_id: 1, employee_name: "Mandy Heering", hire_date: Thu, 01 Aug 2019, fiscal_year_id: 3, fiscal_year_caption: "2022-23", earned_vacation_days: 15, allotted_pto_days: 0}
+📦 FiscalYearEmployee #44: {id: 44, employee_id: 1, employee_name: "Mandy Heering", hire_date: Thu, 01 Aug 2019, fiscal_year_id: 4, fiscal_year_caption: "2023-24", earned_vacation_days: 15, allotted_pto_days: 0}
+📦 FiscalYearEmployee #45: {id: 45, employee_id: 1, employee_name: "Mandy Heering", hire_date: Thu, 01 Aug 2019, fiscal_year_id: 5, fiscal_year_caption: "2024-25", earned_vacation_days: 15, allotted_pto_days: 0}
+📦 FiscalYearEmployee #46: {id: 46, employee_id: 2, employee_name: "Matthew Heering", hire_date: Sat, 01 Aug 2020, fiscal_year_id: 1, fiscal_year_caption: "2020-21", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #47: {id: 47, employee_id: 2, employee_name: "Matthew Heering", hire_date: Sat, 01 Aug 2020, fiscal_year_id: 2, fiscal_year_caption: "2021-22", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #48: {id: 48, employee_id: 2, employee_name: "Matthew Heering", hire_date: Sat, 01 Aug 2020, fiscal_year_id: 3, fiscal_year_caption: "2022-23", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #49: {id: 49, employee_id: 2, employee_name: "Matthew Heering", hire_date: Sat, 01 Aug 2020, fiscal_year_id: 4, fiscal_year_caption: "2023-24", earned_vacation_days: 15, allotted_pto_days: 0}
+📦 FiscalYearEmployee #50: {id: 50, employee_id: 2, employee_name: "Matthew Heering", hire_date: Sat, 01 Aug 2020, fiscal_year_id: 5, fiscal_year_caption: "2024-25", earned_vacation_days: 15, allotted_pto_days: 0}
+✅ Finished preparing all data
+  Rendering layout layouts/application.html.erb
+  Rendering administrators/dashboard.html.erb within layouts/application
+  Rendered administrators/dashboard.html.erb within layouts/application (Duration: 1.2ms | GC: 0.0ms)
+Skipping vite build. Watched files have not changed since the last build at 2025-06-16 12:01:13
+  Rendered layout layouts/application.html.erb (Duration: 7.4ms | GC: 0.0ms)
+Completed 200 OK in 250ms (Views: 9.2ms | ActiveRecord: 59.0ms (7 queries, 0 cached) | GC: 31.8ms)
+
+
+Started GET "/admin/dashboard" for ::1 at 2025-06-17 17:42:48 -0500
+Processing by AdministratorsController#dashboard as HTML
+⚙️ DASHBOARD action called
+  [1m[36mEmployee Count (1.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "employees" /*action='dashboard',application='EmployeeTimeOffAdminitrationSystem',controller='administrators'*/[0m
+  ↳ app/controllers/administrators_controller.rb:6:in 'AdministratorsController#dashboard'
+📋 Employees loaded: 10
+  [1m[36mEmployee Load (0.4ms)[0m  [1m[34mSELECT "employees".* FROM "employees" /*action='dashboard',application='EmployeeTimeOffAdminitrationSystem',controller='administrators'*/[0m
+  ↳ app/controllers/administrators_controller.rb:7:in 'AdministratorsController#dashboard'
+👤 1: Mandy Heering
+👤 2: Matthew Heering
+👤 4: Gabriela Bartell
+👤 5: Millard Weber
+👤 6: Frankie Klocko
+👤 7: Mauricio Kuhn
+👤 9: Lowell Romaguera
+👤 10: Roscoe Champlin
+👤 3: Larissa Nitzsche
+👤 8: Alisha Abbott
+  [1m[36mFiscalYear Count (4.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "fiscal_years" /*action='dashboard',application='EmployeeTimeOffAdminitrationSystem',controller='administrators'*/[0m
+  ↳ app/controllers/administrators_controller.rb:10:in 'AdministratorsController#dashboard'
+📅 Fiscal Years loaded: 10
+  [1m[36mFiscalYear Load (2.0ms)[0m  [1m[34mSELECT "fiscal_years".* FROM "fiscal_years" /*action='dashboard',application='EmployeeTimeOffAdminitrationSystem',controller='administrators'*/[0m
+  ↳ app/controllers/administrators_controller.rb:11:in 'AdministratorsController#dashboard'
+🗓 1: 2020-07-01 - 2021-06-30
+🗓 2: 2021-07-01 - 2022-06-30
+🗓 3: 2022-07-01 - 2023-06-30
+🗓 4: 2023-07-01 - 2024-06-30
+🗓 5: 2024-07-01 - 2025-06-30
+🗓 6: 2020-07-01 - 2021-06-30
+🗓 7: 2021-07-01 - 2022-06-30
+🗓 8: 2022-07-01 - 2023-06-30
+🗓 9: 2023-07-01 - 2024-06-30
+🗓 10: 2024-07-01 - 2025-06-30
+  [1m[36mFiscalYearEmployee Load (1.2ms)[0m  [1m[34mSELECT "fiscal_year_employees".* FROM "fiscal_year_employees" /*action='dashboard',application='EmployeeTimeOffAdminitrationSystem',controller='administrators'*/[0m
+  ↳ app/controllers/administrators_controller.rb:13:in 'Enumerable#map'
+  [1m[36mEmployee Load (1.0ms)[0m  [1m[34mSELECT "employees".* FROM "employees" WHERE "employees"."id" IN (3, 4, 5, 6, 7, 8, 9, 10, 1, 2) /*action='dashboard',application='EmployeeTimeOffAdminitrationSystem',controller='administrators'*/[0m
+  ↳ app/controllers/administrators_controller.rb:13:in 'Enumerable#map'
+  [1m[36mFiscalYear Load (0.3ms)[0m  [1m[34mSELECT "fiscal_years".* FROM "fiscal_years" WHERE "fiscal_years"."id" IN (1, 2, 3, 4, 5) /*action='dashboard',application='EmployeeTimeOffAdminitrationSystem',controller='administrators'*/[0m
+  ↳ app/controllers/administrators_controller.rb:13:in 'Enumerable#map'
+📦 FiscalYearEmployee #1: {id: 1, employee_id: 3, employee_name: "Larissa Nitzsche", hire_date: Tue, 04 Aug 2020, fiscal_year_id: 1, fiscal_year_caption: "2020-21", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #2: {id: 2, employee_id: 3, employee_name: "Larissa Nitzsche", hire_date: Tue, 04 Aug 2020, fiscal_year_id: 2, fiscal_year_caption: "2021-22", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #3: {id: 3, employee_id: 3, employee_name: "Larissa Nitzsche", hire_date: Tue, 04 Aug 2020, fiscal_year_id: 3, fiscal_year_caption: "2022-23", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #4: {id: 4, employee_id: 3, employee_name: "Larissa Nitzsche", hire_date: Tue, 04 Aug 2020, fiscal_year_id: 4, fiscal_year_caption: "2023-24", earned_vacation_days: 15, allotted_pto_days: 0}
+📦 FiscalYearEmployee #5: {id: 5, employee_id: 3, employee_name: "Larissa Nitzsche", hire_date: Tue, 04 Aug 2020, fiscal_year_id: 5, fiscal_year_caption: "2024-25", earned_vacation_days: 15, allotted_pto_days: 0}
+📦 FiscalYearEmployee #6: {id: 6, employee_id: 4, employee_name: "Gabriela Bartell", hire_date: Sun, 08 May 2022, fiscal_year_id: 1, fiscal_year_caption: "2020-21", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #7: {id: 7, employee_id: 4, employee_name: "Gabriela Bartell", hire_date: Sun, 08 May 2022, fiscal_year_id: 2, fiscal_year_caption: "2021-22", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #8: {id: 8, employee_id: 4, employee_name: "Gabriela Bartell", hire_date: Sun, 08 May 2022, fiscal_year_id: 3, fiscal_year_caption: "2022-23", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #9: {id: 9, employee_id: 4, employee_name: "Gabriela Bartell", hire_date: Sun, 08 May 2022, fiscal_year_id: 4, fiscal_year_caption: "2023-24", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #10: {id: 10, employee_id: 4, employee_name: "Gabriela Bartell", hire_date: Sun, 08 May 2022, fiscal_year_id: 5, fiscal_year_caption: "2024-25", earned_vacation_days: 15, allotted_pto_days: 0}
+📦 FiscalYearEmployee #11: {id: 11, employee_id: 5, employee_name: "Millard Weber", hire_date: Fri, 30 Jul 2021, fiscal_year_id: 1, fiscal_year_caption: "2020-21", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #12: {id: 12, employee_id: 5, employee_name: "Millard Weber", hire_date: Fri, 30 Jul 2021, fiscal_year_id: 2, fiscal_year_caption: "2021-22", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #13: {id: 13, employee_id: 5, employee_name: "Millard Weber", hire_date: Fri, 30 Jul 2021, fiscal_year_id: 3, fiscal_year_caption: "2022-23", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #14: {id: 14, employee_id: 5, employee_name: "Millard Weber", hire_date: Fri, 30 Jul 2021, fiscal_year_id: 4, fiscal_year_caption: "2023-24", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #15: {id: 15, employee_id: 5, employee_name: "Millard Weber", hire_date: Fri, 30 Jul 2021, fiscal_year_id: 5, fiscal_year_caption: "2024-25", earned_vacation_days: 15, allotted_pto_days: 0}
+📦 FiscalYearEmployee #16: {id: 16, employee_id: 6, employee_name: "Frankie Klocko", hire_date: Wed, 19 Jan 2022, fiscal_year_id: 1, fiscal_year_caption: "2020-21", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #17: {id: 17, employee_id: 6, employee_name: "Frankie Klocko", hire_date: Wed, 19 Jan 2022, fiscal_year_id: 2, fiscal_year_caption: "2021-22", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #18: {id: 18, employee_id: 6, employee_name: "Frankie Klocko", hire_date: Wed, 19 Jan 2022, fiscal_year_id: 3, fiscal_year_caption: "2022-23", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #19: {id: 19, employee_id: 6, employee_name: "Frankie Klocko", hire_date: Wed, 19 Jan 2022, fiscal_year_id: 4, fiscal_year_caption: "2023-24", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #20: {id: 20, employee_id: 6, employee_name: "Frankie Klocko", hire_date: Wed, 19 Jan 2022, fiscal_year_id: 5, fiscal_year_caption: "2024-25", earned_vacation_days: 15, allotted_pto_days: 0}
+📦 FiscalYearEmployee #21: {id: 21, employee_id: 7, employee_name: "Mauricio Kuhn", hire_date: Thu, 22 Oct 2020, fiscal_year_id: 1, fiscal_year_caption: "2020-21", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #22: {id: 22, employee_id: 7, employee_name: "Mauricio Kuhn", hire_date: Thu, 22 Oct 2020, fiscal_year_id: 2, fiscal_year_caption: "2021-22", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #23: {id: 23, employee_id: 7, employee_name: "Mauricio Kuhn", hire_date: Thu, 22 Oct 2020, fiscal_year_id: 3, fiscal_year_caption: "2022-23", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #24: {id: 24, employee_id: 7, employee_name: "Mauricio Kuhn", hire_date: Thu, 22 Oct 2020, fiscal_year_id: 4, fiscal_year_caption: "2023-24", earned_vacation_days: 15, allotted_pto_days: 0}
+📦 FiscalYearEmployee #25: {id: 25, employee_id: 7, employee_name: "Mauricio Kuhn", hire_date: Thu, 22 Oct 2020, fiscal_year_id: 5, fiscal_year_caption: "2024-25", earned_vacation_days: 15, allotted_pto_days: 0}
+📦 FiscalYearEmployee #26: {id: 26, employee_id: 8, employee_name: "Alisha Abbott", hire_date: Mon, 11 Nov 2019, fiscal_year_id: 1, fiscal_year_caption: "2020-21", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #27: {id: 27, employee_id: 8, employee_name: "Alisha Abbott", hire_date: Mon, 11 Nov 2019, fiscal_year_id: 2, fiscal_year_caption: "2021-22", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #28: {id: 28, employee_id: 8, employee_name: "Alisha Abbott", hire_date: Mon, 11 Nov 2019, fiscal_year_id: 3, fiscal_year_caption: "2022-23", earned_vacation_days: 15, allotted_pto_days: 0}
+📦 FiscalYearEmployee #29: {id: 29, employee_id: 8, employee_name: "Alisha Abbott", hire_date: Mon, 11 Nov 2019, fiscal_year_id: 4, fiscal_year_caption: "2023-24", earned_vacation_days: 15, allotted_pto_days: 0}
+📦 FiscalYearEmployee #30: {id: 30, employee_id: 8, employee_name: "Alisha Abbott", hire_date: Mon, 11 Nov 2019, fiscal_year_id: 5, fiscal_year_caption: "2024-25", earned_vacation_days: 15, allotted_pto_days: 0}
+📦 FiscalYearEmployee #31: {id: 31, employee_id: 9, employee_name: "Lowell Romaguera", hire_date: Fri, 03 Sep 2021, fiscal_year_id: 1, fiscal_year_caption: "2020-21", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #32: {id: 32, employee_id: 9, employee_name: "Lowell Romaguera", hire_date: Fri, 03 Sep 2021, fiscal_year_id: 2, fiscal_year_caption: "2021-22", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #33: {id: 33, employee_id: 9, employee_name: "Lowell Romaguera", hire_date: Fri, 03 Sep 2021, fiscal_year_id: 3, fiscal_year_caption: "2022-23", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #34: {id: 34, employee_id: 9, employee_name: "Lowell Romaguera", hire_date: Fri, 03 Sep 2021, fiscal_year_id: 4, fiscal_year_caption: "2023-24", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #35: {id: 35, employee_id: 9, employee_name: "Lowell Romaguera", hire_date: Fri, 03 Sep 2021, fiscal_year_id: 5, fiscal_year_caption: "2024-25", earned_vacation_days: 15, allotted_pto_days: 0}
+📦 FiscalYearEmployee #36: {id: 36, employee_id: 10, employee_name: "Roscoe Champlin", hire_date: Sat, 15 Oct 2022, fiscal_year_id: 1, fiscal_year_caption: "2020-21", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #37: {id: 37, employee_id: 10, employee_name: "Roscoe Champlin", hire_date: Sat, 15 Oct 2022, fiscal_year_id: 2, fiscal_year_caption: "2021-22", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #38: {id: 38, employee_id: 10, employee_name: "Roscoe Champlin", hire_date: Sat, 15 Oct 2022, fiscal_year_id: 3, fiscal_year_caption: "2022-23", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #39: {id: 39, employee_id: 10, employee_name: "Roscoe Champlin", hire_date: Sat, 15 Oct 2022, fiscal_year_id: 4, fiscal_year_caption: "2023-24", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #40: {id: 40, employee_id: 10, employee_name: "Roscoe Champlin", hire_date: Sat, 15 Oct 2022, fiscal_year_id: 5, fiscal_year_caption: "2024-25", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #41: {id: 41, employee_id: 1, employee_name: "Mandy Heering", hire_date: Thu, 01 Aug 2019, fiscal_year_id: 1, fiscal_year_caption: "2020-21", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #42: {id: 42, employee_id: 1, employee_name: "Mandy Heering", hire_date: Thu, 01 Aug 2019, fiscal_year_id: 2, fiscal_year_caption: "2021-22", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #43: {id: 43, employee_id: 1, employee_name: "Mandy Heering", hire_date: Thu, 01 Aug 2019, fiscal_year_id: 3, fiscal_year_caption: "2022-23", earned_vacation_days: 15, allotted_pto_days: 0}
+📦 FiscalYearEmployee #44: {id: 44, employee_id: 1, employee_name: "Mandy Heering", hire_date: Thu, 01 Aug 2019, fiscal_year_id: 4, fiscal_year_caption: "2023-24", earned_vacation_days: 15, allotted_pto_days: 0}
+📦 FiscalYearEmployee #45: {id: 45, employee_id: 1, employee_name: "Mandy Heering", hire_date: Thu, 01 Aug 2019, fiscal_year_id: 5, fiscal_year_caption: "2024-25", earned_vacation_days: 15, allotted_pto_days: 0}
+📦 FiscalYearEmployee #46: {id: 46, employee_id: 2, employee_name: "Matthew Heering", hire_date: Sat, 01 Aug 2020, fiscal_year_id: 1, fiscal_year_caption: "2020-21", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #47: {id: 47, employee_id: 2, employee_name: "Matthew Heering", hire_date: Sat, 01 Aug 2020, fiscal_year_id: 2, fiscal_year_caption: "2021-22", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #48: {id: 48, employee_id: 2, employee_name: "Matthew Heering", hire_date: Sat, 01 Aug 2020, fiscal_year_id: 3, fiscal_year_caption: "2022-23", earned_vacation_days: 10, allotted_pto_days: 0}
+📦 FiscalYearEmployee #49: {id: 49, employee_id: 2, employee_name: "Matthew Heering", hire_date: Sat, 01 Aug 2020, fiscal_year_id: 4, fiscal_year_caption: "2023-24", earned_vacation_days: 15, allotted_pto_days: 0}
+📦 FiscalYearEmployee #50: {id: 50, employee_id: 2, employee_name: "Matthew Heering", hire_date: Sat, 01 Aug 2020, fiscal_year_id: 5, fiscal_year_caption: "2024-25", earned_vacation_days: 15, allotted_pto_days: 0}
+✅ Finished preparing all data
+  Rendering layout layouts/application.html.erb
+  Rendering administrators/dashboard.html.erb within layouts/application
+  Rendered administrators/dashboard.html.erb within layouts/application (Duration: 1.2ms | GC: 0.0ms)
+Skipping vite build. Watched files have not changed since the last build at 2025-06-16 12:01:13
+  Rendered layout layouts/application.html.erb (Duration: 7.5ms | GC: 0.0ms)
+Completed 200 OK in 66ms (Views: 7.7ms | ActiveRecord: 10.6ms (7 queries, 0 cached) | GC: 0.0ms)
+
+
