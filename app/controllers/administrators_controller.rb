@@ -1,3 +1,6 @@
+# Author: Matthew Heering
+# Description:  Controls data for adminstrators going to the adminstrative dashboard. 
+# Date: 6/18/25
 class AdministratorsController < ApplicationController
   def dashboard
 

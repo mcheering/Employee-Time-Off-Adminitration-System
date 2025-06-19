@@ -1,9 +1,14 @@
+/*
+Author: Matthew Heering
+Description: COmponent testing to verify the show page for each employee renders correctly. 
+Date: 6/18/25
+*/
 import React from "react";
 import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 import EmployeeShow from "../EmployeeShow";
 
 jest.mock("react-chartjs-2", () => ({
-  Line: () => <div data-testid="mock-line-chart" />
+  Line: () => <div data-testid="mock-line-chart" />,
 }));
 
 afterEach(() => {

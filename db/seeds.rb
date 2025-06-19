@@ -1,3 +1,6 @@
+#Authors: Matthew Heering & Will Pevytoe
+#Description: seed file to populate the DB with test data. 
+#Date: 6/18/25
 require 'faker'
 
 puts "Resetting database..."
@@ -43,7 +46,7 @@ admin2 = Employee.create!(
   is_administrator: true
 )
 
-puts "Creating 10 supervisors..."
+puts "Creating 10 supervisors"
 supervisors = []
 10.times do
   supervisors << Employee.create!(
@@ -57,7 +60,7 @@ supervisors = []
   )
 end
 
-puts "Creating 100 employees (10 per supervisor)..."
+puts "Creating 100 employees (10 per supervisor)"
 employees = []
 supervisors.each do |supervisor|
   10.times do
@@ -76,7 +79,7 @@ end
 
 all_employees = [admin1, admin2] + supervisors + employees
 
-puts "Assigning all employees to each fiscal year..."
+puts "Assigning all employees to each fiscal year"
 all_employees.each do |employee|
   fiscal_years.each do |fy|
     FiscalYearEmployee.create!(employee: employee, fiscal_year: fy)
