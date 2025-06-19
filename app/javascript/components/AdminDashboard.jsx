@@ -11,7 +11,6 @@ import EmployeesTable from "./EmployeesTable";
 import FiscalYearsTable from "./FiscalYearsTable";
 import FiscalYearEmployeesTable from "./FiscalYearEmployeesTable";
 
-// Helper function to parse embedded JSON safely
 function getJSONFromScript(id) {
   const el = document.getElementById(id);
   if (!el) return [];
@@ -26,7 +25,6 @@ function getJSONFromScript(id) {
 export default function AdminDashboard() {
   const [activeView, setActiveView] = useState("employees");
 
-  // Load data once on first render
   const employees = getJSONFromScript("employees-data");
   const fiscalYears = getJSONFromScript("fiscal-years-data");
   const fiscalYearEmployees = getJSONFromScript("fiscal-year-employees-data");
@@ -50,8 +48,12 @@ export default function AdminDashboard() {
 
   return (
     <Box sx={{ padding: 4 }}>
-      {/* Navigation Buttons */}
-      <Stack direction="row" spacing={2} justifyContent="center" sx={{ marginBottom: 3 }}>
+      <Stack
+        direction="row"
+        spacing={2}
+        justifyContent="center"
+        sx={{ marginBottom: 3 }}
+      >
         <Button
           variant={activeView === "employees" ? "contained" : "outlined"}
           onClick={() => setActiveView("employees")}
@@ -65,14 +67,15 @@ export default function AdminDashboard() {
           Manage Fiscal Years
         </Button>
         <Button
-          variant={activeView === "fiscalYearEmployees" ? "contained" : "outlined"}
+          variant={
+            activeView === "fiscalYearEmployees" ? "contained" : "outlined"
+          }
           onClick={() => setActiveView("fiscalYearEmployees")}
         >
           Fiscal Year Employees
         </Button>
       </Stack>
 
-      {/* Main Content */}
       <Paper elevation={3} sx={{ padding: 3 }}>
         {renderActiveView()}
       </Paper>

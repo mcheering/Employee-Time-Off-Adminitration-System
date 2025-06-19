@@ -1,3 +1,8 @@
+/*
+Author: Matthew Heering
+Description: Component testing to verify the fiscal years table redners correctly
+Date: 6/18/25
+*/
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import FiscalYearsTable from "../FiscalYearsTable";
@@ -18,9 +23,11 @@ describe("FiscalYearsTable Component", () => {
 
   it("renders a list of fiscal years", () => {
     render(<FiscalYearsTable fiscalYears={mockFiscalYears} />);
-    expect(screen.getByText("2022-23")).toBeInTheDocument(); // Caption for 2023
-    expect(screen.getByText("2024-25")).toBeInTheDocument(); // Caption for 2025
-    expect(screen.getByRole("button", { name: "Add Fiscal Year" })).toBeInTheDocument();
+    expect(screen.getByText("2022-23")).toBeInTheDocument();
+    expect(screen.getByText("2024-25")).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Add Fiscal Year" })
+    ).toBeInTheDocument();
   });
 
   it("disables the Edit button for closed fiscal years", () => {
@@ -39,7 +46,9 @@ describe("FiscalYearsTable Component", () => {
     render(<FiscalYearsTable fiscalYears={mockFiscalYears} />);
     const button = screen.getByRole("button", { name: "Add Fiscal Year" });
     fireEvent.click(button);
-    expect(screen.getByRole("heading", { name: "Add Fiscal Year" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Add Fiscal Year" })
+    ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Save" })).toBeInTheDocument();
   });
 });

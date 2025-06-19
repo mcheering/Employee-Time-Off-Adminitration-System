@@ -21,7 +21,11 @@ export default function AppHeader({ loggedIn }) {
         <Typography
           variant="h6"
           component="div"
-          sx={{ position: "absolute", left: "50%", transform: "translateX(-50%)" }}
+          sx={{
+            position: "absolute",
+            left: "50%",
+            transform: "translateX(-50%)",
+          }}
         >
           {companyName}
         </Typography>
