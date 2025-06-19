@@ -1,3 +1,8 @@
+/*
+Author: Matthew Heering
+Description: Component testing ot verify the admin table renders correctly. Reminder, the admin table just shows admisntrators.
+Date: 6/18/25
+*/
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import AdministratorsTable from "../AdministratorsTable";

@@ -1,5 +1,8 @@
-// File: app/javascript/components/__tests__/SupervisorsTable.test.jsx
-
+/*
+Author: Matthew Heering
+Description: Component testing to make sure the supervisors table properly renders as expected.
+Date: 6/18/25
+*/
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import SupervisorsTable from "../SupervisorsTable";

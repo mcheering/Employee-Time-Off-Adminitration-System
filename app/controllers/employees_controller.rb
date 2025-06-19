@@ -1,3 +1,6 @@
+# Author: Matthew Heering
+# Description: Controls the flow of data from the employees model to the react views. 
+# Date: 6/18/25
 class EmployeesController < ApplicationController
   before_action :set_employee, only: %i[show edit update]
 
@@ -49,8 +52,7 @@ class EmployeesController < ApplicationController
         format.json { render :show, status: :created, location: @employee }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @employee.errors, status: :unprocessable_entity }
-      end
+        format.json { render json: @employee.errors.full_messages, status: :unprocessable_entity }      end
     end
   end
 

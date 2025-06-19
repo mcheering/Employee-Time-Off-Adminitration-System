@@ -1,7 +1,19 @@
+/*
+Author: Matthew Heering
+Description: React component for supervisors data to be rendered in an organized manner. 
+Date: 6/18/25
+*/
 import React from "react";
 import {
-  Table, TableBody, TableCell, TableContainer,
-  TableHead, TableRow, Paper, Typography, Button
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Typography,
+  Button,
 } from "@mui/material";
 
 export default function SupervisorsTable({ supervisors }) {
@@ -28,7 +40,11 @@ export default function SupervisorsTable({ supervisors }) {
           ))}
         </TableBody>
       </Table>
-      <Button variant="outlined" sx={{ mt: 2, ml: 2 }} onClick={() => window.location.href = "/employees"}>
+      <Button
+        variant="outlined"
+        sx={{ mt: 2, ml: 2 }}
+        onClick={() => (window.location.href = "/employees")}
+      >
         Back to Employees
       </Button>
     </TableContainer>

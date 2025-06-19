@@ -20,7 +20,6 @@ import {
 } from "@mui/material";
 import FiscalYearForm from "./FiscalYearForm";
 
-// Helper to format the caption
 function formatCaption(startDate, endDate) {
   const start = new Date(startDate);
   const end = new Date(endDate);
@@ -33,7 +32,11 @@ export default function FiscalYearsTable({ fiscalYears: initialFiscalYears }) {
   const [fiscalYears, setFiscalYears] = useState(initialFiscalYears);
   const [openForm, setOpenForm] = useState(false);
   const [editingFiscalYear, setEditingFiscalYear] = useState(null);
-  const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "success" });
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    severity: "success",
+  });
 
   const today = new Date();
 
@@ -69,10 +72,18 @@ export default function FiscalYearsTable({ fiscalYears: initialFiscalYears }) {
 
       setFiscalYears(updatedList);
       setOpenForm(false);
-      setSnackbar({ open: true, message: "Fiscal year saved successfully.", severity: "success" });
+      setSnackbar({
+        open: true,
+        message: "Fiscal year saved successfully.",
+        severity: "success",
+      });
     } catch (error) {
       console.error(error);
-      setSnackbar({ open: true, message: "Error saving fiscal year.", severity: "error" });
+      setSnackbar({
+        open: true,
+        message: "Error saving fiscal year.",
+        severity: "error",
+      });
     }
   };
 
@@ -101,7 +112,9 @@ export default function FiscalYearsTable({ fiscalYears: initialFiscalYears }) {
             const closed = isClosed(fy.end_date);
             return (
               <TableRow key={fy.id}>
-                <TableCell>{formatCaption(fy.start_date, fy.end_date)}</TableCell>
+                <TableCell>
+                  {formatCaption(fy.start_date, fy.end_date)}
+                </TableCell>
                 <TableCell>{fy.start_date}</TableCell>
                 <TableCell>{fy.end_date}</TableCell>
                 <TableCell>{closed ? "Closed" : "Open"}</TableCell>
@@ -129,8 +142,15 @@ export default function FiscalYearsTable({ fiscalYears: initialFiscalYears }) {
         </TableBody>
       </Table>
 
-      <Dialog open={openForm} onClose={() => setOpenForm(false)} maxWidth="sm" fullWidth>
-        <DialogTitle>{editingFiscalYear ? "Edit Fiscal Year" : "Add Fiscal Year"}</DialogTitle>
+      <Dialog
+        open={openForm}
+        onClose={() => setOpenForm(false)}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle>
+          {editingFiscalYear ? "Edit Fiscal Year" : "Add Fiscal Year"}
+        </DialogTitle>
         <DialogContent>
           <FiscalYearForm
             fiscalYear={editingFiscalYear}
