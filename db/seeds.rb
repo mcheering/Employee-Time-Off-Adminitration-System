@@ -1,3 +1,7 @@
+  # Author: William Pevytoe and Matthew Heering
+  # Date: 6/17/2025
+  # Fill Database with test data
+
 require 'faker'
 
 puts "Resetting database..."
