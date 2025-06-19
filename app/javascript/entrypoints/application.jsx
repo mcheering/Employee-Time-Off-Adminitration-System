@@ -16,7 +16,6 @@ import AdministratorsTable from "../components/AdministratorsTable";
 import AdminDashboard from "../components/AdminDashboard";
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Global header
   const headerRoot = document.getElementById("react-layout-header");
   if (headerRoot) {
     const loggedIn = headerRoot.dataset.loggedIn === "true";

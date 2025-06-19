@@ -14,8 +14,7 @@ Company.destroy_all
 puts "All records deleted."
 
 puts "Creating company..."
-company = Company.first_or_create!
-company.update!(name: "Your Company Name")
+company = Company.first_or_create!(name: "Your Company Name")
 
 puts "Creating fiscal years..."
 fiscal_years = []
