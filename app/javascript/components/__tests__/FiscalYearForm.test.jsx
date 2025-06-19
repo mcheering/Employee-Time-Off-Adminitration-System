@@ -1,3 +1,8 @@
+/*
+Author: Matthew Heering
+Description: Component testing to make sure the fiscal year form to add new fiscal year renders correctly. 
+Date: 6/18/25
+*/
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import FiscalYearForm from "../FiscalYearForm";
@@ -25,7 +30,13 @@ describe("FiscalYearForm Component", () => {
       end_date: "2025-12-31",
     };
 
-    render(<FiscalYearForm fiscalYear={fiscalYear} onClose={mockOnClose} onSave={mockOnSave} />);
+    render(
+      <FiscalYearForm
+        fiscalYear={fiscalYear}
+        onClose={mockOnClose}
+        onSave={mockOnSave}
+      />
+    );
 
     expect(screen.getByLabelText("Start Date")).toHaveValue("2025-01-01");
     expect(screen.getByLabelText("End Date")).toHaveValue("2025-12-31");
@@ -34,8 +45,12 @@ describe("FiscalYearForm Component", () => {
   it("calls onSave with correct data when Save is clicked", () => {
     render(<FiscalYearForm onClose={mockOnClose} onSave={mockOnSave} />);
 
-    fireEvent.change(screen.getByLabelText("Start Date"), { target: { value: "2025-07-01" } });
-    fireEvent.change(screen.getByLabelText("End Date"), { target: { value: "2026-06-30" } });
+    fireEvent.change(screen.getByLabelText("Start Date"), {
+      target: { value: "2025-07-01" },
+    });
+    fireEvent.change(screen.getByLabelText("End Date"), {
+      target: { value: "2026-06-30" },
+    });
 
     fireEvent.click(screen.getByText("Save"));
 

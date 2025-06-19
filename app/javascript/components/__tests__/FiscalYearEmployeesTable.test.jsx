@@ -1,3 +1,8 @@
+/*
+Author: Matthew Heering
+Description: Component testing to make sure the fiscal year employee table renders correctly. 
+Date: 6/18/25
+*/
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -9,14 +14,31 @@ const fiscalYears = [
 ];
 
 const fiscalYearEmployees = [
-  { id: 1, employee_name: "Alice Smith", earned_vacation_days: 10, allotted_pto_days: 5, fiscal_year_id: 1, employee_id: 1 },
-  { id: 2, employee_name: "Bob Johnson", earned_vacation_days: 15, allotted_pto_days: 7, fiscal_year_id: 2, employee_id: 2 },
+  {
+    id: 1,
+    employee_name: "Alice Smith",
+    earned_vacation_days: 10,
+    allotted_pto_days: 5,
+    fiscal_year_id: 1,
+    employee_id: 1,
+  },
+  {
+    id: 2,
+    employee_name: "Bob Johnson",
+    earned_vacation_days: 15,
+    allotted_pto_days: 7,
+    fiscal_year_id: 2,
+    employee_id: 2,
+  },
 ];
 
 describe("FiscalYearEmployeesTable Component", () => {
   beforeEach(() => {
     render(
-      <FiscalYearEmployeesTable fiscalYears={fiscalYears} fiscalYearEmployees={fiscalYearEmployees} />
+      <FiscalYearEmployeesTable
+        fiscalYears={fiscalYears}
+        fiscalYearEmployees={fiscalYearEmployees}
+      />
     );
   });
 

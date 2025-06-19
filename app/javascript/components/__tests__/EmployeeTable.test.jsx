@@ -1,3 +1,8 @@
+/*
+Author: Matthew Heering
+Description: Component testing to verify the employee table renders correctly
+Date: 6/18/25
+*/
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import EmployeesTable from "../EmployeesTable";
@@ -44,13 +49,15 @@ describe("EmployeesTable Component", () => {
 
   test("renders Add New Employee button", () => {
     render(<EmployeesTable employees={mockEmployees} />);
-    expect(screen.getByRole("button", { name: /add new employee/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /add new employee/i })
+    ).toBeInTheDocument();
   });
 
   test("filters results based on search query", () => {
     render(<EmployeesTable employees={mockEmployees} />);
     const searchInput = screen.getByLabelText("Search");
-    
+
     fireEvent.change(searchInput, { target: { value: "alice" } });
     expect(screen.getByText("Alice Smith")).toBeInTheDocument();
     expect(screen.queryByText("Bob Johnson")).not.toBeInTheDocument();
