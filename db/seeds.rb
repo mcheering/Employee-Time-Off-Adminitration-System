@@ -1,6 +1,6 @@
-#Authors: Matthew Heering & Will Pevytoe
-#Description: seed file to populate the DB with test data. 
-#Date: 6/18/25
+# Authors: Matthew Heering & Will Pevytoe
+# Description: seed file to populate the DB with test data.
+# Date: 6/18/25
 require 'faker'
 
 puts "Resetting database..."
@@ -76,13 +76,13 @@ supervisors.each do |supervisor|
   end
 end
 
-all_employees = [admin1, admin2] + supervisors + employees
+all_employees = [ admin1, admin2 ] + supervisors + employees
 
-puts "Assigning all employees to each fiscal year"
-all_employees.each do |employee|
-  fiscal_years.each do |fy|
-    FiscalYearEmployee.create!(employee: employee, fiscal_year: fy)
-  end
-end
+# puts "Assigning all employees to each fiscal year"
+# all_employees.each do |employee|
+#   fiscal_years.each do |fy|
+#     FiscalYearEmployee.create!(employee: employee, fiscal_year: fy)
+#   end
+# end
 
 puts "Seeding complete."
