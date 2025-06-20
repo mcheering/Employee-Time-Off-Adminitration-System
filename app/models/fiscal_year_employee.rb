@@ -6,35 +6,40 @@ class FiscalYearEmployee < ApplicationRecord
   belongs_to :employee
   belongs_to :fiscal_year
 
+  delegate :name,             to: :employee,     prefix: :employee
+  delegate :hire_date,        to: :employee,     prefix: :employee
+  delegate :termination_date, to: :employee,     prefix: :employee
+  delegate :caption,          to: :fiscal_year,  prefix: :fiscal_year
+
   validates :fiscal_year_id, :employee_id, presence: true
 
-  # Author: Terry Thompson
-  # Date: 2024-06-20
-  # Description: Returns the employee's full name.
-  def employee_name
-    employee.name
-  end
+  # # Author: Terry Thompson
+  # # Date: 2024-06-20
+  # # Description: Returns the employee's full name.
+  # def employee_name
+  #   employee.name
+  # end
 
-  # Author: Terry Thompson
-  # Date: 2024-06-20
-  # Description: String that represents the fiscal year.
-  def fiscal_year_caption
-    fiscal_year.caption
-  end
+  # # Author: Terry Thompson
+  # # Date: 2024-06-20
+  # # Description: String that represents the fiscal year.
+  # def fiscal_year_caption
+  #   fiscal_year.caption
+  # end
 
-  # Author: Terry Thompson
-  # Date: 2024-06-20
-  # Description: Date the employee was hired.
-  def employee_hire_date
-    employee.hire_date
-  end
+  # # Author: Terry Thompson
+  # # Date: 2024-06-20
+  # # Description: Date the employee was hired.
+  # def employee_hire_date
+  #   employee.hire_date
+  # end
 
-  # Author: Terry Thompson
-  # Date: 2024-06-20
-  # Description: Date the employee terminated employment.  Nil if the employee is active.
-  def employee_termination_date
-    employee.termination_date
-  end
+  # # Author: Terry Thompson
+  # # Date: 2024-06-20
+  # # Description: Date the employee terminated employment.  Nil if the employee is active.
+  # def employee_termination_date
+  #   employee.termination_date
+  # end
 
   # Author: Terry Thompson
   # Date: 2024-06-20

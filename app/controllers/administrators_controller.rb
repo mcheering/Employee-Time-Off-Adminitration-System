@@ -6,10 +6,10 @@ class AdministratorsController < ApplicationController
 
     @employees = Employee.all
     @employees.each { |e| Rails.logger.debug "👤 #{e.id}: #{e.first_name} #{e.last_name}" }
-
+ 
     @fiscal_years = FiscalYear.all
     @fiscal_years.each { |fy| Rails.logger.debug "🗓 #{fy.id}: #{fy.start_date} - #{fy.end_date}" }
-
+ 
     @fiscal_year_employees = FiscalYearEmployee.includes(:employee, :fiscal_year).map do |fye|
       {
         id: fye.id,
