@@ -133,6 +133,31 @@ class FiscalYearEmployeeTest < ActiveSupport::TestCase
 
   # Author: Terry Thompson
   # Date: 6/18/2025
+  test "allotted PTO equals 9 for employee hired during seventh month of the fiscal year for multi-year fiscal year" do
+    employee = Employee.new(hire_date: "2025-07-01")
+    fiscal_year = FiscalYear.new(start_date: "2025-07-01", end_date: "2026-06-30")
+    fiscal_year_employee = FiscalYearEmployee.create(employee: employee, fiscal_year: fiscal_year)
+    assert_equal 9, fiscal_year_employee.allotted_pto_days
+  end
+
+  # Author: Terry Thompson
+  # Date: 6/18/2025
+  test "allotted PTO equals 8.0 for employee hired during first month of the fiscal year for multi-year fiscal year" do
+    employee = Employee.new(hire_date: "2025-08-01")
+    fiscal_year = FiscalYear.new(start_date: "2025-07-01", end_date: "2026-06-30")
+    fiscal_year_employee = FiscalYearEmployee.create(employee: employee, fiscal_year: fiscal_year)
+    assert_equal 8.0, fiscal_year_employee.allotted_pto_days
+  end
+
+  test "allotted PTO equals 0 for employee hired during last month of the fiscal year for multi-year fiscal year" do
+    employee = Employee.new(hire_date: "2026-06-30")
+    fiscal_year = FiscalYear.new(start_date: "2025-07-01", end_date: "2026-06-30")
+    fiscal_year_employee = FiscalYearEmployee.create(employee: employee, fiscal_year: fiscal_year)
+    assert_equal 0, fiscal_year_employee.allotted_pto_days
+  end
+
+  # Author: Terry Thompson
+  # Date: 6/18/2025
   test "earned vacation days should equal 0 for employee with 0 years of service" do
     employee = Employee.new(hire_date: "2025-02-01")
     fiscal_year = FiscalYear.new(start_date: "2025-01-01", end_date: "2025-12-31")
