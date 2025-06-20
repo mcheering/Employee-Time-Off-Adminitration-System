@@ -83,7 +83,12 @@ class FiscalYearEmployee < ApplicationRecord
   # the number of days remaining in the year rounded to the nearest half day.
   # PTO days can be used for sick leave or personal days.
   def allotted_pto_days
-    if employee.hire_date < fiscal_year.start_date
+    months_remaining = (fiscal_year.end_date.month - employee.hire_date.month) + 1
+    if months_remaining < 0
+      months_remaining += 12
+    end
+
+    if employee.hire_date <= fiscal_year.start_date
       9
     else
       days_remaining = fiscal_year.end_date - employee.hire_date + 1
