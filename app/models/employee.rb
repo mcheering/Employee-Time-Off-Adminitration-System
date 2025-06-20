@@ -6,6 +6,7 @@ class Employee < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
 
   after_initialize :set_default_is_administrator, :set_default_is_supervisor
+  after_create :create_fiscal_year_employees
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
@@ -34,6 +35,14 @@ class Employee < ApplicationRecord
   end
 
   private
+  def create_fiscal_year_employees
+    FiscalYear.all.each do |fiscal_year|
+      if hire_date <= fiscal_year.end_date && not FiscalYearEmployee.exists?(fiscal_year: fiscal_year, employee: self)
+        FiscalYearEmployee.create(fiscal_year: fiscal_year, employee: self)
+      end
+    end
+  end
+
   def hire_date_before_termination_date
     if hire_date.present? && termination_date.present? && hire_date > termination_date
       errors.add(:termination_date, "must be before termination date")

@@ -1,8 +1,11 @@
 # Authors: William Pevytoe, Terry Thompson
 # Date: 2024-06-20
-# Description: Model of a company's accounting year.
+# Description: Model of a company's accounting year.  Automatically creates fiscal year
+# employees when a fiscal year is created.
 class FiscalYear < ApplicationRecord
     after_initialize :set_default_is_open
+    # after_create :create_fiscal_year_employees
+
     has_many :fiscal_year_employees
     has_many :employees, through: :fiscal_year_employees
 
@@ -26,6 +29,14 @@ class FiscalYear < ApplicationRecord
     end
 
     private
+    def create_fiscal_year_employees
+        employees.each do |employee|
+            if employee.hire_date <= end_date && (employee.termination_date.nil? || employee.termination_date >= start_date)
+                FiscalYearEmployee.create(fiscal_year: self, employee: employee)
+            end
+        end
+    end
+
     def set_default_is_open
         self.is_open ||= true
     end
