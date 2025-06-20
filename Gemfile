@@ -34,4 +34,5 @@ group :test do
   gem "simplecov", require: false
   gem "capybara"
   gem "selenium-webdriver"
+  gem "rails-controller-testing"
 end
