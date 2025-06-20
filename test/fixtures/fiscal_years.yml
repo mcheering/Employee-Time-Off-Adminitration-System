@@ -7,7 +7,3 @@ one:
 two:
   start_date: 2025-01-01
   end_date: 2025-12-31
-
-three:
-  start_date: 2022-07-01
-  end_date: 2023-06-30
