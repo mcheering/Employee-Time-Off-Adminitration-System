@@ -43,14 +43,10 @@ class FiscalYearEmployee < ApplicationRecord
   # six months before the fiscal year start date.  Employee hired on or after the fiscal
   # year start date have 0 years of service.
   def years_of_service
-    if employee.hire_date < fiscal_year.end_date
-      if employee.hire_date.month < 7
-        fiscal_year.end_date.year - employee.hire_date.year
-      else
-        fiscal_year.end_date.year - employee.hire_date.year - 1
-      end
+    if employee.hire_date.month < 7
+      fiscal_year.end_date.year - employee.hire_date.year
     else
-      0
+      fiscal_year.end_date.year - employee.hire_date.year - 1
     end
   end
 
