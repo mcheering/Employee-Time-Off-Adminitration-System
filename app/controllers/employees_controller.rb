@@ -1,3 +1,6 @@
+# Author: Matthew Heering
+# Description: Controls the flow of data from the employees model to the react views. 
+# Date: 6/18/25
 class EmployeesController < ApplicationController
   before_action :set_employee, only: %i[show edit update]
 
@@ -13,11 +16,13 @@ class EmployeesController < ApplicationController
   # GET /employees/new
   def new
     @employee = Employee.new
+    @supervisors = Employee.where(is_supervisor: true).map { |s| { id: s.id, name: "#{s.first_name} #{s.last_name}" } }
   end
 
   # GET /employees/1/edit
   def edit
     @employee = Employee.find(params[:id])
+    @supervisors = Employee.where(is_supervisor: true).map { |s| { id: s.id, name: "#{s.first_name} #{s.last_name}" } }
   end
 
   # DELETE /employees/1/delete
@@ -47,8 +52,7 @@ class EmployeesController < ApplicationController
         format.json { render :show, status: :created, location: @employee }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @employee.errors, status: :unprocessable_entity }
-      end
+        format.json { render json: @employee.errors.full_messages, status: :unprocessable_entity }      end
     end
   end
 

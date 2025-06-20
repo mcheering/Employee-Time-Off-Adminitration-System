@@ -1,10 +1,20 @@
-  # Author: William Pevytoe and Matthew Heering
-  # Date: 6/17/2025
-  # Fill Database with test data
-
+#Authors: Matthew Heering & Will Pevytoe
+#Description: seed file to populate the DB with test data. 
+#Date: 6/18/25
 require 'faker'
 
 puts "Resetting database..."
+
+FiscalYearEmployee.destroy_all
+FiscalYear.destroy_all
+Employee.update_all(supervisor_id: nil)
+Employee.destroy_all
+Company.destroy_all
+
+puts "All records deleted."
+
+puts "Creating company..."
+company = Company.first_or_create!(name: "Your Company Name")
 
 puts "Creating fiscal years..."
 fiscal_years = []
@@ -14,8 +24,8 @@ fiscal_years = []
   fiscal_years << FiscalYear.create!(start_date: start_date, end_date: end_date)
 end
 
-puts "Creating administrator..."
-admin = Employee.create!(
+puts "Creating administrators..."
+admin1 = Employee.create!(
   first_name: "Mandy",
   last_name: "Heering",
   email: "mandy.heering@gmail.com",
@@ -25,50 +35,54 @@ admin = Employee.create!(
   is_administrator: true
 )
 
-puts "Creating second supervisor..."
-supervisor = Employee.create!(
-  first_name: "Matthew",
-  last_name: "Heering",
-  email: "matthew.heering01@gmail.com",
+admin2 = Employee.create!(
+  first_name: "Alex",
+  last_name: "Johnson",
+  email: "alex.johnson@example.com",
   password: "Password123!",
-  hire_date: Date.new(2020, 8, 1),
-  is_supervisor: true,
-  is_administrator: false
+  hire_date: Date.new(2018, 5, 15),
+  is_supervisor: false,
+  is_administrator: true
 )
 
-puts "Creating employees..."
+puts "Creating 10 supervisors"
+supervisors = []
+10.times do
+  supervisors << Employee.create!(
+    first_name: Faker::Name.first_name,
+    last_name: Faker::Name.last_name,
+    email: Faker::Internet.unique.email,
+    password: "Password123!",
+    hire_date: Faker::Date.between(from: '2018-01-01', to: '2020-12-31'),
+    is_supervisor: true,
+    is_administrator: false
+  )
+end
+
+puts "Creating 100 employees (10 per supervisor)"
 employees = []
-
-4.times do
-  employees << Employee.create!(
-    first_name: Faker::Name.first_name,
-    last_name: Faker::Name.last_name,
-    email: Faker::Internet.unique.email,
-    password: "Password123!",
-    hire_date: Faker::Date.between(from: '2019-01-01', to: '2022-12-31'),
-    supervisor_id: admin.id
-  )
+supervisors.each do |supervisor|
+  10.times do
+    employees << Employee.create!(
+      first_name: Faker::Name.first_name,
+      last_name: Faker::Name.last_name,
+      email: Faker::Internet.unique.email,
+      password: "Password123!",
+      hire_date: Faker::Date.between(from: '2019-01-01', to: '2023-12-31'),
+      supervisor_id: supervisor.id,
+      is_supervisor: false,
+      is_administrator: false
+    )
+  end
 end
 
-4.times do
-  employees << Employee.create!(
-    first_name: Faker::Name.first_name,
-    last_name: Faker::Name.last_name,
-    email: Faker::Internet.unique.email,
-    password: "Password123!",
-    hire_date: Faker::Date.between(from: '2019-01-01', to: '2022-12-31'),
-    supervisor_id: supervisor.id
-  )
-end
+all_employees = [admin1, admin2] + supervisors + employees
 
-employees << admin
-employees << supervisor
-
-puts "Assigning employees to each fiscal year..."
-employees.each do |employee|
+puts "Assigning all employees to each fiscal year"
+all_employees.each do |employee|
   fiscal_years.each do |fy|
     FiscalYearEmployee.create!(employee: employee, fiscal_year: fy)
   end
 end
 
-puts "✅ Seeding complete!"
+puts "Seeding complete."

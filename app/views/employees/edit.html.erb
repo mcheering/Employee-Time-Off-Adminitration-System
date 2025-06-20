@@ -1,1 +1,4 @@
-<div id="new-employee-form" data-employee="<%= @employee.to_json.gsub('"', '&quot;') %>"></div>
+<div id="new-employee-form"
+     data-employee="<%= @employee.to_json.gsub('"', '&quot;') %>"
+     data-supervisors="<%= @supervisors.to_json.gsub('"', '&quot;') %>">
+</div>

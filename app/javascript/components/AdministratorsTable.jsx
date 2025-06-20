@@ -5,8 +5,15 @@ Date: 6/14/25
 */
 import React from "react";
 import {
-  Table, TableBody, TableCell, TableContainer,
-  TableHead, TableRow, Paper, Typography, Button
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Typography,
+  Button,
 } from "@mui/material";
 
 export default function AdministratorsTable({ administrators }) {
@@ -33,7 +40,11 @@ export default function AdministratorsTable({ administrators }) {
           ))}
         </TableBody>
       </Table>
-      <Button variant="outlined" sx={{ mt: 2, ml: 2 }} onClick={() => window.location.href = "/employees"}>
+      <Button
+        variant="outlined"
+        sx={{ mt: 2, ml: 2 }}
+        onClick={() => window.location.assign("/employees")}
+      >
         Back to Employees
       </Button>
     </TableContainer>

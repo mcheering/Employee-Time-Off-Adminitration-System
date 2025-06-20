@@ -1,6 +1,9 @@
+# Author: Matthew Heering
+# Description:  Controls data for adminstrators going to the adminstrative dashboard. 
+# Date: 6/18/25
 class AdministratorsController < ApplicationController
   def dashboard
- 
+
     @employees = Employee.all
     @employees.each { |e| Rails.logger.debug "👤 #{e.id}: #{e.first_name} #{e.last_name}" }
  
@@ -19,6 +22,6 @@ class AdministratorsController < ApplicationController
         allotted_pto_days: fye.allotted_pto_days
       }
     end
- 
+
   end
 end
