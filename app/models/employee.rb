@@ -1,12 +1,15 @@
 # Authors: William Pevytoe, Terry Thompson
 # Date: 2024-06-20
-# Description: Model of a person who works for the company.
+# Description: Model of a person who works for the company. Automatically creates
+# fiscal year employees when an employee is created and deletes fiscal year employees
+# when an employee is deleted.
 class Employee < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
 
   after_initialize :set_default_is_administrator, :set_default_is_supervisor
   after_create :create_fiscal_year_employees
+  before_destroy :delete_fiscal_year_employees
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
@@ -41,6 +44,10 @@ class Employee < ApplicationRecord
         FiscalYearEmployee.create(fiscal_year: fiscal_year, employee: self)
       end
     end
+  end
+
+  def delete_fiscal_year_employees
+    FiscalYearEmployee.where(employee: self).destroy_all
   end
 
   def hire_date_before_termination_date
