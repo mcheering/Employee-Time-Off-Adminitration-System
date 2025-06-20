@@ -5,34 +5,43 @@ Date: 6/14/25
 */
 import React, { useState } from "react";
 import {
-  Table, TableBody, TableCell, TableContainer,
-  TableHead, TableRow, Paper, Typography,
-  Button, Stack, TextField, MenuItem, Select, FormControl, InputLabel
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Typography,
+  Button,
+  Stack,
+  TextField,
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel,
+  TablePagination,
 } from "@mui/material";
 
 export default function EmployeesTable({ employees }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOption, setSortOption] = useState("A-Z");
   const [filter, setFilter] = useState("all");
+  const [page, setPage] = useState(0);
+  const rowsPerPage = 10;
 
   const handleNavigation = (path) => {
     window.location.href = path;
   };
 
-  const handleSearchChange = (e) => {
+  const handleSearchChange = (e) =>
     setSearchQuery(e.target.value.toLowerCase());
-  };
-
-  const handleSortChange = (e) => {
-    setSortOption(e.target.value);
-  };
-
-  const handleFilter = (type) => {
-    setFilter(type);
-  };
+  const handleSortChange = (e) => setSortOption(e.target.value);
+  const handleFilter = (type) => setFilter(type);
+  const handleChangePage = (_, newPage) => setPage(newPage);
 
   const filteredEmployees = employees
-    .filter(emp => {
+    .filter((emp) => {
       const matchesSearch =
         emp.first_name.toLowerCase().includes(searchQuery) ||
         emp.last_name.toLowerCase().includes(searchQuery) ||
@@ -58,6 +67,11 @@ export default function EmployeesTable({ employees }) {
       }
     });
 
+  const paginatedEmployees = filteredEmployees.slice(
+    page * rowsPerPage,
+    page * rowsPerPage + rowsPerPage
+  );
+
   if (!employees || employees.length === 0) {
     return <div>No employees to display.</div>;
   }
@@ -68,8 +82,29 @@ export default function EmployeesTable({ employees }) {
         Employees
       </Typography>
 
-      {/* Controls */}
-      <Stack direction="row" spacing={2} sx={{ mb: 2 }} alignItems="center" justifyContent="center">
+      <Stack
+        direction="row"
+        spacing={2}
+        justifyContent="flex-end"
+        sx={{ mb: 2 }}
+      >
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => handleNavigation("/employees/new")}
+          data-turbo="false"
+        >
+          ➕ Add New Employee
+        </Button>
+      </Stack>
+
+      <Stack
+        direction="row"
+        spacing={2}
+        sx={{ mb: 2 }}
+        alignItems="center"
+        justifyContent="center"
+      >
         <TextField
           label="Search"
           variant="outlined"
@@ -89,9 +124,24 @@ export default function EmployeesTable({ employees }) {
             <MenuItem value="Hire Date ↓">Hire Date ↓</MenuItem>
           </Select>
         </FormControl>
-        <Button variant={filter === "all" ? "contained" : "outlined"} onClick={() => handleFilter("all")}>All</Button>
-        <Button variant={filter === "supervisors" ? "contained" : "outlined"} onClick={() => handleFilter("supervisors")}>Supervisors</Button>
-        <Button variant={filter === "administrators" ? "contained" : "outlined"} onClick={() => handleFilter("administrators")}>Administrators</Button>
+        <Button
+          variant={filter === "all" ? "contained" : "outlined"}
+          onClick={() => handleFilter("all")}
+        >
+          All
+        </Button>
+        <Button
+          variant={filter === "supervisors" ? "contained" : "outlined"}
+          onClick={() => handleFilter("supervisors")}
+        >
+          Supervisors
+        </Button>
+        <Button
+          variant={filter === "administrators" ? "contained" : "outlined"}
+          onClick={() => handleFilter("administrators")}
+        >
+          Administrators
+        </Button>
       </Stack>
 
       <TableContainer component={Paper}>
@@ -107,9 +157,11 @@ export default function EmployeesTable({ employees }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {filteredEmployees.map((emp) => (
+            {paginatedEmployees.map((emp) => (
               <TableRow key={emp.id}>
-                <TableCell>{emp.first_name} {emp.last_name}</TableCell>
+                <TableCell>
+                  {emp.first_name} {emp.last_name}
+                </TableCell>
                 <TableCell>{emp.email}</TableCell>
                 <TableCell>{emp.hire_date}</TableCell>
                 <TableCell>{emp.is_supervisor ? "Yes" : "No"}</TableCell>
@@ -127,14 +179,17 @@ export default function EmployeesTable({ employees }) {
             ))}
           </TableBody>
         </Table>
+        {filteredEmployees.length > rowsPerPage && (
+          <TablePagination
+            component="div"
+            count={filteredEmployees.length}
+            page={page}
+            onPageChange={handleChangePage}
+            rowsPerPage={rowsPerPage}
+            rowsPerPageOptions={[]}
+          />
+        )}
       </TableContainer>
-
-      {/* Action Buttons */}
-      <Stack direction="row" spacing={2} justifyContent="center" sx={{ mt: 3 }}>
-        <Button variant="contained" color="primary" onClick={() => handleNavigation("/employees/new")} data-turbo="false">
-          ➕ Add New Employee
-        </Button>
-      </Stack>
     </>
   );
 }

@@ -55,7 +55,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_17_011707) do
     t.date "end_date", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "is_open", default: false, null: false
+    t.boolean "is_open", default: true, null: false
   end
 
   add_foreign_key "employees", "employees", column: "supervisor_id"

@@ -30,7 +30,12 @@ export default function FiscalYearForm({ onClose, onSave, fiscalYear }) {
   };
 
   return (
-    <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleSubmit();
+      }}
+    >
       <Stack spacing={2}>
         <TextField
           label="Start Date"
