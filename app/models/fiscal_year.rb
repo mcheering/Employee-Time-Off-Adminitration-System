@@ -31,8 +31,9 @@ class FiscalYear < ApplicationRecord
     private
     def create_fiscal_year_employees
         Employee.all.each do |employee|
-        if employee.hire_date <= self.end_date && (employee.termination_date.nil? || employee.termination_date >= start_date)
-           FiscalYearEmployee.create!(fiscal_year: self, employee: employee)
+            if employee.hire_date <= self.end_date && (employee.termination_date.nil? || employee.termination_date >= start_date)
+                FiscalYearEmployee.create!(fiscal_year: self, employee: employee)
+            end
         end
     end
 
