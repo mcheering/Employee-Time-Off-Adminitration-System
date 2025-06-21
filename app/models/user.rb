@@ -11,10 +11,4 @@ class User < ApplicationRecord
 
   #  validates :first_name, :last_name, :email, presence: true
   validates :email, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
-
-  private
-
-  def set_full_name
-     self.name = "#{first_name} #{last_name}".strip
-  end
 end

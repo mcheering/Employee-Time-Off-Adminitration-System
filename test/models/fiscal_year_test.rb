@@ -78,4 +78,11 @@ class FiscalYearTest < ActiveSupport::TestCase
     assert new_fiscal_year.invalid?
     assert_includes new_fiscal_year.errors[:end_date], "overlaps with an existing fiscal year"
   end
+
+  # Author: Terry Thompson
+  # Date: 6/16/2025
+  test "fiscal year employees are created for existing fiscal years" do
+    fiscal_year = FiscalYear.create!(start_date: Date.new(2026, 1, 1), end_date: Date.new(2026, 12, 31))
+    assert_equal Employee.count, FiscalYearEmployee.where(fiscal_year: fiscal_year).count
+  end
 end

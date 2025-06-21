@@ -4,7 +4,7 @@
 # employees when a fiscal year is created.
 class FiscalYear < ApplicationRecord
     after_initialize :set_default_is_open
-    # after_create :create_fiscal_year_employees
+    after_create :create_fiscal_year_employees
 
     has_many :fiscal_year_employees
     has_many :employees, through: :fiscal_year_employees
@@ -30,10 +30,9 @@ class FiscalYear < ApplicationRecord
 
     private
     def create_fiscal_year_employees
-        employees.each do |employee|
-            if employee.hire_date <= end_date && (employee.termination_date.nil? || employee.termination_date >= start_date)
-                FiscalYearEmployee.create(fiscal_year: self, employee: employee)
-            end
+        Employee.all.each do |employee|
+        if employee.hire_date <= self.end_date && (employee.termination_date.nil? || employee.termination_date >= start_date)
+           FiscalYearEmployee.create!(fiscal_year: self, employee: employee)
         end
     end
 
