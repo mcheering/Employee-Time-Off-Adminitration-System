@@ -81,8 +81,10 @@ class FiscalYearTest < ActiveSupport::TestCase
 
   # Author: Terry Thompson
   # Date: 6/16/2025
+  # Note: The test database is seeded with six employees. One has a termination date before
+  # the start of the fiscal year.
   test "fiscal year employees are created for existing fiscal years" do
     fiscal_year = FiscalYear.create!(start_date: Date.new(2026, 1, 1), end_date: Date.new(2026, 12, 31))
-    assert_equal Employee.count, FiscalYearEmployee.where(fiscal_year: fiscal_year).count
+    assert_equal 5, FiscalYearEmployee.where(fiscal_year: fiscal_year).count
   end
 end
