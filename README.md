@@ -1,6 +1,6 @@
 # Introduction
 The Employee Time-Off Administration System (**ETOAS**) is a team collaboration for CS6920-Project 2 (Summer 2025), the final class in the Master of Applied Computer Science program at the University of West Georgia.  This final project requires us to utilize what we have learned over the last two years.
-The team has chosen to create a web browser-based time-off tracking system for a fictitious company.  The application will be developed using Ruby on Rails for the back end and React for the front end.  The team believes it can be easily modified for use in a real company.  See the Contributors section below for a list of team members.
+The team has chosen to create a web browser-based time-off tracking system for a fictitious company.  The application will be developed using Ruby on Rails for the back end and React for the front end.  The team believes it can be easily modified for use in a real company.  See the Contributors section below for a list of team members.  Click [here](https://etoas-3aeb8c7e994c.herokuapp.com/admin/dashboard) to see the live version of the latest iteration.
 # Advertisement & Elevator Pitch
 Checkout the link [here](https://www.canva.com/design/DAGpxza_mvA/tiqyjH88lK4A4EKf0quwYA/view?utm_content=DAGpxza_mvA&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hf8a3cab6e5) to learn more about the Employee Time-Off Management System
 # Vision 
