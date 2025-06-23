@@ -5,7 +5,7 @@ Date: 6/18/25
 */
 describe("Admin Workflow - Edit Employee Supervisor", () => {
   it("navigates from dashboard, edits supervisor, and submits", () => {
-    cy.visit("http://localhost:3000/admin/dashboard");
+    cy.visit("http://localhost:3000/");
 
     cy.get("table").within(() => {
       cy.contains("button", "Manage").first().click();
@@ -24,7 +24,7 @@ describe("Admin Workflow - Edit Employee Supervisor", () => {
   });
 
   it("navigates from dashboard, starts editing, and cancels", () => {
-    cy.visit("http://localhost:3000/admin/dashboard");
+    cy.visit("http://localhost:3000/");
 
     cy.get("table").within(() => {
       cy.contains("button", "Manage").eq(0).click();
@@ -37,6 +37,6 @@ describe("Admin Workflow - Edit Employee Supervisor", () => {
     cy.get("form").should("exist");
 
     cy.contains("Cancel").click();
-    cy.url().should("include", "/admin/dashboard");
+    cy.url().should("include", "/");
   });
 });

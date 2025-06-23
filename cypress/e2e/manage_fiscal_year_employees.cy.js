@@ -9,7 +9,7 @@ describe("Admin Workflow - Fiscal Year Employees Filter", () => {
 
     const yearText = years[index].innerText.trim();
 
-    cy.visit("http://localhost:3000/admin/dashboard");
+    cy.visit("http://localhost:3000/");
     cy.contains("button", "Fiscal Year Employees").click();
 
     cy.get("#fiscal-year-label")
@@ -39,7 +39,7 @@ describe("Admin Workflow - Fiscal Year Employees Filter", () => {
   }
 
   it("filters employees by each fiscal year and validates table results and navigation", () => {
-    cy.visit("http://localhost:3000/admin/dashboard");
+    cy.visit("http://localhost:3000/");
     cy.contains("button", "Fiscal Year Employees").click();
 
     cy.get("#fiscal-year-label")
