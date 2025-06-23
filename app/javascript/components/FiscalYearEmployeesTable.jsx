@@ -32,7 +32,13 @@ export default function FiscalYearEmployeesTable({
   fiscalYearEmployees,
   fiscalYears,
 }) {
-  const [fiscalYearId, setFiscalYearId] = useState("");
+  const [fiscalYearId, setFiscalYearId] = useState(() => {
+    if (fiscalYears.length === 0) return "";
+    const latest = [...fiscalYears].sort(
+      (a, b) => new Date(b.start_date) - new Date(a.start_date)
+    )[0];
+    return latest?.id || "";
+  });
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(0);
   const rowsPerPage = 10;
