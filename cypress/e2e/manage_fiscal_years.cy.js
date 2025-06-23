@@ -9,7 +9,7 @@ describe("Admin Workflow - Manage Fiscal Years", () => {
     const startDate = `${futureYear}-07-01`;
     const endDate = `${futureYear + 1}-06-30`;
 
-    cy.visit("http://localhost:3000/admin/dashboard");
+    cy.visit("http://localhost:3000/");
     cy.contains("Manage Fiscal Years").click();
     cy.contains("Add Fiscal Year").click();
 

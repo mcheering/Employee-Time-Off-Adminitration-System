@@ -40,7 +40,7 @@ class Employee < ApplicationRecord
   private
   def create_fiscal_year_employees
     FiscalYear.all.each do |fiscal_year|
-      if hire_date <= fiscal_year.end_date && not FiscalYearEmployee.exists?(fiscal_year: fiscal_year, employee: self)
+      if hire_date <= fiscal_year.end_date && !FiscalYearEmployee.exists?(fiscal_year: fiscal_year, employee: self)
         FiscalYearEmployee.create(fiscal_year: fiscal_year, employee: self)
       end
     end
