@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  employee_id: 1
+  supervisor_id: 1
+  submitted_by: 1
+  fiscal_year_id: 1
+  request_date: 2025-06-26
+  reason: 1
+  is_fmla: false
+  decision_date: MyString
+  comment: MyString
+
+two:
+  employee_id: 1
+  supervisor_id: 1
+  submitted_by: 1
+  fiscal_year_id: 1
+  request_date: 2025-06-26
+  reason: 1
+  is_fmla: false
+  decision_date: MyString
+  comment: MyString

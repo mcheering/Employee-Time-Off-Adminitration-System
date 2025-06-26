@@ -1,0 +1,2 @@
+class TimeOff < ApplicationRecord
+end
