@@ -11,7 +11,6 @@ class TimeOffRequest < ApplicationRecord
 
   enum time_off_reason: { pto: 0, vacation: 1, jury_duty: 2, bereavement: 3,  unpaid: 4, other: 5 }
   enum request_status: { pending: 0, waiting_information: 1, supervisor_reviewed: 2, decided: 3 }
-  enum time_off_decision: { none: 0, approved: 1, denied: 2 }
 
   validates :fiscal_year_employee_id, presence: true
   validates :supervisor_id, presence: true
@@ -26,11 +25,18 @@ class TimeOffRequest < ApplicationRecord
     elsif additional_information_date.present?
       :waiting_information
     elsif supervisor_decision_date.present?
-      supervisor_reviewed
+      :supervisor_reviewed
     else
-      pending
+      :pending
     end
   end
+
+  def status_caption
+    I18n.t("time_off_request.statuses.#{status}")
+  end
+
+  def reason_caption
+    I18n.t("time_off_request.reasons.#{time_off_reason}")
 
   def from_date
     dates.minimum(:date)
