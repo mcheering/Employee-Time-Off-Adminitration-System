@@ -8,7 +8,6 @@ Rails.application.routes.draw do
   put    "employees/:id",      to: "employees#update"
   delete "employees/:id",      to: "employees#destroy"
 
-  resources :supervisors, only: [ :index ]
   resources :administrators, only: [ :index ]
 
 
@@ -24,4 +23,5 @@ Rails.application.routes.draw do
   root "administrators#dashboard"
 
   devise_for :employees
+  resources :supervisors, only: [:index, :show]
 end

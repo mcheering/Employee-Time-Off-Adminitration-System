@@ -1,1 +1,17 @@
-<div id="supervisors-react-table" data-supervisors="<%= @supervisors.to_json.gsub('"', '&quot;') %>"></div>
+<h1>My Team</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th><th>Email</th><th>Hire Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @employees.each do |e| %>
+      <tr>
+        <td><%= e.name %></td>
+        <td><%= e.email %></td>
+        <td><%= e.hire_date %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

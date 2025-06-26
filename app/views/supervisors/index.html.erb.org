@@ -1,0 +1,1 @@
+<div id="supervisors-react-table" data-supervisors="<%= @supervisors.to_json.gsub('"', '&quot;') %>"></div>
