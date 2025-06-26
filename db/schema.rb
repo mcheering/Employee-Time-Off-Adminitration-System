@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_17_011707) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_26_105205) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -56,6 +56,29 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_17_011707) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "is_open", default: true, null: false
+  end
+
+  create_table "time_off_requests", force: :cascade do |t|
+    t.integer "employee_id"
+    t.integer "supervisor_id"
+    t.integer "submitted_by"
+    t.integer "fiscal_year_id"
+    t.date "request_date"
+    t.integer "reason"
+    t.boolean "is_fmla"
+    t.string "decision_date"
+    t.string "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "time_offs", force: :cascade do |t|
+    t.integer "request_id"
+    t.float "amount"
+    t.boolean "was_taken"
+    t.integer "decision"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_foreign_key "employees", "employees", column: "supervisor_id"
