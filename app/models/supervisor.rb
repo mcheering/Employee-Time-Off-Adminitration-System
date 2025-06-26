@@ -5,6 +5,8 @@
 class Supervisor < ApplicationRecord
   self.table_name = "employees"
 
+  has_many :supervised_time_off_requests, class_name: "TimeOffRequest", foreign_key: "supervisor_id"
+
   # Author: Terry Thompson
   # Date: 2024-06-20
   # Description: Displays the supervisor's full name
