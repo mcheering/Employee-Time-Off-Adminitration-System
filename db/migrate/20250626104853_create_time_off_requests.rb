@@ -5,9 +5,11 @@ class CreateTimeOffRequests < ActiveRecord::Migration[8.0]
       t.integer :supervisor_id, null: false
       t.integer :submitted_by, null: false
       t.date :request_date
+      t.date :additional_information_date
+      t.date :supervisor_decision_date
+      t.date :final_decision_date
       t.integer :reason
       t.boolean :is_fmla
-      t.string :decision_date
       t.string :comment
 
       t.timestamps
