@@ -78,11 +78,45 @@ end
 
 all_employees = [ admin1, admin2 ] + supervisors + employees
 
-# puts "Assigning all employees to each fiscal year"
-# all_employees.each do |employee|
-#   fiscal_years.each do |fy|
-#     FiscalYearEmployee.create!(employee: employee, fiscal_year: fy)
-#   end
-# end
+
+puts "TimeOffRequests"
+
+TimeOffRequest.destroy_all
+TimeOff.destroy_all
+requestees = all_employees.reject(&:is_administrator)
+
+20.times do
+  employee = requestees.sample
+  supervisor = supervisors.find { |s| s.id == emp.supervisor_id } || supervisors.sample
+  fiscal_year  = fiscal_years.sample
+  request_date = Faker::Date.between(from: fiscal_years.start_date, to: fiscal_years.end_date)
+
+   request = TimeOffRequest.create!(
+    employee:                 employee,
+    submitted_by:             supervisor,
+    supervisor:               supervisor,
+    fiscal_year:              fiscal_year,
+    request_date:             req_date,
+    time_off_type:            %w[requested approved denied].sample,
+    reason:                   reasons.sample,
+    comment:                  Faker::Lorem.sentence(word_count: 8),
+    is_final:                 [true, false].sample,
+    final_decision:           %w[approved denied].sample,
+    supervisor_decision_date: req_date + rand(1..5).days
+  )
+
+  rand(1..4).times do
+    d = Faker::Date.between(from: [employee.hire_date, fiscal_year.start_date].max, to: fiscal_year.end_date)
+    req.time_offs.create!(
+      date:     d,
+      reason:   request.reason,
+      time_off: [0.5, 1.0].sample,
+      taken:    [true, false].sample,
+      is_paid:  [true, false].sample,
+      is_fmla:  [false, true].sample,
+      decision: %w[approved denied pending].sample
+    )
+  end
+end
 
 puts "Seeding complete."
