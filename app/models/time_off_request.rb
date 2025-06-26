@@ -13,10 +13,18 @@ class TimeOffRequest < ApplicationRecord
   enum request_status: { pending: 0, waiting_information: 1, supervisor_reviewed: 2, decided: 3 }
   enum time_off_decision: { none: 0, approved: 1, denied: 2 }
 
+  validates :fiscal_year_employee_id, presence: true
+  validates :supervisor_id, presence: true
+  validates :time_off_reason, presence: true
+  validates :request_date, presence: true
+  validates :submitted_by, presence: true
+  validates :is_fmla, inclusion: { in: [ true, false ] }
+
   def status
     if final_decision_date.present?
       :decided
     elsif additional_information_date.present?
+      :waiting_information
     elsif supervisor_decision_date.present?
       supervisor_reviewed
     else
