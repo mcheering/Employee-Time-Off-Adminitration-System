@@ -6,6 +6,14 @@ class FiscalYearEmployee < ApplicationRecord
   belongs_to :employee
   belongs_to :fiscal_year
 
+  has_many :time_off_requests,
+           foreign_key: "fiscal_year_employee_id",
+           dependent:   :destroy
+
+  has_many :time_offs,
+           through:    :time_off_requests
+           
+
   delegate :name,             to: :employee,     prefix: :employee
   delegate :hire_date,        to: :employee,     prefix: :employee
   delegate :termination_date, to: :employee,     prefix: :employee
@@ -91,5 +99,12 @@ class FiscalYearEmployee < ApplicationRecord
       days_in_year = fiscal_year.end_date - fiscal_year.start_date + 1
       (9 * days_remaining / days_in_year / 0.5).round(0) * 0.5
     end
+  end
+
+  def used_days_for(reason_sym)
+    time_off_requests
+      .where(reason: reason_sym)
+      .joins(:time_offs)
+      .sum("time_offs.amount")
   end
 end

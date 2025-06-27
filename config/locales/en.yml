@@ -28,4 +28,17 @@
 #       enabled: "ON"
 
 en:
-  hello: "Hello world"
+  time_off_request:
+    statuses:
+      pending:              "Pending"
+      waiting_information:  "Waiting for information"
+      supervisor_reviewed:  "Approved"
+      decided:              "Decided"
+
+    reasons:
+      pto:         "PTO"
+      vacation:    "Vacation"
+      jury_duty:   "Jury duty"
+      bereavement: "Bereavement"
+      unpaid:      "Unpaid"
+      other:       "Other"
