@@ -9,8 +9,8 @@ class TimeOffRequest < ApplicationRecord
   delegate :supervisor_name,     to: :supervisor,           prefix: true
   delegate :submitted_by_name,   to: :users,                prefix: true
 
-  enum time_off_reason: { pto: 0, vacation: 1, jury_duty: 2, bereavement: 3,  unpaid: 4, other: 5 }
-  enum request_status: { pending: 0, waiting_information: 1, supervisor_reviewed: 2, decided: 3 }
+  # enum time_off_reason: { pto: 0, vacation: 1, jury_duty: 2, bereavement: 3,  unpaid: 4, other: 5 }
+  # enum request_status: { pending: 0, waiting_information: 1, supervisor_reviewed: 2, decided: 3 }
 
   validates :fiscal_year_employee_id, presence: true
   validates :supervisor_id, presence: true
