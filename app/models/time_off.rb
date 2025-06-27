@@ -8,7 +8,7 @@ class TimeOff < ApplicationRecord
   delegate :fiscal_year_employee_name, to: :time_off_request, prefix: true
   delegate :supervisor_name, to: :time_off_request, prefix: true
 
-  enum time_off_decision: { none: 0, approved: 1, denied: 2 }
+  # enum time_off_decision: { none: 0, approved: 1, denied: 2 }
 
   def self.for_request(request_id)
     where(time_off_request_id: request_id)
