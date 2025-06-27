@@ -81,12 +81,20 @@ all_employees = [ admin1, admin2 ] + supervisors + employees
 
 puts "TimeOffRequests"
 
-TimeOffRequest.destroy_all
-TimeOff.destroy_all
-requestees = all_employees.reject(&:is_administrator)
+reasons = %w[pto vacation juryDuty bereavement unpaid other]
+decisions = %w[approved denied pending]
+
+requesters  = Employee
+                .where(is_administrator: false, is_supervisor: false)
+                .joins(:fiscal_year_employees)
+                .distinct
+                .to_a
+supervisors = Employee.where(is_supervisor: true).to_a
+
+fiscal_years = FiscalYear.all.to_a
 
 20.times do
-  employee = requestees.sample
+  employee = requesters.sample
   supervisor = supervisors.find { |s| s.id == emp.supervisor_id } || supervisors.sample
   fiscal_year  = fiscal_years.sample
   request_date = Faker::Date.between(from: fiscal_years.start_date, to: fiscal_years.end_date)
@@ -97,7 +105,6 @@ requestees = all_employees.reject(&:is_administrator)
     supervisor:               supervisor,
     fiscal_year:              fiscal_year,
     request_date:             req_date,
-    time_off_type:            %w[requested approved denied].sample,
     reason:                   reasons.sample,
     comment:                  Faker::Lorem.sentence(word_count: 8),
     is_final:                 [true, false].sample,
@@ -114,7 +121,7 @@ requestees = all_employees.reject(&:is_administrator)
       taken:    [true, false].sample,
       is_paid:  [true, false].sample,
       is_fmla:  [false, true].sample,
-      decision: %w[approved denied pending].sample
+      decision: decision.sample
     )
   end
 end
