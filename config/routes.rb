@@ -23,5 +23,5 @@ Rails.application.routes.draw do
   root "administrators#dashboard"
 
   devise_for :employees
-  resources :supervisors, only: [:index, :show]
+  resources :supervisors, only: %i[index show]
 end

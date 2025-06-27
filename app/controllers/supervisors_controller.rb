@@ -5,11 +5,14 @@ class SupervisorsController < ApplicationController
   # before_action :ensure_supervisor!
 
   def index
+    @employees = Employee.where(supervisor_id: current_employee.id)
   end
 
   def show
     @employees = Employee.where(supervisor_id: params[:id])
     render :index
+
+    #@time_off_requests = TimeOffRequest.where(supervisor_id: params[:id])
   end
 
   # def ensure_supervisor!
