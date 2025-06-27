@@ -37,6 +37,7 @@ class TimeOffRequest < ApplicationRecord
 
   def reason_caption
     I18n.t("time_off_request.reasons.#{time_off_reason}")
+  end
 
   def from_date
     dates.minimum(:date)
