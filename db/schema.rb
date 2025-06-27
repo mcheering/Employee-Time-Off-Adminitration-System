@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_26_105205) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_27_183235) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -61,7 +61,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_26_105205) do
   create_table "time_off_requests", force: :cascade do |t|
     t.integer "fiscal_year_employee_id", null: false
     t.integer "supervisor_id", null: false
-    t.integer "submitted_by", null: false
+    t.integer "submitted_by_id", null: false
     t.date "request_date", null: false
     t.date "additional_information_date"
     t.date "supervisor_decision_date"

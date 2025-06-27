@@ -76,42 +76,41 @@ supervisors.each do |supervisor|
   end
 end
 
-all_employees = [ admin1, admin2 ] + supervisors + employees
-
+all_employees = [admin1, admin2] + supervisors + employees
 
 puts "TimeOffRequests"
 
-reasons = %w[pto vacation juryDuty bereavement unpaid other]
+reasons   = %w[pto vacation juryDuty bereavement unpaid other]
 decisions = %w[approved denied pending]
 
-requesters  = Employee
-                .where(is_administrator: false, is_supervisor: false)
-                .joins(:fiscal_year_employees)
-                .distinct
-                .to_a
-supervisors = Employee.where(is_supervisor: true).to_a
-fiscal_years = FiscalYear.all.to_a
+requesters = Employee
+  .where(is_administrator: false, is_supervisor: false)
+  .joins(:fiscal_year_employees)
+  .distinct
+  .to_a
+
+supervisors   = Employee.where(is_supervisor: true).to_a
+fiscal_years  = FiscalYear.all.to_a
 
 20.times do
-  employee = requesters.sample
-  supervisor = supervisors.find { |s| s.id == employee.supervisor_id } || supervisors.sample
-  fiscal_year = fiscal_years.sample
+  employee     = requesters.sample
+  supervisor   = supervisors.find { |s| s.id == employee.supervisor_id } || supervisors.sample
+  fiscal_year  = fiscal_years.sample
   request_date = Faker::Date.between(from: fiscal_year.start_date, to: fiscal_year.end_date)
 
-  # Get or create the FiscalYearEmployee record
   fye = FiscalYearEmployee.find_or_create_by!(
-    employee_id: employee.id,
+    employee_id:    employee.id,
     fiscal_year_id: fiscal_year.id
   )
 
   request = TimeOffRequest.create!(
-    fiscal_year_employee_id: fye.id,
-    submitted_by:            supervisor.id,
-    supervisor_id:           supervisor.id,
-    request_date:            request_date,
-    reason:                  TimeOffRequest.reasons[reasons.sample],
-    comment:                 Faker::Lorem.sentence(word_count: 8),
-    is_fmla:                 [true, false].sample,
+    fiscal_year_employee_id:  fye.id,
+    submitted_by_id:          employee.id,
+    supervisor_id:            supervisor.id,
+    request_date:             request_date,
+    reason:                   reasons.index(reasons.sample),
+    comment:                  Faker::Lorem.sentence(word_count: 8),
+    is_fmla:                  [true, false].sample,
     supervisor_decision_date: request_date + rand(1..5).days
   )
 
@@ -120,11 +119,12 @@ fiscal_years = FiscalYear.all.to_a
       from: [employee.hire_date, fiscal_year.start_date].max,
       to: fiscal_year.end_date
     )
+
     request.time_offs.create!(
-      date:     d,
-      amount:   [0.5, 1.0].sample,
-      was_taken: [true, false].sample,
-      decision: TimeOff.decision.values.sample
+      date:       d,
+      amount:     [0.5, 1.0].sample,
+      was_taken:  [true, false].sample,
+      decision:   decisions.index(decisions.sample)
     )
   end
 end
