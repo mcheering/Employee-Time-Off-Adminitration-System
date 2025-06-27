@@ -1,0 +1,67 @@
+<h1>Supervisor <%= @supervisor.name %> Views</h1>
+<h2>Employee Record</h2>
+
+<nav class="tabs">
+  <%= link_to 'Time-Off Requests',    supervisor_path(@supervisor),           class: 'tab' %>
+  <%= link_to 'Calendar',             calendar_supervisor_path(@supervisor),  class: 'tab' %>
+  <%= link_to 'Employee Records',     employee_records_supervisor_path(@supervisor),
+                class: 'tab active' %>
+</nav>
+
+<section class="filters">
+  <%= form_with url: employee_records_supervisor_path(@supervisor),
+                method: :get,
+                local: true do |f| %>
+    <label>Fiscal Year</label>
+    <%= f.collection_select :fiscal_year_id,
+                            @fiscal_years,
+                            :id,
+                            ->(fy) { "#{fy.start_date.year}-#{fy.end_date.year.to_s.last(2)}" },
+                            { selected: @selected_fy } %>
+    <%= f.submit 'Filter' %>
+  <% end %>
+</section>
+
+<table>
+  <thead>
+    <tr>
+      <th>Employee Name</th>
+      <th>PTO</th>
+      <th>Vacation</th>
+      <th>Jury Duty</th>
+      <th>Bereavement</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @fye_records.each do |fye| %>
+      <tr>
+        <td><%= fye.employee.name %></td>
+
+            <td>
+            Allotted: <%= fye.allotted_pto_days %><br>
+            Used:     <%= fye.used_days_for(:pto) %><br>
+            Remain:   <%= fye.allotted_pto_days - fye.used_days_for(:pto) %>
+            </td>
+
+            <td>
+            Earned:   <%= fye.earned_vacation_days %><br>
+            Used:     <%= fye.used_days_for(:vacation) %><br>
+            Remain:   <%= fye.earned_vacation_days - fye.used_days_for(:vacation) %>
+            </td>
+
+            <td>
+            Used:     <%= fye.used_days_for(:jury_duty) %>
+            </td>
+
+            <td>
+            Used:     <%= fye.used_days_for(:bereavement) %>
+            </td>
+
+        <td>
+          <%= link_to "View", employee_path(fye.employee), class: "btn btn-primary" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
