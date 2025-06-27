@@ -90,38 +90,41 @@ requesters  = Employee
                 .distinct
                 .to_a
 supervisors = Employee.where(is_supervisor: true).to_a
-
 fiscal_years = FiscalYear.all.to_a
 
 20.times do
   employee = requesters.sample
-  supervisor = supervisors.find { |s| s.id == emp.supervisor_id } || supervisors.sample
-  fiscal_year  = fiscal_years.sample
-  request_date = Faker::Date.between(from: fiscal_years.start_date, to: fiscal_years.end_date)
+  supervisor = supervisors.find { |s| s.id == employee.supervisor_id } || supervisors.sample
+  fiscal_year = fiscal_years.sample
+  request_date = Faker::Date.between(from: fiscal_year.start_date, to: fiscal_year.end_date)
 
-   request = TimeOffRequest.create!(
-    employee:                 employee,
-    submitted_by:             supervisor,
-    supervisor:               supervisor,
-    fiscal_year:              fiscal_year,
-    request_date:             req_date,
-    reason:                   reasons.sample,
-    comment:                  Faker::Lorem.sentence(word_count: 8),
-    is_final:                 [true, false].sample,
-    final_decision:           %w[approved denied].sample,
-    supervisor_decision_date: req_date + rand(1..5).days
+  # Get or create the FiscalYearEmployee record
+  fye = FiscalYearEmployee.find_or_create_by!(
+    employee_id: employee.id,
+    fiscal_year_id: fiscal_year.id
+  )
+
+  request = TimeOffRequest.create!(
+    fiscal_year_employee_id: fye.id,
+    submitted_by:            supervisor.id,
+    supervisor_id:           supervisor.id,
+    request_date:            request_date,
+    reason:                  TimeOffRequest.reasons[reasons.sample],
+    comment:                 Faker::Lorem.sentence(word_count: 8),
+    is_fmla:                 [true, false].sample,
+    supervisor_decision_date: request_date + rand(1..5).days
   )
 
   rand(1..4).times do
-    d = Faker::Date.between(from: [employee.hire_date, fiscal_year.start_date].max, to: fiscal_year.end_date)
-    req.time_offs.create!(
+    d = Faker::Date.between(
+      from: [employee.hire_date, fiscal_year.start_date].max,
+      to: fiscal_year.end_date
+    )
+    request.time_offs.create!(
       date:     d,
-      reason:   request.reason,
-      time_off: [0.5, 1.0].sample,
-      taken:    [true, false].sample,
-      is_paid:  [true, false].sample,
-      is_fmla:  [false, true].sample,
-      decision: decision.sample
+      amount:   [0.5, 1.0].sample,
+      was_taken: [true, false].sample,
+      decision: TimeOff.decision.values.sample
     )
   end
 end
