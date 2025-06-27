@@ -12,7 +12,7 @@ class SupervisorsController < ApplicationController
     @employees = Employee.where(supervisor_id: params[:id])
     render :index
 
-    #@time_off_requests = TimeOffRequest.where(supervisor_id: params[:id])
+    @time_off_requests = TimeOffRequest.where(supervisor_id: params[:id])
   end
 
   # def ensure_supervisor!
