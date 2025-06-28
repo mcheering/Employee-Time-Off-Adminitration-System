@@ -4,36 +4,41 @@
 class SupervisorsController < ApplicationController
   # before_action :ensure_supervisor!
 
-  def index
-    @supervisor       = current_employee
-    @employees = Employee.where(supervisor_id: current_employee.id)
-    @time_off_requests = TimeOffRequest.where(supervisor_id: params[:id])
-    @status_options  = [
-      ["All", ""],
-      ["Waiting for information", "waiting_information"],
-      ["Decided", "decided"],
-      ["Pending", "pending"]
-    ]
+  # def index
+  #   # @supervisor       = current_employee
+  #   @supervisors = Employee.where(is_supervisor: true)
+  #   @employees = Employee.where(supervisor_id: current_employee.id)
+  #   @time_off_requests = TimeOffRequest.where(supervisor_id: params[:id])
+  #   @status_options  = [
+  #     ["All", ""],
+  #     ["Waiting for information", "waiting_information"],
+  #     ["Decided", "decided"],
+  #     ["Pending", "pending"]
+  #   ]
 
-    current_fy = @fiscal_years.find { |fy| fy.start_date <= Date.current &&
-                                      fy.end_date   >= Date.current }
-    @selected_fy = params[:fiscal_year_id].presence || current_fy&.id
-    @selected_status = params[:status].presence
+  #   current_fy = @fiscal_years.find { |fy| fy.start_date <= Date.current &&
+  #                                     fy.end_date   >= Date.current }
+  #   @selected_fy = params[:fiscal_year_id].presence || current_fy&.id
+  #   @selected_status = params[:status].presence
 
-    requests = TimeOffRequest.where(supervisor_id: @supervisor.id)
+  #   requests = TimeOffRequest.where(supervisor_id: @supervisor.id)
 
-    if @selected_fy
-      requests = requests.joins(:fiscal_year_employee)
-                         .where(fiscal_year_employees: { fiscal_year_id: @selected_fy })
-    end
+  #   if @selected_fy
+  #     requests = requests.joins(:fiscal_year_employee)
+  #                        .where(fiscal_year_employees: { fiscal_year_id: @selected_fy })
+  #   end
 
-    @time_off_requests =
-      if @selected_status
-        requests.select { |r| r.status.to_s == @selected_status }
-      else
-        requests.to_a
-      end
-  end
+  #   @time_off_requests =
+  #     if @selected_status
+  #       requests.select { |r| r.status.to_s == @selected_status }
+  #     else
+  #       requests.to_a
+  #     end
+  # end
+
+  # def index
+  #   @supervisors = Employee.where(is_supervisor: true)
+  # end
 
   def show
     @supervisor      = Employee.find(params[:id])
@@ -70,11 +75,11 @@ class SupervisorsController < ApplicationController
     render :index
   end
 
-  def approve
-    @request = TimeOffRequest.find(params[:id])
-    @request.update!(request_status: 'decided', final_decision_date: Date.today)
-    redirect_to supervisor_path(params[:supervisor_id]), notice: "Request approved."
-  end
+  # def approve
+  #   @request = TimeOffRequest.find(params[:id])
+  #   @request.update!(request_status: 'decided', final_decision_date: Date.today)
+  #   redirect_to supervisor_path(params[:supervisor_id]), notice: "Request approved."
+  # end
 
   def calendar
     @supervisor   = Employee.find(params[:id])

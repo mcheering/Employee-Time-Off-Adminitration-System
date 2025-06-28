@@ -2,12 +2,8 @@
 
 one:
   request_id: 1
-  amount: 1.5
-  was_taken: false
-  decision: 1
+  date:       2025-06-15
+  amount:     1.5
+  was_taken:  false
+  decision:   0
 
-two:
-  request_id: 1
-  amount: 1.5
-  was_taken: false
-  decision: 1
