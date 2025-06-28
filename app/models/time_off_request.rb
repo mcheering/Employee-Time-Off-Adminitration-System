@@ -9,34 +9,25 @@ class TimeOffRequest < ApplicationRecord
   delegate :supervisor_name,     to: :supervisor,           prefix: true
   delegate :submitted_by_name,   to: :users,                prefix: true
 
-  # enum time_off_reason: { pto: 0, vacation: 1, jury_duty: 2, bereavement: 3,  unpaid: 4, other: 5 }
-  # enum request_status: { pending: 0, waiting_information: 1, supervisor_reviewed: 2, decided: 3 }
+  enum reason: { pto: 0, vacation: 1, jury_duty: 2, bereavement: 3,  unpaid: 4, other: 5 }
 
   validates :fiscal_year_employee_id, presence: true
   validates :supervisor_id, presence: true
-  validates :time_off_reason, presence: true
+  validates :reason, presence: true
   validates :request_date, presence: true
   validates :submitted_by, presence: true
   validates :is_fmla, inclusion: { in: [ true, false ] }
 
   def status
     if final_decision_date.present?
-      :decided
+      "decided"
     elsif additional_information_date.present?
-      :waiting_information
+      "information needed"
     elsif supervisor_decision_date.present?
-      :supervisor_reviewed
+      "supervisor reviewed"
     else
-      :pending
+      "pending"
     end
-  end
-
-  def status_caption
-    I18n.t("time_off_request.statuses.#{status}")
-  end
-
-  def reason_caption
-    I18n.t("time_off_request.reasons.#{time_off_reason}")
   end
 
   def from_date
