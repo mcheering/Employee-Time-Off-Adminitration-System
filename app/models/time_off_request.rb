@@ -9,13 +9,13 @@ class TimeOffRequest < ApplicationRecord
   delegate :supervisor_name,     to: :supervisor,           prefix: true
   delegate :submitted_by_name,   to: :users,                prefix: true
 
-  enum reason: { pto: 0, vacation: 1, jury_duty: 2, bereavement: 3,  unpaid: 4, other: 5 }
+  enum :reason, { pto: 0, vacation: 1, jury_duty: 2, bereavement: 3,  unpaid: 4, other: 5 }
 
   validates :fiscal_year_employee_id, presence: true
   validates :supervisor_id, presence: true
   validates :reason, presence: true
   validates :request_date, presence: true
-  validates :submitted_by, presence: true
+  validates :submitted_by_id, presence: true
   validates :is_fmla, inclusion: { in: [ true, false ] }
 
   def status

@@ -6,7 +6,7 @@ class TimeOffRequestTest < ActiveSupport::TestCase
     assert request.invalid?
     assert request.errors[:fiscal_year_employee].any?
     assert request.errors[:supervisor_id].any?
-    assert request.errors[:submitted_by].any?
+    assert request.errors[:submitted_by_id].any?
     assert request.errors[:request_date].any?
     assert request.errors[:reason].any?
     assert request.errors[:is_fmla].any?

@@ -4,10 +4,10 @@ one:
   request_id: 1
   amount: 1.0
   was_taken: false
-  decision: 1
+  decision: 0
 
 two:
   request_id: 1
   amount: 0.5
   was_taken: false
-  decision: 1
+  decision: 0
