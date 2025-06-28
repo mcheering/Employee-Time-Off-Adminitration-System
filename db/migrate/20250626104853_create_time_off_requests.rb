@@ -3,7 +3,7 @@ class CreateTimeOffRequests < ActiveRecord::Migration[8.0]
     create_table :time_off_requests do |t|
       t.integer :fiscal_year_employee_id, null: false
       t.integer :supervisor_id, null: false
-      t.integer :submitted_by, null: false
+      t.integer :submitted_by_id, null: false
       t.date :request_date, null: false
       t.date :additional_information_date
       t.date :supervisor_decision_date
