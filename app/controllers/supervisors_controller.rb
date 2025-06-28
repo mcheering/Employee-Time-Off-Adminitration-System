@@ -1,4 +1,4 @@
-# Author: Matthew Heering
+# Author: Matthew Heering, William Pevytoe
 # Description: sends data fro the supervisors model to the react views.
 # Date: 6/18/25
 class SupervisorsController < ApplicationController
@@ -15,20 +15,18 @@ class SupervisorsController < ApplicationController
       ["Pending", "pending"]
     ]
 
-    # Pull out the filter params (or nil)
-    @selected_fy     = params[:fiscal_year_id].presence
+    current_fy = @fiscal_years.find { |fy| fy.start_date <= Date.current &&
+                                      fy.end_date   >= Date.current }
+    @selected_fy = params[:fiscal_year_id].presence || current_fy&.id
     @selected_status = params[:status].presence
 
-    # Base scope
     requests = TimeOffRequest.where(supervisor_id: @supervisor.id)
 
-    # Filter by fiscal year if given
     if @selected_fy
       requests = requests.joins(:fiscal_year_employee)
                          .where(fiscal_year_employees: { fiscal_year_id: @selected_fy })
     end
 
-    # In-Ruby filter by the status method
     @time_off_requests =
       if @selected_status
         requests.select { |r| r.status.to_s == @selected_status }
@@ -48,21 +46,18 @@ class SupervisorsController < ApplicationController
       [ "Pending",                  "pending" ]
     ]
 
-
-    # Pull out the filter params (or nil)
-    @selected_fy     = params[:fiscal_year_id].presence
+    current_fy = @fiscal_years.find { |fy| fy.start_date <= Date.current &&
+                                          fy.end_date   >= Date.current }
+    @selected_fy = params[:fiscal_year_id].presence || current_fy&.id
     @selected_status = params[:status].presence
 
-    # Base scope
     requests = TimeOffRequest.where(supervisor_id: @supervisor.id)
 
-    # Filter by fiscal year if given
     if @selected_fy
       requests = requests.joins(:fiscal_year_employee)
                          .where(fiscal_year_employees: { fiscal_year_id: @selected_fy })
     end
 
-    # In-Ruby filter by the status method
     @time_off_requests =
       if @selected_status
         requests.select { |r| r.status.to_s == @selected_status }
@@ -88,31 +83,28 @@ class SupervisorsController < ApplicationController
                                           fy.end_date   >= Date.current }
     @selected_fy = params[:fiscal_year_id].presence || current_fy&.id
 
-    # 1. fetch all requests for this supervisor
     reqs = TimeOffRequest.where(supervisor_id: @supervisor.id)
     
-    # 2. filter by fiscal year via the join
+  
     if @selected_fy
       reqs = reqs.joins(:fiscal_year_employee)
                  .where(fiscal_year_employees: { fiscal_year_id: @selected_fy })
     end
 
-    # 3. load all the individual days, with their parent request
-    #    we need amount, reason, status, and employee name
     @by_date = reqs
-      .includes(:time_offs, fiscal_year_employee: :employee)   # eager load
+      .includes(:dates, fiscal_year_employee: :employee) 
       .flat_map { |r|
-        r.time_offs.map { |d|
+        r.dates.map { |d|
           {
             date:           d.date,
             employee_name:  r.fiscal_year_employee.employee_name,
             amount:         d.amount,
-            reason:         r.reason,     # enum symbol
-            status:         r.status,     # uses your #status method
+            reason:         r.reason,    
+            status:         r.status,     
           }
         }
       }
-      .group_by { |entry| entry[:date] }  # { Date => [ {…}, {…}, … ] }
+      .group_by { |entry| entry[:date] }
   end
 
   def employee_records

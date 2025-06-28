@@ -3,15 +3,13 @@ class TimeOffRequest < ApplicationRecord
   belongs_to :supervisor, class_name: "Employee", foreign_key: "supervisor_id"
   belongs_to :submitted_by, class_name: "Employee", foreign_key: "submitted_by_id"
 
-
-  has_many :time_offs, class_name: "TimeOff", foreign_key: "request_id", dependent: :destroy
-
+  has_many :dates, class_name: "TimeOff", foreign_key: "request_id", dependent: :destroy
 
   delegate :name,                to: :fiscal_year_employee, prefix: :fiscal_year_employee
   delegate :fiscal_year_caption, to: :fiscal_year_employee, prefix: :fiscal_year_employee
   delegate :name, to: :supervisor,   prefix: true, allow_nil: true
   delegate :name, to: :submitted_by, prefix: true, allow_nil: true
-  
+
   enum :reason, {
     pto:         0,
     vacation:    1,
@@ -51,10 +49,10 @@ class TimeOffRequest < ApplicationRecord
   end
   
   def from_date
-    time_offs.minimum(:date)
+    dates.minimum(:date)
   end
 
   def to_date
-    time_offs.maximum(:date)
+    dates.maximum(:date)
   end
 end

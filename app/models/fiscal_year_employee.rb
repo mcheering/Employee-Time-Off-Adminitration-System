@@ -10,7 +10,7 @@ class FiscalYearEmployee < ApplicationRecord
            foreign_key: "fiscal_year_employee_id",
            dependent:   :destroy
 
-  has_many :time_offs,
+  has_many :dates,
            through:    :time_off_requests
            
 
@@ -20,34 +20,6 @@ class FiscalYearEmployee < ApplicationRecord
   delegate :caption,          to: :fiscal_year,  prefix: :fiscal_year
 
   validates :fiscal_year_id, :employee_id, presence: true
-
-  # # Author: Terry Thompson
-  # # Date: 2024-06-20
-  # # Description: Returns the employee's full name.
-  # def employee_name
-  #   employee.name
-  # end
-
-  # # Author: Terry Thompson
-  # # Date: 2024-06-20
-  # # Description: String that represents the fiscal year.
-  # def fiscal_year_caption
-  #   fiscal_year.caption
-  # end
-
-  # # Author: Terry Thompson
-  # # Date: 2024-06-20
-  # # Description: Date the employee was hired.
-  # def employee_hire_date
-  #   employee.hire_date
-  # end
-
-  # # Author: Terry Thompson
-  # # Date: 2024-06-20
-  # # Description: Date the employee terminated employment.  Nil if the employee is active.
-  # def employee_termination_date
-  #   employee.termination_date
-  # end
 
   # Author: Terry Thompson
   # Date: 2024-06-20
@@ -101,10 +73,12 @@ class FiscalYearEmployee < ApplicationRecord
     end
   end
 
+  #Author: William Pevytoe
+  #Date: 6/27/2025
   def used_days_for(reason_sym)
     time_off_requests
       .where(reason: reason_sym)
-      .joins(:time_offs)
-      .sum("time_offs.amount")
+      .joins(:dates)
+      .sum("dates.amount")
   end
 end
