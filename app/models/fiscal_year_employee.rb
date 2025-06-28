@@ -5,6 +5,7 @@
 class FiscalYearEmployee < ApplicationRecord
   belongs_to :employee
   belongs_to :fiscal_year
+  has_many :fiscal_year_employee
 
   delegate :name,             to: :employee,     prefix: :employee
   delegate :hire_date,        to: :employee,     prefix: :employee
