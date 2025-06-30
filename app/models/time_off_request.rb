@@ -1,3 +1,9 @@
+# Author: Terry Thompson
+# Date: 6/24/2025
+# Description: Model of an employee's request to take time off.  The request
+# can be submitted either before or after days taken off (e.g., employee was
+# unexpectedly sick, the request may be submitted after the employee took time
+# off).
 class TimeOffRequest < ApplicationRecord
   belongs_to :fiscal_year_employee
   belongs_to :supervisor, class_name: "Employee", foreign_key: "supervisor_id"
@@ -18,6 +24,9 @@ class TimeOffRequest < ApplicationRecord
   validates :submitted_by_id, presence: true
   validates :is_fmla, inclusion: { in: [ true, false ] }
 
+  # Author: Terry Thompson
+  # Date: 6/24/2025
+  # Description: Identifies the status of the request.
   def status
     if final_decision_date.present?
       "decided"
@@ -30,10 +39,16 @@ class TimeOffRequest < ApplicationRecord
     end
   end
 
+  # Author: Terry Thompson
+  # Date: 6/24/2025
+  # Description: Identifies the first date on a time off request.
   def from_date
     dates.minimum(:date)
   end
 
+  # Author: Terry Thompson
+  # Date: 6/24/205
+  # Description: Identifies the last date on a request for time off.
   def to_date
     dates.maximum(:date)
   end

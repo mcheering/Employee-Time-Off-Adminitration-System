@@ -1,6 +1,8 @@
 require "test_helper"
 
 class TimeOffRequestTest < ActiveSupport::TestCase
+  # Author: Terry Thompson
+  # 6/27/2025
   test "should create time_off_request with valid data" do
     request = TimeOffRequest.new
     assert request.invalid?
@@ -9,6 +11,5 @@ class TimeOffRequestTest < ActiveSupport::TestCase
     assert request.errors[:submitted_by_id].any?
     assert request.errors[:request_date].any?
     assert request.errors[:reason].any?
-    # assert request.errors[:is_fmla].any?
   end
 end
