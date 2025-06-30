@@ -120,7 +120,7 @@ fiscal_years  = FiscalYear.all.to_a
       to: fiscal_year.end_date
     )
 
-    request.time_offs.create!(
+    request.dates.create!(
       date:       d,
       amount:     [0.5, 1.0].sample,
       was_taken:  [true, false].sample,
