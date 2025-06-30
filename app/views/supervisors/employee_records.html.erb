@@ -1,11 +1,11 @@
+<!-- app/views/supervisors/employee_records.html.erb -->
 <h1>Supervisor <%= @supervisor.name %> Views</h1>
 <h2>Employee Record</h2>
 
 <nav class="tabs">
-  <%= link_to 'Time-Off Requests',    supervisor_path(@supervisor),           class: 'tab' %>
-  <%= link_to 'Calendar',             calendar_supervisor_path(@supervisor),  class: 'tab' %>
-  <%= link_to 'Employee Records',     employee_records_supervisor_path(@supervisor),
-                class: 'tab active' %>
+  <%= link_to "Time-Off Requests", supervisor_path(@supervisor),           class: "inactive" %>
+  <%= link_to "Calendar",          calendar_supervisor_path(@supervisor),  class: "inactive" %>
+  <%= link_to "Employee Records",  employee_records_supervisor_path(@supervisor), class: "active" %>
 </nav>
 
 <section class="filters">
@@ -16,52 +16,36 @@
     <%= f.collection_select :fiscal_year_id,
                             @fiscal_years,
                             :id,
-                            ->(fy) { "#{fy.start_date.year}-#{fy.end_date.year.to_s.last(2)}" },
+                            ->(fy){ "#{fy.start_date.year}-#{fy.end_date.year.to_s.last(2)}" },
                             { selected: @selected_fy } %>
-    <%= f.submit 'Filter' %>
+    <%= f.submit "Filter" %>
   <% end %>
 </section>
 
-<table>
-  <thead>
-    <tr>
-      <th>Employee Name</th>
-      <th>PTO</th>
-      <th>Vacation</th>
-      <th>Jury Duty</th>
-      <th>Bereavement</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @fye_records.each do |fye| %>
-      <tr>
-        <td><%= fye.employee.name %></td>
+<div
+  id="supervisor-dashboard"
+  data-page="records"
+  data-supervisor='<%= raw @supervisor.to_json %>'
+  data-fiscal-years='<%= raw @fiscal_years.to_json %>'
+  data-selected-fy='<%= @selected_fy %>'
+  data-status-options='[]'
+  data-selected-status=''
+  data-time-off-requests='[]'
+  data-by-date='{}'
+  data-fye-records='<%= raw @fye_records.to_json %>'
+></div>
 
-            <td>
-            Allotted: <%= fye.allotted_pto_days %><br>
-            Used:     <%= fye.used_days_for(:pto) %><br>
-            Remain:   <%= fye.allotted_pto_days - fye.used_days_for(:pto) %>
-            </td>
+<pre style="background:#f9f9f9; padding:1em; white-space:pre-wrap;">
+Supervisor JSON:
+<%= raw @supervisor.to_json %>
 
-            <td>
-            Earned:   <%= fye.earned_vacation_days %><br>
-            Used:     <%= fye.used_days_for(:vacation) %><br>
-            Remain:   <%= fye.earned_vacation_days - fye.used_days_for(:vacation) %>
-            </td>
+FiscalYears JSON:
+<%= raw @fiscal_years.to_json %>
 
-            <td>
-            Used:     <%= fye.used_days_for(:jury_duty) %>
-            </td>
+Selected FY: <%= @selected_fy.inspect %>
 
-            <td>
-            Used:     <%= fye.used_days_for(:bereavement) %>
-            </td>
+FiscalYearEmployee Records JSON:
+<%= raw @fye_records.to_json %>
+</pre>
 
-        <td>
-          <%= link_to "View", employee_path(fye.employee), class: "btn btn-primary" %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<%= vite_javascript_tag "entrypoints/application.jsx", type: "module" %>

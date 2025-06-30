@@ -14,6 +14,7 @@ import EmployeeShow from "../components/EmployeeShow";
 import SupervisorsTable from "../components/SupervisorsTable";
 import AdministratorsTable from "../components/AdministratorsTable";
 import AdminDashboard from "../components/AdminDashboard";
+import SupervisorDashboard from "../components/SupervisorDashboard";
 
 document.addEventListener("DOMContentLoaded", () => {
   const headerRoot = document.getElementById("react-layout-header");
@@ -96,6 +97,42 @@ document.addEventListener("DOMContentLoaded", () => {
         employees={employees}
         fiscalYears={fiscalYears}
         fiscalYearEmployees={fiscalYearEmployees}
+      />
+    );
+  }
+
+  const supRoot = document.getElementById("supervisor-dashboard");
+  if (supRoot) {
+    const parseScriptJSON = (id, fallback = null) => {
+      const el = document.getElementById(id);
+      if (!el) return fallback;
+      try {
+        return JSON.parse(el.textContent);
+      } catch (err) {
+        console.error(`Failed to parse #${id}:`, err);
+        return fallback;
+      }
+    };
+
+    const supervisor = parseScriptJSON("supervisor-data");
+    const fiscalYears = parseScriptJSON("fiscal-years-data", []);
+    const selectedFy = parseScriptJSON("selected-fy");
+    const statusOptions = parseScriptJSON("status-options", []);
+    const selectedStatus = parseScriptJSON("selected-status", "");
+    const timeOffRequests = parseScriptJSON("time-off-requests", []);
+    const byDate = parseScriptJSON("by-date", {});
+    const fyeRecords = parseScriptJSON("fye-records", []);
+
+    createRoot(supRoot).render(
+      <SupervisorDashboard
+        supervisor={supervisor}
+        fiscalYears={fiscalYears}
+        selectedFy={selectedFy}
+        statusOptions={statusOptions}
+        selectedStatus={selectedStatus}
+        timeOffRequests={timeOffRequests}
+        byDate={byDate}
+        fyeRecords={fyeRecords}
       />
     );
   }

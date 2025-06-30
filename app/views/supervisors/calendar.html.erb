@@ -1,34 +1,52 @@
+<!-- app/views/supervisors/calendar.html.erb -->
 <h1>Supervisor <%= @supervisor.name %> Calendar</h1>
 
 <nav class="tabs">
-  <%= link_to 'Time-Off Requests', supervisor_path(@supervisor) %>
-  <%= link_to 'Calendar', calendar_supervisor_path(@supervisor)  %>
-  <%= link_to 'Employee Records', employee_records_supervisor_path(@supervisor) %>
+  <%= link_to "Time-Off Requests", supervisor_path(@supervisor) %>
+  <%= link_to "Calendar",          calendar_supervisor_path(@supervisor), class: "active" %>
+  <%= link_to "Employee Records",  employee_records_supervisor_path(@supervisor) %>
 </nav>
 
 <section class="filters">
   <%= form_with url: calendar_supervisor_path(@supervisor),
-                method: :get, local: true do |f| %>
+                method: :get,
+                local: true do |f| %>
     <label>Fiscal Year</label>
     <%= f.collection_select :fiscal_year_id,
                             @fiscal_years,
                             :id,
                             ->(fy){ "#{fy.start_date.year}-#{fy.end_date.year.to_s.last(2)}" },
                             { selected: @selected_fy } %>
-    <%= f.submit 'Filter' %>
+    <%= f.submit "Filter" %>
   <% end %>
 </section>
 
-<% @by_date.sort.each do |date, entries| %>
-  <h3><%= date.strftime('%-m/%-d/%Y') %></h3>
-  <ul>
-    <% entries.each do |e| %>
-      <li>
-        <%= e[:employee_name] %>,
-        <%= e[:amount] %> days,
-        <%= e[:reason].humanize %>,
-        <%= e[:status].to_s.humanize %>
-      </li>
-    <% end %>
-  </ul>
-<% end %>
+<div
+  id="supervisor-dashboard"
+  data-page="calendar"
+  data-supervisor='<%= raw @supervisor.to_json %>'
+  data-fiscal-years='<%= raw @fiscal_years.to_json %>'
+  data-selected-fy='<%= @selected_fy %>'
+  data-status-options='[]'
+  data-selected-status=''
+  data-time-off-requests='[]'
+  data-by-date='<%= raw((@by_date || {}).to_json) %>'
+  data-fye-records='[]'
+></div>
+
+<%# ————— DEBUG: dump raw JSON so you can see what’s coming through ————— %>
+<pre style="background:#f0f0f0;padding:1em;white-space:pre-wrap;">
+Supervisor JSON:
+<%= raw @supervisor.to_json %>
+
+FiscalYears JSON:
+<%= raw @fiscal_years.to_json %>
+
+Selected FY:
+<%= @selected_fy.inspect %>
+
+ByDate JSON:
+<%= raw((@by_date || {}).to_json) %>
+</pre>
+
+<%= vite_javascript_tag "entrypoints/application.jsx", type: "module" %>

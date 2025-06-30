@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   root "administrators#dashboard"
 
   devise_for :employees
-  resources :supervisors, only: %i[index show] do 
+  resources :supervisors, only: [:index, :show] do 
     member do
       get :calendar
       get :employee_records
