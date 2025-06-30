@@ -1,0 +1,12 @@
+<div id="supervisor-dashboard"></div>
+
+<%= tag.script type: "application/json", id: "supervisor-data" do %><%= raw @supervisor.to_json %><% end %>
+<%= tag.script type: "application/json", id: "fiscal-years-data" do %><%= raw @fiscal_years.to_json %><% end %>
+<%= tag.script type: "application/json", id: "selected-fy" do %><%= raw @selected_fy.to_json %><% end %>
+<%= tag.script type: "application/json", id: "status-options" do %><%= raw @status_options.to_json %><% end %>
+<%= tag.script type: "application/json", id: "selected-status" do %><%= raw @selected_status.to_json %><% end %>
+<%= tag.script type: "application/json", id: "time-off-requests" do %><%= raw @time_off_requests_payload.to_json %><% end %>
+<%= tag.script type: "application/json", id: "by-date" do %><%= raw @calendar_data.to_json %><% end %>
+<%= tag.script type: "application/json", id: "fye-records" do %><%= raw @fye_records.to_json %><% end %>
+
+<%= vite_javascript_tag "entrypoints/application.jsx", type: "module" %>
