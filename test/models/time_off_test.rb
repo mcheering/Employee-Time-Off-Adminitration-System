@@ -30,4 +30,7 @@ class TimeOffTest < ActiveSupport::TestCase
     time_off = TimeOff.new
     assert_equal true, time_off.was_taken
   end
+
+  # Author: Terry Thompson
+  # Date: 6/30/2025
 end

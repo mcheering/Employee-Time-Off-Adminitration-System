@@ -10,10 +10,10 @@ class TimeOffRequest < ApplicationRecord
 
   has_many :dates, class_name: "TimeOff", foreign_key: "time_off_request_id", dependent: :destroy
 
-  delegate :name,                to: :fiscal_year_employee, prefix: :fiscal_year_employee
-  delegate :fiscal_year_caption, to: :fiscal_year_employee, prefix: :fiscal_year_employee
-  delegate :supervisor_name,     to: :supervisor,           prefix: true
-  delegate :submitted_by_name,   to: :users,                prefix: true
+  delegate :employee_name,       to: :fiscal_year_employee, prefix: false
+  delegate :fiscal_year_caption, to: :fiscal_year_employee, prefix: false
+  delegate :name,                to: :supervisor,           prefix: true
+   delegate :submitted_by_name,   to: :users,                prefix: true
 
   enum :reason, { pto: 0, vacation: 1, jury_duty: 2, bereavement: 3,  unpaid: 4, other: 5 }
 
@@ -51,5 +51,10 @@ class TimeOffRequest < ApplicationRecord
   # Description: Identifies the last date on a request for time off.
   def to_date
     dates.maximum(:date)
+  end
+
+  def submitted_by_name
+    employee = Employee.find(self.submitted_by_id)
+    employee.name
   end
 end
