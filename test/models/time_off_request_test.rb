@@ -78,8 +78,16 @@ class TimeOffRequestTest < ActiveSupport::TestCase
 
   # Author: Terry Thompson
   # 6/30/2025
-  test "status equals supervisor reviewed when supervisor_decision_date and additional_information_date have values" do
-    request = TimeOffRequest.new(additional_information_date: "2025-01-01", supervisor_decision_date: "2025-01-02")
+  test "status equals supervisor reviewed when supervisor_decision_date and additional_information_date have values and information_received_date does not" do
+    request = TimeOffRequest.new(
+        additional_information_date: "2025-01-01", supervisor_decision_date: "2025-01-02")
+    assert_equal "information needed", request.status
+  end
+
+  # Author: Terry Thompson
+  # 6/30/2025
+  test "status equals supervisor reviewed when supervisor_decision_date and additional_information_date and information_received_date" do
+    request = TimeOffRequest.new(additional_information_date: "2025-01-01", supervisor_decision_date: "2025-01-02", information_received_date: "2025-01-02")
     assert_equal "supervisor reviewed", request.status
   end
 

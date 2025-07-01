@@ -30,7 +30,7 @@ class TimeOffRequest < ApplicationRecord
   def status
     if final_decision_date.present?
       "decided"
-    elsif additional_information_date.present?
+    elsif additional_information_date.present? && information_received_date.nil?
       "information needed"
     elsif supervisor_decision_date.present?
       "supervisor reviewed"
