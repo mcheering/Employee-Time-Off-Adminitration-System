@@ -6,6 +6,7 @@ class CreateTimeOffRequests < ActiveRecord::Migration[8.0]
       t.integer :submitted_by_id, null: false
       t.date :request_date, null: false
       t.date :additional_information_date
+      t.date :information_received_date
       t.date :supervisor_decision_date
       t.date :final_decision_date
       t.integer :reason, null: false

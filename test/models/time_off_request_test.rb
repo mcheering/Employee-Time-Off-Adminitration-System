@@ -45,4 +45,55 @@ class TimeOffRequestTest < ActiveSupport::TestCase
     request.submitted_by_id = employee.id
     assert_equal employee.name, request.submitted_by_name
   end
+
+  # Author: Terry Thompson
+  # 6/30/2025
+  test "from_date equals 1/5/2025" do
+    request = time_off_requests(:one)
+    first_date = time_offs(:one) # This record as a date of 1/5/2025
+    assert_equal first_date.date, request.from_date
+  end
+
+  # Author: Terry Thompson
+  # 6/30/2025
+  test "from_date equals 1/6/2025" do
+    request = time_off_requests(:one)
+    last_date = time_offs(:two) # This record as a date of 1/5/2025
+    assert_equal last_date.date, request.to_date
+  end
+
+  # Author: Terry Thompson
+  # 6/30/2025
+  test "status equals decided when final_decision_date has a value" do
+    request = TimeOffRequest.new(final_decision_date: "2015-01-01")
+    assert_equal "decided", request.status
+  end
+
+  # Author: Terry Thompson
+  # 6/30/2025
+  test "status equals information needed when additional_information_date has a value" do
+    request = TimeOffRequest.new(additional_information_date: "2025-01-01")
+    assert_equal "information needed", request.status
+  end
+
+  # Author: Terry Thompson
+  # 6/30/2025
+  test "status equals supervisor reviewed when supervisor_decision_date and additional_information_date have values" do
+    request = TimeOffRequest.new(additional_information_date: "2025-01-01", supervisor_decision_date: "2025-01-02")
+    assert_equal "supervisor reviewed", request.status
+  end
+
+  # Author: Terry Thompson
+  # 6/30/2025
+  test "status equals supervisor reviewed when supervisor_decision_date has a value" do
+    request = TimeOffRequest.new(supervisor_decision_date: "2025-01-01")
+    assert_equal "supervisor reviewed", request.status
+  end
+
+  # Author: Terry Thompson
+  # 6/30/2025
+  test "status equals pending when requested date has a value" do
+    request = TimeOffRequest.new()
+    assert_equal "pending", request.status
+  end
 end
