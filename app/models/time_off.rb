@@ -23,14 +23,7 @@ class TimeOff < ApplicationRecord
   # Date: 6/27/2025
   # Description: a string that identifies the decision for the time off date
   def decision_caption
-    case decision.to_sym
-    when :pending
-      "pending"
-    when :approved
-      "approved"
-    when :denied
-      "denied"
-    end
+    decision
   end
 
   private
