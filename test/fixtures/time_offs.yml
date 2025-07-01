@@ -1,13 +1,15 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  request_id: 1
-  amount: 1.0
-  was_taken: false
-  decision: 0
+# one:
+#   request_id: 1
+#   date: 2025-01-05
+#   amount: 1.0
+#   was_taken: false
+#   decision: 0
 
-two:
-  request_id: 1
-  amount: 0.5
-  was_taken: false
-  decision: 0
+# two:
+#   request_id: 1
+#   date: 2025-01-06
+#   amount: 0.5
+#   was_taken: false
+#   decision: 0
