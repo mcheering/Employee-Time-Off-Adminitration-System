@@ -65,7 +65,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_26_105205) do
     t.date "request_date", null: false
     t.integer "reason", null: false
     t.boolean "is_fmla", null: false
-    t.string "decision_date"
+    t.date "additional_information_date"
+    t.date "information_received_date"
+    t.date "supervisor_decision_date"
+    t.date "final_decision_date"
     t.string "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
