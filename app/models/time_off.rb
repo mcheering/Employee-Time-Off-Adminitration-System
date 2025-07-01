@@ -4,7 +4,7 @@ class TimeOff < ApplicationRecord
   after_initialize :set_default_decision, :set_default_was_taken
 
   validates :date, presence: true
-  validates :request_id, presence: true
+  validates :time_off_request_id, presence: true
   validates :was_taken, inclusion: { in: [ true, false ] }
 
   delegate :fiscal_year_employee_name, to: :time_off_request, prefix: true
@@ -14,9 +14,9 @@ class TimeOff < ApplicationRecord
 
   # Author: Terry Thompson
   # Date: 6/27/2025
-  # Description: Class method to retrieve time_off dates for a certain time_off request id.
+  # Description: Class method to retrieve all time_off instances for a certain time_off request id.
   def self.for_request(request_id)
-    where(request_id: request_id)
+    where(time_off_request_id: request_id)
   end
 
   # Author: Terry Thompson

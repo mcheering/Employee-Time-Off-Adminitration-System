@@ -72,7 +72,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_26_105205) do
   end
 
   create_table "time_offs", force: :cascade do |t|
-    t.integer "request_id"
+    t.integer "time_off_request_id"
     t.date "date", null: false
     t.float "amount", null: false
     t.boolean "was_taken"
