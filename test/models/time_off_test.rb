@@ -7,7 +7,7 @@ class TimeOffTest < ActiveSupport::TestCase
     time_off = TimeOff.new
     assert time_off.invalid?
     assert time_off.errors[:date].any?
-    assert time_off.errors[:request_id].any?
+    assert time_off.errors[:time_off_request_id].any?
   end
 
   # Author: Terry Thompson
@@ -43,5 +43,11 @@ class TimeOffTest < ActiveSupport::TestCase
   test "decision_caption equals denied when decision is denied" do
     time_off = TimeOff.new(decision: "denied")
     assert_equal "denied", time_off.decision_caption
+  end
+
+  test "for_request returns two records" do
+    request = time_off_requests(:one)
+    count = TimeOff.for_request(request.id).count
+    assert_equal 2, count
   end
 end
