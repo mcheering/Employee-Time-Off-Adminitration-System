@@ -73,9 +73,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_26_105205) do
 
   create_table "time_offs", force: :cascade do |t|
     t.integer "request_id"
-    t.float "amount"
+    t.date "date", null: false
+    t.float "amount", null: false
     t.boolean "was_taken"
-    t.integer "decision"
+    t.integer "decision", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
