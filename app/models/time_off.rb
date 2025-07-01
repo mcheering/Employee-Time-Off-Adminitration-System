@@ -16,7 +16,7 @@ class TimeOff < ApplicationRecord
   # Date: 6/27/2025
   # Description: Class method to retrieve time_off dates for a certain time_off request id.
   def self.for_request(request_id)
-    where(time_off_request_id: request_id)
+    where(request_id: request_id)
   end
 
   # Author: Terry Thompson
