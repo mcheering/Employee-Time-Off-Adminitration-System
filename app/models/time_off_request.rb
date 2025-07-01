@@ -47,12 +47,16 @@ class TimeOffRequest < ApplicationRecord
   end
 
   # Author: Terry Thompson
-  # Date: 6/24/205
+  # Date: 6/24/2025
   # Description: Identifies the last date on a request for time off.
   def to_date
     dates.maximum(:date)
   end
 
+  # Author: Terry Thompson
+  # Date: 6/24/2025
+  # Description: Identifies the person who submitted the request.  Can be
+  # the employee, the supervisor, or the administrator.
   def submitted_by_name
     employee = Employee.find(self.submitted_by_id)
     employee.name
