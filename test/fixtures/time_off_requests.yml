@@ -1,30 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
 one:
-  # link to your fiscal_year_employee fixture (must exist in fiscal_year_employees.yml)
-  fiscal_year_employee_id: 1
-
-  # supervisors and submitters are both employees, so use the *_id columns
-  supervisor_id:           1
-  submitted_by_id:         1
-
-  # dates
-  request_date:            2025-06-26
-  supervisor_decision_date: 2025-06-27
-  final_decision_date:     
-
-  # reason can be the enum key or integer—using the key is clearer
-  reason:                  pto
-
-  # FMLA flag and comment
-  is_fmla:                 false
-  comment:                 "MyString"
+  fiscal_year_employee: one
+  supervisor: supervisor
+  submitted_by_id: 1
+  request_date: 2025-01-04
+  reason: 0
+  is_fmla: false
 
 two:
-  fiscal_year_employee_id: 2
-  supervisor_id:           1
-  submitted_by_id:         1
-  request_date:            2025-06-26
-  supervisor_decision_date: 2025-06-27
-  final_decision_date:     
-  reason:                  vacation
-  is_fmla:                 false
-  comment:                 "MyString"
+  fiscal_year_employee: one
+  supervisor: supervisor
+  submitted_by_id: 1
+  request_date: 2025-01-05
+  reason: 0
+  is_fmla: false
