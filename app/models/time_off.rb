@@ -1,10 +1,10 @@
 class TimeOff < ApplicationRecord
-  belongs_to :time_off_request, class_name: "TimeOffRequest", foreign_key: "request_id"
+  belongs_to :time_off_request, class_name: "TimeOffRequest", foreign_key: "time_off_request_id"
 
   after_initialize :set_default_decision, :set_default_was_taken
 
   validates :date, presence: true
-  validates :request_id, presence: true
+  validates :time_off_request_id, presence: true
   validates :was_taken, inclusion: { in: [ true, false ] }
 
   delegate :fiscal_year_employee_name, to: :time_off_request, prefix: true

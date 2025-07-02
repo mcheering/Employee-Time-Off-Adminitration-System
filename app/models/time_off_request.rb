@@ -9,7 +9,7 @@ class TimeOffRequest < ApplicationRecord
   belongs_to :supervisor, class_name: "Employee", foreign_key: "supervisor_id"
   belongs_to :submitted_by, class_name: "Employee", foreign_key: "submitted_by_id"
 
-  has_many :dates, class_name: "TimeOff", foreign_key: "request_id", dependent: :destroy
+  has_many :dates, class_name: "TimeOff", foreign_key: "time_off_request_id", dependent: :destroy
 
   delegate :employee_name,       to: :fiscal_year_employee, prefix: false
   delegate :fiscal_year_caption, to: :fiscal_year_employee, prefix: false
