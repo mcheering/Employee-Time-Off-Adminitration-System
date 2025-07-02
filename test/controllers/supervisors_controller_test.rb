@@ -2,8 +2,8 @@ require "test_helper"
 
 class SupervisorsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @supervisor = employees(:supervisor) # uses your fixture
-    @employee = employees(:one) # another employee in your fixture
+    @supervisor = employees(:supervisor)
+    @employee = employees(:one)
     @fiscal_year = fiscal_years(:one)
     @fye = fiscal_year_employees(:one)
     @time_off_request = time_off_requests(:one)
