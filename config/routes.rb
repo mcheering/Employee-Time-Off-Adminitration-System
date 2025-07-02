@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   # === Devise ===
-  devise_for :employees
+  devise_for :employees, skip: [:registrations]
 
   # === Admin & Dashboard ===
   resources :administrators, only: [:index]

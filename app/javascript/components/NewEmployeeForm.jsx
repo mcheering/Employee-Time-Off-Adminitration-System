@@ -73,7 +73,7 @@ export default function NewEmployeeForm({ employee = null, supervisors = [] }) {
       const data = await response.json();
       setToastOpen(true);
       setTimeout(() => {
-        window.location.href = `/employees/${data.id}`;
+        window.location.href = `/admin/dashboard`;
       }, 1500);
     } else {
       const errorData = await response.json();

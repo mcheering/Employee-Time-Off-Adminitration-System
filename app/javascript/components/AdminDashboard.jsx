@@ -42,6 +42,7 @@ export default function AdminDashboard() {
           <FiscalYearEmployeesTable
             fiscalYearEmployees={fiscalYearEmployees}
             fiscalYears={fiscalYears}
+            onManage={(emp) => setSelectedEmployee(emp)}
           />
         );
       case "employees":

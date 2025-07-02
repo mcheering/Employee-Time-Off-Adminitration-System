@@ -86,14 +86,15 @@ class EmployeesController < ApplicationController
   # POST /employees or /employees.json
   def create
     @employee = Employee.new(employee_params)
-
+  
     respond_to do |format|
       if @employee.save
         format.html { redirect_to @employee, notice: "Employee was successfully created." }
-        format.json { render :show, status: :created, location: @employee }
+        format.json { render json: @employee, status: :created }  # ✅ Updated
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @employee.errors.full_messages, status: :unprocessable_entity }      end
+        format.json { render json: @employee.errors.full_messages, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -103,14 +104,14 @@ class EmployeesController < ApplicationController
       params[:employee].delete(:password)
       params[:employee].delete(:password_confirmation)
     end
-
+  
     respond_to do |format|
       if @employee.update(employee_params)
         format.html { redirect_to @employee, notice: "Employee was successfully updated." }
-        format.json { render :show, status: :ok, location: @employee }
+        format.json { render json: @employee, status: :ok }  # ✅ Updated
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @employee.errors, status: :unprocessable_entity }
+        format.json { render json: @employee.errors.full_messages, status: :unprocessable_entity }
       end
     end
   end

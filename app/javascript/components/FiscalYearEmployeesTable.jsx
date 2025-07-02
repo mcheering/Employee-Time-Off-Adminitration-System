@@ -31,6 +31,7 @@ function formatCaption(startDate, endDate) {
 export default function FiscalYearEmployeesTable({
   fiscalYearEmployees,
   fiscalYears,
+  onManage,
 }) {
   const [fiscalYearId, setFiscalYearId] = useState(() => {
     if (fiscalYears.length === 0) return "";
@@ -112,10 +113,7 @@ export default function FiscalYearEmployeesTable({
               <TableCell>{fye.earned_vacation_days}</TableCell>
               <TableCell>{fye.allotted_pto_days}</TableCell>
               <TableCell>
-                <Button
-                  variant="contained"
-                  href={`/employees/${fye.employee_id}`}
-                >
+                <Button variant="contained" onClick={() => onManage(fye)}>
                   Manage
                 </Button>
               </TableCell>
