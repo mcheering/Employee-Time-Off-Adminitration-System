@@ -5,6 +5,7 @@
 class FiscalYearEmployee < ApplicationRecord
   belongs_to :employee
   belongs_to :fiscal_year
+  has_many :fiscal_year_employee
 
   has_many :time_off_requests,
            foreign_key: "fiscal_year_employee_id",
