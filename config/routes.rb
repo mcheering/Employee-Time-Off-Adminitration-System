@@ -8,6 +8,10 @@ Rails.application.routes.draw do
   put    "employees/:id",      to: "employees#update"
   delete "employees/:id",      to: "employees#destroy"
 
+  resources :employees, only: [] do
+    resources :time_off_requests, only: [:new, :create, :edit, :update, :show]
+  end
+
   resources :administrators, only: [ :index ]
 
 
