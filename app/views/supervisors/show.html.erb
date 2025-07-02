@@ -24,5 +24,8 @@
 <!-- 🔍 FYE Records Count: <%= @fye_records.size %> -->
 <%= tag.script type: "application/json", id: "fye-records" do %><%= raw @fye_records.to_json %><% end %>
 
+      <%= tag.script type: "application/json", id: "calendar-data" do %>
+  <%= raw @calendar_data.to_json %>
+<% end %>
 
 <%= vite_javascript_tag "entrypoints/application.jsx", type: "module" %>

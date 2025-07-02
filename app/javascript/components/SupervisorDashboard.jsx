@@ -1,6 +1,15 @@
-// SupervisorDashboard.jsx
 import React, { useState } from "react";
-import { Box, Button, Stack, Paper } from "@mui/material";
+import {
+  Box,
+  Button,
+  Stack,
+  Paper,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@mui/material";
+
 import TimeOffRequestsView from "./TimeOffRequestsView";
 import CalendarView from "./CalendarView";
 import EmployeeRecordsView from "./EmployeeRecordsView";
@@ -15,27 +24,14 @@ export default function SupervisorDashboard({
   byDate = {},
   fyeRecords = [],
 }) {
-  console.log("component rendered supervisor", supervisor);
-  console.log("component rendered fiscalyears", fiscalYears);
-  console.log("component rendered selectedfy", selectedFy);
-  console.log("component rendered status options", statusOptions);
-  console.log("component rendered selected status", selectedStatus);
-  console.log("component rendered timeOffRequests", timeOffRequests);
-  console.log("component rendered byDate", byDate);
-  console.log("component rendered fyeRecords", fyeRecords);
-
   const [activeTab, setActiveTab] = useState("requests");
 
-  console.log("SupervisorDashboard props", {
-    supervisor,
-    fiscalYears,
-    selectedFy,
-    statusOptions,
-    selectedStatus,
-    timeOffRequests,
-    byDate,
-    fyeRecords,
-  });
+  const handleFyChange = (event) => {
+    const selectedId = event.target.value;
+    const searchParams = new URLSearchParams(window.location.search);
+    searchParams.set("fiscal_year_id", selectedId);
+    window.location.search = searchParams.toString(); // full-page reload
+  };
 
   const renderTab = () => {
     switch (activeTab) {
@@ -66,6 +62,27 @@ export default function SupervisorDashboard({
 
   return (
     <Box sx={{ padding: 4 }}>
+      {/* Fiscal Year Dropdown */}
+      <FormControl fullWidth sx={{ mb: 3 }}>
+        <InputLabel id="fy-select-label">Fiscal Year</InputLabel>
+        <Select
+          data-testid="fiscal-year-select"
+          labelId="fy-select-label"
+          value={selectedFy?.id || ""}
+          label="Fiscal Year"
+          onChange={handleFyChange}
+        >
+          {fiscalYears.map((fy) => (
+            <MenuItem key={fy.id} value={fy.id}>
+              {`${new Date(fy.start_date).getFullYear()}–${new Date(
+                fy.end_date
+              ).getFullYear()}`}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+
+      {/* Tab Buttons */}
       <Stack direction="row" spacing={2} justifyContent="center" sx={{ mb: 3 }}>
         <Button
           variant={activeTab === "requests" ? "contained" : "outlined"}
@@ -87,6 +104,7 @@ export default function SupervisorDashboard({
         </Button>
       </Stack>
 
+      {/* Active View */}
       <Paper elevation={3} sx={{ padding: 3 }}>
         {renderTab()}
       </Paper>

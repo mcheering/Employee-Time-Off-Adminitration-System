@@ -1,8 +1,9 @@
 /*
 Author: Matthew Heering
-Description: e2e testing to verify the maange fiscal year employee table correclty renders all employees, and that clicking manage takes them to the show page. 
+Description: e2e testing to verify the manage fiscal year employee table correctly renders all employees, and that clicking manage displays the show panel.
 Date: 6/18/25
 */
+
 describe("Admin Workflow - Fiscal Year Employees Filter", () => {
   function testFiscalYearOptions(years, index = 0) {
     if (index >= years.length) return;
@@ -31,8 +32,13 @@ describe("Admin Workflow - Fiscal Year Employees Filter", () => {
         });
 
         cy.wrap(rows[0]).contains("Manage").click();
-        cy.url().should("match", /\/employees\/\d+$/);
 
+        // ✅ Confirm content for employee details is rendered
+        cy.contains("Employee Details").should("exist");
+        cy.contains("First Name").should("exist");
+        cy.contains("Hire Date").should("exist");
+
+        // Proceed to next fiscal year
         cy.then(() => testFiscalYearOptions(years, index + 1));
       }
     });

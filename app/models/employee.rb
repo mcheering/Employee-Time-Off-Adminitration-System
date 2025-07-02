@@ -16,7 +16,7 @@ class Employee < ApplicationRecord
 
   has_many :fiscal_years, through: :fiscal_year_employees
   has_many :fiscal_year_employees
-
+  has_many :time_off_requests
 
   validates :first_name, :last_name, :hire_date, :email, presence: true
   validates :is_administrator, :is_supervisor, inclusion: { in: [ true, false ] }
