@@ -11,18 +11,28 @@ import {
 } from "@mui/material";
 
 const reasons = [
+  { value: "pto", label: "PTO" },
   { value: "vacation", label: "Vacation" },
-  { value: "sick", label: "Sick" },
-  { value: "personal", label: "Personal" },
-  { value: "fmla", label: "FMLA" },
+  { value: "jury_duty", label: "Jury Duty" },
   { value: "bereavement", label: "Bereavement" },
+  { value: "unpaid", label: "Unpaid" },
   { value: "other", label: "Other" },
 ];
 
 const TimeOffRequestForm = ({ request, fiscalYears, employeeId }) => {
   console.log("Rendering form:", { request, fiscalYears, employeeId });
 
-  const isEdit = !!request;
+  const isEdit = request && request.id;
+
+  const today = new Date();
+  const [selectedFiscalYearId, setSelectedFiscalYearId] = useState(() => {
+    const currentFY = fiscalYears.find((fy) => {
+      const start = new Date(fy.start_date);
+      const end = new Date(fy.end_date);
+      return today >= start && today <= end;
+    });
+    return currentFY?.id || fiscalYears?.[0]?.id || "";
+  });
 
   const [formData, setFormData] = useState({
     request_date: request?.request_date?.slice(0, 10) || "",
@@ -43,6 +53,7 @@ const TimeOffRequestForm = ({ request, fiscalYears, employeeId }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    e.stopPropagation();
 
     const url = isEdit
       ? `/employees/${employeeId}/time_off_requests/${request.id}`
@@ -53,10 +64,6 @@ const TimeOffRequestForm = ({ request, fiscalYears, employeeId }) => {
     const tokenElement = document.querySelector("meta[name='csrf-token']");
     const csrfToken = tokenElement ? tokenElement.getAttribute("content") : "";
 
-    if (!csrfToken) {
-      console.warn("⚠️ CSRF token not found — requests may fail.");
-    }
-
     try {
       const response = await fetch(url, {
         method,
@@ -64,7 +71,10 @@ const TimeOffRequestForm = ({ request, fiscalYears, employeeId }) => {
           "Content-Type": "application/json",
           "X-CSRF-Token": csrfToken,
         },
-        body: JSON.stringify({ time_off_request: formData }),
+        body: JSON.stringify({
+          time_off_request: formData,
+          fiscal_year_id: selectedFiscalYearId,
+        }),
       });
 
       if (!response.ok) {
@@ -96,8 +106,9 @@ const TimeOffRequestForm = ({ request, fiscalYears, employeeId }) => {
           name="request_date"
           label="From Date"
           type="date"
-          value={formData.from_date}
+          value={formData.request_date}
           onChange={handleChange}
+          sx={{ mb: 2 }}
         />
 
         <TextField
@@ -105,8 +116,9 @@ const TimeOffRequestForm = ({ request, fiscalYears, employeeId }) => {
           name="supervisor_decision_date"
           label="To Date"
           type="date"
-          value={formData.to_date}
+          value={formData.supervisor_decision_date}
           onChange={handleChange}
+          sx={{ mb: 2 }}
         />
 
         <TextField

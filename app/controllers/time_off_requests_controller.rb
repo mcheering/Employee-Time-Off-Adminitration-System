@@ -13,23 +13,31 @@ class TimeOffRequestsController < ApplicationController
             render :form
       end
           
-    
       def create
-            @request = TimeOffRequest.new(request_params)
-            @request.fiscal_year_employee = FiscalYearEmployee.find_by(employee: @employee, fiscal_year_id: params[:fiscal_year_id])
-          
-            if @request.save
-              respond_to do |format|
-                format.html { redirect_to employee_path(@employee) }
-                format.json { render json: @request, status: :created }
-              end
-            else
-              respond_to do |format|
-                format.html { render :form }
-                format.json { render json: { errors: @request.errors.full_messages }, status: :unprocessable_entity }
-              end
-            end
+        @request = TimeOffRequest.new(request_params)
+        @request.fiscal_year_employee = FiscalYearEmployee.find_by(
+          employee: @employee,
+          fiscal_year_id: params[:fiscal_year_id]
+        )
+        @request.supervisor_id = @employee.supervisor_id
+        @request.submitted_by_id = @employee.id
+
+        if @request.save
+          respond_to do |format|
+            format.html { redirect_to employee_path(@employee) }
+            format.json { render json: @request, status: :created }
           end
+        else
+          respond_to do |format|
+            format.html { render :form }
+            format.json { render json: { errors: @request.errors.full_messages }, status: :unprocessable_entity }
+          end
+        end
+      end
+
+
+    
+
     
       def show
         render :show
