@@ -1,12 +1,6 @@
-/*
-Author: Matthew Heering
-Description: Container component that displays one of three administrative views — Manage Employees, 
-Manage Fiscal Years, or Fiscal Year Employees — based on which button is selected.
-Date: 6/14/25 (Updated 6/15/25 to load embedded JSON from script tags)
-*/
-
 import React, { useState } from "react";
-import { Box, Button, Stack, Paper } from "@mui/material";
+import { Box, Stack, Button, Paper } from "@mui/material";
+import EmployeeShow from "./EmployeeShow";
 import EmployeesTable from "./EmployeesTable";
 import FiscalYearsTable from "./FiscalYearsTable";
 import FiscalYearEmployeesTable from "./FiscalYearEmployeesTable";
@@ -24,12 +18,22 @@ function getJSONFromScript(id) {
 
 export default function AdminDashboard() {
   const [activeView, setActiveView] = useState("employees");
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
 
   const employees = getJSONFromScript("employees-data");
   const fiscalYears = getJSONFromScript("fiscal-years-data");
   const fiscalYearEmployees = getJSONFromScript("fiscal-year-employees-data");
 
   const renderActiveView = () => {
+    if (selectedEmployee) {
+      return (
+        <EmployeeShow
+          employee={selectedEmployee}
+          onBack={() => setSelectedEmployee(null)}
+        />
+      );
+    }
+
     switch (activeView) {
       case "fiscalYears":
         return <FiscalYearsTable fiscalYears={fiscalYears} />;
@@ -42,39 +46,46 @@ export default function AdminDashboard() {
         );
       case "employees":
       default:
-        return <EmployeesTable employees={employees} />;
+        return (
+          <EmployeesTable
+            employees={employees}
+            onManage={(emp) => setSelectedEmployee(emp)}
+          />
+        );
     }
   };
 
   return (
     <Box sx={{ padding: 4 }}>
-      <Stack
-        direction="row"
-        spacing={2}
-        justifyContent="center"
-        sx={{ marginBottom: 3 }}
-      >
-        <Button
-          variant={activeView === "employees" ? "contained" : "outlined"}
-          onClick={() => setActiveView("employees")}
+      {!selectedEmployee && (
+        <Stack
+          direction="row"
+          spacing={2}
+          justifyContent="center"
+          sx={{ marginBottom: 3 }}
         >
-          Manage Employees
-        </Button>
-        <Button
-          variant={activeView === "fiscalYears" ? "contained" : "outlined"}
-          onClick={() => setActiveView("fiscalYears")}
-        >
-          Manage Fiscal Years
-        </Button>
-        <Button
-          variant={
-            activeView === "fiscalYearEmployees" ? "contained" : "outlined"
-          }
-          onClick={() => setActiveView("fiscalYearEmployees")}
-        >
-          Fiscal Year Employees
-        </Button>
-      </Stack>
+          <Button
+            variant={activeView === "employees" ? "contained" : "outlined"}
+            onClick={() => setActiveView("employees")}
+          >
+            Manage Employees
+          </Button>
+          <Button
+            variant={activeView === "fiscalYears" ? "contained" : "outlined"}
+            onClick={() => setActiveView("fiscalYears")}
+          >
+            Manage Fiscal Years
+          </Button>
+          <Button
+            variant={
+              activeView === "fiscalYearEmployees" ? "contained" : "outlined"
+            }
+            onClick={() => setActiveView("fiscalYearEmployees")}
+          >
+            Fiscal Year Employees
+          </Button>
+        </Stack>
+      )}
 
       <Paper elevation={3} sx={{ padding: 3 }}>
         {renderActiveView()}

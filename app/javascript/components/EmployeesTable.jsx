@@ -23,7 +23,7 @@ import {
   TablePagination,
 } from "@mui/material";
 
-export default function EmployeesTable({ employees }) {
+export default function EmployeesTable({ employees, onManage }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOption, setSortOption] = useState("A-Z");
   const [filter, setFilter] = useState("all");
@@ -170,7 +170,7 @@ export default function EmployeesTable({ employees }) {
                   <Button
                     variant="outlined"
                     size="small"
-                    onClick={() => handleNavigation(`/employees/${emp.id}`)}
+                    onClick={() => onManage(emp)}
                   >
                     Manage
                   </Button>
