@@ -1,7 +1,7 @@
 // SupervisorDashboard.jsx
 import React, { useState } from "react";
 import { Box, Button, Stack, Paper } from "@mui/material";
-import TimeOffRequestsView from "./TimeOffRequestsView";
+import TimeOffRequestsView from "./TimeOffRequestView";
 import CalendarView from "./CalendarView";
 import EmployeeRecordsView from "./EmployeeRecordsView";
 
