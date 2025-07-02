@@ -6,6 +6,8 @@ Date: 6/14/25
 */
 import React from "react";
 import { createRoot } from "react-dom/client";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import AppHeader from "../components/AppHeader";
 import EmployeesTable from "../components/EmployeesTable";
@@ -18,14 +20,24 @@ import SupervisorDashboard from "../components/SupervisorDashboard";
 import EmployeeDashboard from "../components/EmployeeDashboard";
 import TimeOffRequestForm from "../components/TimeOffRequestForm";
 import TimeOffRequestView from "../components/TimeOffRequestView";
+import ManageRequest from "../components/ManageRequest";
 
 console.log("✅ application.jsx is loading");
 
 document.addEventListener("DOMContentLoaded", () => {
+  const renderWithToast = (element, component) => {
+    createRoot(element).render(
+      <>
+        {component}
+        <ToastContainer position="top-center" autoClose={3000} />
+      </>
+    );
+  };
+
   const headerRoot = document.getElementById("react-layout-header");
   if (headerRoot) {
     const loggedIn = headerRoot.dataset.loggedIn === "true";
-    createRoot(headerRoot).render(<AppHeader loggedIn={loggedIn} />);
+    renderWithToast(headerRoot, <AppHeader loggedIn={loggedIn} />);
   }
 
   const tableRoot = document.getElementById("employees-react-table");
@@ -33,22 +45,21 @@ document.addEventListener("DOMContentLoaded", () => {
     const data = JSON.parse(
       tableRoot.dataset.employees.replaceAll("&quot;", '"')
     );
-    createRoot(tableRoot).render(<EmployeesTable employees={data} />);
+    renderWithToast(tableRoot, <EmployeesTable employees={data} />);
   }
 
   const formRoot = document.getElementById("new-employee-form");
   if (formRoot) {
-    const employeeData = formRoot.dataset.employee;
-    const parsedEmployee = employeeData
-      ? JSON.parse(employeeData.replaceAll("&quot;", '"'))
+    const parsedEmployee = formRoot.dataset.employee
+      ? JSON.parse(formRoot.dataset.employee.replaceAll("&quot;", '"'))
       : null;
 
-    const supervisorsData = formRoot.dataset.supervisors;
-    const parsedSupervisors = supervisorsData
-      ? JSON.parse(supervisorsData.replaceAll("&quot;", '"'))
+    const parsedSupervisors = formRoot.dataset.supervisors
+      ? JSON.parse(formRoot.dataset.supervisors.replaceAll("&quot;", '"'))
       : [];
 
-    createRoot(formRoot).render(
+    renderWithToast(
+      formRoot,
       <NewEmployeeForm
         employee={parsedEmployee}
         supervisors={parsedSupervisors}
@@ -61,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const data = JSON.parse(
       showRoot.dataset.employee.replaceAll("&quot;", '"')
     );
-    createRoot(showRoot).render(<EmployeeShow employee={data} />);
+    renderWithToast(showRoot, <EmployeeShow employee={data} />);
   }
 
   const supervisorRoot = document.getElementById("supervisors-react-table");
@@ -69,7 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const data = JSON.parse(
       supervisorRoot.dataset.supervisors.replaceAll("&quot;", '"')
     );
-    createRoot(supervisorRoot).render(<SupervisorsTable supervisors={data} />);
+    renderWithToast(supervisorRoot, <SupervisorsTable supervisors={data} />);
   }
 
   const adminRoot = document.getElementById("administrators-react-table");
@@ -77,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const data = JSON.parse(
       adminRoot.dataset.administrators.replaceAll("&quot;", '"')
     );
-    createRoot(adminRoot).render(<AdministratorsTable administrators={data} />);
+    renderWithToast(adminRoot, <AdministratorsTable administrators={data} />);
   }
 
   const dashboardRoot = document.getElementById("admin-dashboard");
@@ -93,28 +104,31 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     };
 
-    const employees = parseScriptJSON("employees-data");
-    const fiscalYears = parseScriptJSON("fiscal-years-data");
-    const fiscalYearEmployees = parseScriptJSON("fiscal-year-employees-data");
-
-    createRoot(dashboardRoot).render(
+    renderWithToast(
+      dashboardRoot,
       <AdminDashboard
-        employees={employees}
-        fiscalYears={fiscalYears}
-        fiscalYearEmployees={fiscalYearEmployees}
+        employees={parseScriptJSON("employees-data")}
+        fiscalYears={parseScriptJSON("fiscal-years-data")}
+        fiscalYearEmployees={parseScriptJSON("fiscal-year-employees-data")}
       />
     );
   }
 
   const supRoot = document.getElementById("supervisor-dashboard");
+
   if (supRoot) {
     const parseScriptJSON = (id, fallback = null) => {
       const el = document.getElementById(id);
-      if (!el) return fallback;
+      if (!el) {
+        console.warn(`⚠️ Missing element: #${id}`);
+        return fallback;
+      }
       try {
-        return JSON.parse(el.textContent);
+        const data = JSON.parse(el.textContent);
+        console.log(`✅ Loaded #${id}:`, data);
+        return data;
       } catch (err) {
-        console.error(`Failed to parse #${id}:`, err);
+        console.error(`❌ Failed to parse #${id}:`, err);
         return fallback;
       }
     };
@@ -127,8 +141,25 @@ document.addEventListener("DOMContentLoaded", () => {
     const timeOffRequests = parseScriptJSON("time-off-requests", []);
     const byDate = parseScriptJSON("by-date", {});
     const fyeRecords = parseScriptJSON("fye-records", []);
+    const calendarData = parseScriptJSON("calendar-data", {});
 
-    createRoot(supRoot).render(
+    console.log(
+      `📋 Rendering dashboard for ${supervisor.first_name} ${supervisor.last_name}`
+    );
+    console.log("🚀 Final props passed to SupervisorDashboard:", {
+      supervisor,
+      fiscalYears,
+      selectedFy,
+      statusOptions,
+      selectedStatus,
+      timeOffRequests,
+      byDate,
+      fyeRecords,
+      calendarData,
+    });
+
+    renderWithToast(
+      supRoot,
       <SupervisorDashboard
         supervisor={supervisor}
         fiscalYears={fiscalYears}
@@ -138,6 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
         timeOffRequests={timeOffRequests}
         byDate={byDate}
         fyeRecords={fyeRecords}
+        calendarData={calendarData}
       />
     );
   }
@@ -155,47 +187,56 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     };
 
-    const requestsData = parseScriptJSON("employee-requests-data", []);
-    const fiscalYearsData = parseScriptJSON("fiscal-years-data", []);
-    const summaryData = parseScriptJSON("employee-summary-data", {});
     const employeeId = parseInt(employeeDashRoot.dataset.employeeId, 10);
-
-    createRoot(employeeDashRoot).render(
+    const employeeName = employeeDashRoot.dataset.employeeName;
+    renderWithToast(
+      employeeDashRoot,
       <EmployeeDashboard
-        requestsData={requestsData}
-        fiscalYearsData={fiscalYearsData}
-        summaryData={summaryData}
+        requestsData={parseScriptJSON("employee-requests-data", [])}
+        fiscalYearsData={parseScriptJSON("fiscal-years-data", [])}
+        summaryData={parseScriptJSON("employee-summary-data", {})}
         employeeId={employeeId}
+        employeeName={employeeName}
       />
     );
   }
 
   setTimeout(() => {
     const torFormRoot = document.getElementById("time-off-request-form");
-    console.log("🕵️ Inside timeout, got:", torFormRoot);
-
     if (torFormRoot) {
       try {
         const requestData = JSON.parse(torFormRoot.dataset.request);
         const fiscalYearsData = JSON.parse(torFormRoot.dataset.fiscalYears);
         const employeeId = parseInt(torFormRoot.dataset.employeeId, 10);
+        const supervisorId = parseInt(torFormRoot.dataset.supervisorId, 10);
 
-        console.log("📊 Parsed:", { requestData, fiscalYearsData, employeeId });
+        if (requestData?.dates && !requestData.days) {
+          requestData.days = requestData.dates.map((d) => ({
+            date: d.date,
+            amount: d.amount,
+          }));
+        }
 
-        createRoot(torFormRoot).render(
+        const fiscalYearEmployeeId = parseInt(
+          torFormRoot.dataset.fiscalYearEmployeeId,
+          10
+        );
+
+        renderWithToast(
+          torFormRoot,
           <TimeOffRequestForm
             request={requestData}
             fiscalYears={fiscalYearsData}
             employeeId={employeeId}
+            fiscalYearEmployeeId={fiscalYearEmployeeId}
+            supervisorId={supervisorId}
           />
         );
       } catch (err) {
         console.error("❌ Error parsing or rendering:", err);
       }
-    } else {
-      console.warn("⚠️ No #time-off-request-form found");
     }
-  }, 500); // Wait a bit for DOM to fully load
+  }, 500);
 
   const viewRoot = document.getElementById("time-off-request-view");
   if (viewRoot) {
@@ -204,8 +245,37 @@ document.addEventListener("DOMContentLoaded", () => {
     );
     const employeeId = parseInt(viewRoot.dataset.employeeId, 10);
 
-    createRoot(viewRoot).render(
+    renderWithToast(
+      viewRoot,
       <TimeOffRequestView request={request} employeeId={employeeId} />
+    );
+  }
+
+  const manageRoot = document.getElementById("supervisor-manage-request");
+
+  if (manageRoot) {
+    const parseScriptJSON = (id, fallback = null) => {
+      const el = document.getElementById(id);
+      if (!el) return fallback;
+      try {
+        return JSON.parse(el.textContent);
+      } catch (err) {
+        console.error(`❌ Failed to parse #${id}:`, err);
+        return fallback;
+      }
+    };
+
+    const request = parseScriptJSON("request-data");
+    const supervisorId = parseScriptJSON("supervisor-id");
+
+    console.log("🚀 Mounting ManageRequestComponent with:", {
+      request,
+      supervisorId,
+    });
+
+    renderWithToast(
+      manageRoot,
+      <ManageRequest request={request} supervisorId={supervisorId} />
     );
   }
 });

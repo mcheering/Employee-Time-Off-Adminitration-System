@@ -22,7 +22,9 @@ const EmployeeDashboard = ({
   fiscalYearsData,
   summaryData,
   employeeId,
+  employeeName,
 }) => {
+  console.log("📊 RequestsData:", requestsData);
   const [selectedYear, setSelectedYear] = useState(
     fiscalYearsData[0]?.id || null
   );
@@ -58,7 +60,7 @@ const EmployeeDashboard = ({
   return (
     <Box p={3}>
       <Typography variant="h5" gutterBottom>
-        My Time-Off Dashboard
+        {employeeName}'s Time-Off Dashboard
       </Typography>
 
       <Card sx={{ mb: 3 }}>
@@ -126,7 +128,11 @@ const EmployeeDashboard = ({
                 <TableCell>{req.from}</TableCell>
                 <TableCell>{req.to}</TableCell>
                 <TableCell>{req.reason}</TableCell>
-                <TableCell>{req.amount}</TableCell>
+                <TableCell>
+                  {typeof req.amount === "number"
+                    ? req.amount.toFixed(1)
+                    : "N/A"}
+                </TableCell>
                 <TableCell>{req.status}</TableCell>
                 <TableCell align="right">
                   <Button

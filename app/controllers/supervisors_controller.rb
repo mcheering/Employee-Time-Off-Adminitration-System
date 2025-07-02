@@ -1,15 +1,16 @@
-# Author: Matthew Heering
-# Description: Sends data from the supervisors model to the React views.
-# Date: 6/18/25
-
 class SupervisorsController < ApplicationController
   def show
     @supervisor = Employee.find(params[:id])
-
     @fiscal_years = FiscalYear.order(start_date: :desc)
 
+    # Select current FY or fallback
     current_fy = @fiscal_years.find { |fy| fy.start_date <= Date.current && fy.end_date >= Date.current }
-    @selected_fy = params[:fiscal_year_id].presence || current_fy&.id
+    @selected_fy = if params[:fiscal_year_id].present?
+      FiscalYear.find_by(id: params[:fiscal_year_id])
+    else
+      current_fy || @fiscal_years.first
+    end
+
     @selected_status = params[:status].presence || ""
 
     @status_options = [
@@ -21,19 +22,31 @@ class SupervisorsController < ApplicationController
     ]
 
     # === TIME-OFF REQUESTS ===
+    team_ids = Employee.where(supervisor_id: @supervisor.id).pluck(:id)
+
     requests = TimeOffRequest
-                 .includes(:dates, fiscal_year_employee: :employee)
-                 .where(supervisor_id: @supervisor.id)
+      .includes(:dates, fiscal_year_employee: :employee)
+      .joins(fiscal_year_employee: :employee)
+      .where(employees: { id: team_ids })
 
     if @selected_fy
-      requests = requests.joins(:fiscal_year_employee)
-                         .where(fiscal_year_employees: { fiscal_year_id: @selected_fy })
+      requests = requests.where(fiscal_year_employees: { fiscal_year_id: @selected_fy.id })
     end
+
+    # TEMPORARILY DISABLED: status filtering to debug missing data
+    # if @selected_status.present?
+    #   requests = requests.select { |r| r.status.to_s == @selected_status }
+    # end
+    Rails.logger.debug "➡️ Unfiltered Request Count: #{requests.count}"
 
     if @selected_status.present?
-      requests = requests.select { |r| r.status.to_s == @selected_status }
+      Rails.logger.debug "🟨 Filtering requests by status: #{@selected_status}"
+      requests = requests.select do |r|
+        Rails.logger.debug "➡️ Request ID: #{r.id} | Status: #{r.status}"
+        r.status.to_s == @selected_status
+      end
     end
-
+Rails.logger.debug "➡️ Filtered Request Count: #{requests.count}"
     @time_off_requests_payload = requests.map do |req|
       {
         id: req.id,
@@ -60,17 +73,29 @@ class SupervisorsController < ApplicationController
     end.group_by { |entry| entry[:date] }
 
     # === EMPLOYEE RECORDS VIEW ===
-    team_ids = Employee.where(supervisor_id: @supervisor.id).pluck(:id)
-    @fye_records = FiscalYearEmployee
-                 .includes(:employee)
-                 .where(employee_id: team_ids, fiscal_year_id: @selected_fy)
-                 .map do |fye|
-  {
-    employee_name: fye.employee&.name || "Unknown",
-    earned_vacation_days: fye.earned_vacation_days,
-    allotted_pto_days: fye.allotted_pto_days
-  }
-end
+    @fye_records = if @selected_fy
+      FiscalYearEmployee
+        .includes(:employee)
+        .where(employee_id: team_ids, fiscal_year_id: @selected_fy.id)
+        .map do |fye|
+          {
+            employee_name: fye.employee&.name || "Unknown",
+            earned_vacation_days: fye.earned_vacation_days,
+            allotted_pto_days: fye.allotted_pto_days
+          }
+        end
+    else
+      []
+    end
+
+    # === DEBUG LOGGING ===
+    Rails.logger.debug "➡️ Supervisor: #{@supervisor.inspect}"
+    Rails.logger.debug "➡️ Selected FY: #{@selected_fy.inspect}"
+    Rails.logger.debug "➡️ Fiscal Years: #{@fiscal_years.map(&:id)}"
+    Rails.logger.debug "➡️ Time-Off Requests Payload Count: #{@time_off_requests_payload.size}"
+    Rails.logger.debug "➡️ Calendar Data Dates: #{@calendar_data.keys}"
+    Rails.logger.debug "➡️ FYE Records Count: #{@fye_records.size}"
+
     render :show
   end
 end

@@ -1,7 +1,7 @@
 // SupervisorDashboard.jsx
 import React, { useState } from "react";
 import { Box, Button, Stack, Paper } from "@mui/material";
-import TimeOffRequestsView from "./TimeOffRequestView";
+import TimeOffRequestsView from "./TimeOffRequestsView";
 import CalendarView from "./CalendarView";
 import EmployeeRecordsView from "./EmployeeRecordsView";
 
@@ -15,6 +15,15 @@ export default function SupervisorDashboard({
   byDate = {},
   fyeRecords = [],
 }) {
+  console.log("component rendered supervisor", supervisor);
+  console.log("component rendered fiscalyears", fiscalYears);
+  console.log("component rendered selectedfy", selectedFy);
+  console.log("component rendered status options", statusOptions);
+  console.log("component rendered selected status", selectedStatus);
+  console.log("component rendered timeOffRequests", timeOffRequests);
+  console.log("component rendered byDate", byDate);
+  console.log("component rendered fyeRecords", fyeRecords);
+
   const [activeTab, setActiveTab] = useState("requests");
 
   console.log("SupervisorDashboard props", {
