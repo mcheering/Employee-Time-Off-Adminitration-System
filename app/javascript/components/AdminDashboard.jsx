@@ -1,3 +1,6 @@
+//Author: Matthew Heering
+//Description: Component that renders the admin dashboard, showing the admin all employees, ablility to add employees, add fiscal years, and view employees by fiscal year
+//Date:7/2/25
 import React, { useState } from "react";
 import { Box, Stack, Button, Paper } from "@mui/material";
 import EmployeeShow from "./EmployeeShow";

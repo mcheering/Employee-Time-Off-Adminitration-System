@@ -8,14 +8,11 @@ describe("Admin Workflow - Manage Fiscal Years", () => {
     const futureYear = new Date().getFullYear() + 5;
     const startDate = `${futureYear}-07-01`;
     const endDate = `${futureYear + 1}-06-30`;
-
     cy.visit("http://localhost:3000/");
     cy.contains("Manage Fiscal Years").click();
     cy.contains("Add Fiscal Year").click();
-
     cy.get('input[type="date"]').eq(0).type(startDate);
     cy.get('input[type="date"]').eq(1).type(endDate);
-
     cy.contains("Save").click();
     cy.contains("Fiscal year saved successfully").should("be.visible");
   });

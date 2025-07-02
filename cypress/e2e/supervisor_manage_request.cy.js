@@ -16,7 +16,6 @@ describe("Supervisor Manage Request", () => {
     cy.contains("Manage Time-Off Request").should("exist");
     cy.contains("Approve").click();
 
-    // After approval, it should redirect back to the dashboard
     cy.url().should("eq", dashboardUrl);
   });
 

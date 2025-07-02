@@ -1,9 +1,11 @@
+#Author: Matthew Heering & William Pevytoe
+#Description:  Handles data relate to supervisor to send correct data to the view, and take in requests from the view
+#Date: 7/2/25
 class SupervisorsController < ApplicationController
   def show
     @supervisor = Employee.find(params[:id])
     @fiscal_years = FiscalYear.order(start_date: :desc)
 
-    # Select current FY or fallback
     current_fy = @fiscal_years.find { |fy| fy.start_date <= Date.current && fy.end_date >= Date.current }
     @selected_fy = if params[:fiscal_year_id].present?
       FiscalYear.find_by(id: params[:fiscal_year_id])
@@ -21,7 +23,6 @@ class SupervisorsController < ApplicationController
       ["Pending", "pending"]
     ]
 
-    # === TIME-OFF REQUESTS ===
     team_ids = Employee.where(supervisor_id: @supervisor.id).pluck(:id)
 
     requests = TimeOffRequest
@@ -33,11 +34,6 @@ class SupervisorsController < ApplicationController
       requests = requests.where(fiscal_year_employees: { fiscal_year_id: @selected_fy.id })
     end
 
-    # TEMPORARILY DISABLED: status filtering to debug missing data
-    # if @selected_status.present?
-    #   requests = requests.select { |r| r.status.to_s == @selected_status }
-    # end
-    Rails.logger.debug "➡️ Unfiltered Request Count: #{requests.count}"
 
     if @selected_status.present?
       Rails.logger.debug "🟨 Filtering requests by status: #{@selected_status}"
@@ -46,7 +42,6 @@ class SupervisorsController < ApplicationController
         r.status.to_s == @selected_status
       end
     end
-Rails.logger.debug "➡️ Filtered Request Count: #{requests.count}"
     @time_off_requests_payload = requests.map do |req|
       {
         id: req.id,
@@ -59,7 +54,6 @@ Rails.logger.debug "➡️ Filtered Request Count: #{requests.count}"
       }
     end
 
-    # === CALENDAR VIEW DATA ===
     @calendar_data = requests.flat_map do |req|
       req.dates.map do |date|
         {
@@ -72,7 +66,6 @@ Rails.logger.debug "➡️ Filtered Request Count: #{requests.count}"
       end
     end.group_by { |entry| entry[:date] }
 
-    # === EMPLOYEE RECORDS VIEW ===
     @fye_records = if @selected_fy
       FiscalYearEmployee
         .includes(:employee)
@@ -87,15 +80,6 @@ Rails.logger.debug "➡️ Filtered Request Count: #{requests.count}"
     else
       []
     end
-
-    # === DEBUG LOGGING ===
-    Rails.logger.debug "➡️ Supervisor: #{@supervisor.inspect}"
-    Rails.logger.debug "➡️ Selected FY: #{@selected_fy.inspect}"
-    Rails.logger.debug "➡️ Fiscal Years: #{@fiscal_years.map(&:id)}"
-    Rails.logger.debug "➡️ Time-Off Requests Payload Count: #{@time_off_requests_payload.size}"
-    Rails.logger.debug "➡️ Calendar Data Dates: #{@calendar_data.keys}"
-    Rails.logger.debug "➡️ FYE Records Count: #{@fye_records.size}"
-
     render :show
   end
 end

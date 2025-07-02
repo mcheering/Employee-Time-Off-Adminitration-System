@@ -22,8 +22,6 @@ import TimeOffRequestForm from "../components/TimeOffRequestForm";
 import TimeOffRequestView from "../components/TimeOffRequestView";
 import ManageRequest from "../components/ManageRequest";
 
-console.log("✅ application.jsx is loading");
-
 document.addEventListener("DOMContentLoaded", () => {
   const renderWithToast = (element, component) => {
     createRoot(element).render(
@@ -125,7 +123,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       try {
         const data = JSON.parse(el.textContent);
-        console.log(`✅ Loaded #${id}:`, data);
         return data;
       } catch (err) {
         console.error(`❌ Failed to parse #${id}:`, err);
@@ -142,21 +139,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const byDate = parseScriptJSON("by-date", {});
     const fyeRecords = parseScriptJSON("fye-records", []);
     const calendarData = parseScriptJSON("calendar-data", {});
-
-    console.log(
-      `📋 Rendering dashboard for ${supervisor.first_name} ${supervisor.last_name}`
-    );
-    console.log("🚀 Final props passed to SupervisorDashboard:", {
-      supervisor,
-      fiscalYears,
-      selectedFy,
-      statusOptions,
-      selectedStatus,
-      timeOffRequests,
-      byDate,
-      fyeRecords,
-      calendarData,
-    });
 
     renderWithToast(
       supRoot,
@@ -267,11 +249,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const request = parseScriptJSON("request-data");
     const supervisorId = parseScriptJSON("supervisor-id");
-
-    console.log("🚀 Mounting ManageRequestComponent with:", {
-      request,
-      supervisorId,
-    });
 
     renderWithToast(
       manageRoot,

@@ -1,4 +1,6 @@
-// app/javascript/components/CalendarView.jsx
+//Author: Matthew Heering
+//Description:  Provides a list view of time off requests for a supervisor to view
+//Date: 7/2/25
 import React from "react";
 import {
   Box,

@@ -1,3 +1,6 @@
+//Auhor: Matthew Heering
+//Description: form for requesting time off or editing
+//Date: 7/2/25
 import React, { useState } from "react";
 import {
   Box,
@@ -83,7 +86,7 @@ const TimeOffRequestForm = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
-    setError(null); // clear previous errors
+    setError(null);
 
     try {
       const method = isEdit ? "PATCH" : "POST";
@@ -123,7 +126,6 @@ const TimeOffRequestForm = ({
           : "Request submitted successfully!"
       );
 
-      // ✅ If redirect is desired (but ensure that the next page includes request+dates)
       window.location.href = `/employees/${employeeId}`;
     } catch (err) {
       console.error(err);

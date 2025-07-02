@@ -1,3 +1,5 @@
+//Author: Matthew Heering
+//Description: provides all data of employees undeer a supervisor and ability to manage their time-off requests
 import React, { useState } from "react";
 import {
   Box,
@@ -30,7 +32,7 @@ export default function SupervisorDashboard({
     const selectedId = event.target.value;
     const searchParams = new URLSearchParams(window.location.search);
     searchParams.set("fiscal_year_id", selectedId);
-    window.location.search = searchParams.toString(); // full-page reload
+    window.location.search = searchParams.toString();
   };
 
   const renderTab = () => {
@@ -62,7 +64,6 @@ export default function SupervisorDashboard({
 
   return (
     <Box sx={{ padding: 4 }}>
-      {/* Fiscal Year Dropdown */}
       <FormControl fullWidth sx={{ mb: 3 }}>
         <InputLabel id="fy-select-label">Fiscal Year</InputLabel>
         <Select
@@ -82,7 +83,6 @@ export default function SupervisorDashboard({
         </Select>
       </FormControl>
 
-      {/* Tab Buttons */}
       <Stack direction="row" spacing={2} justifyContent="center" sx={{ mb: 3 }}>
         <Button
           variant={activeTab === "requests" ? "contained" : "outlined"}
@@ -104,7 +104,6 @@ export default function SupervisorDashboard({
         </Button>
       </Stack>
 
-      {/* Active View */}
       <Paper elevation={3} sx={{ padding: 3 }}>
         {renderTab()}
       </Paper>
