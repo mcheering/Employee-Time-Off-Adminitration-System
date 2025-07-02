@@ -1,0 +1,20 @@
+<div
+  id="supervisor-manage-request"
+  data-request="<%= @request.to_json(include: [:dates]) %>"
+  data-supervisor-id="<%= @supervisor.id %>">
+</div>
+<%= tag.script type: "application/json", id: "request-data" do %>
+      <%= raw(
+        @request.as_json(include: :dates).merge(
+          status: @request.status,
+          employee_name: @request.fiscal_year_employee&.employee&.name,
+          comment: @request.comment
+        ).to_json
+      ) %>
+    <% end %>
+
+<%= tag.script(type: "application/json", id: "supervisor-id") do %>
+  <%= raw @supervisor.id.to_json %>
+<% end %>
+
+<%= vite_javascript_tag "entrypoints/application.jsx", type: "module" %>

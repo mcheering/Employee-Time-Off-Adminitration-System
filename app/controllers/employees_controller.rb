@@ -28,8 +28,7 @@ class EmployeesController < ApplicationController
         to: req.to_date,
         reason: req.reason_caption,
         status: req.status,
-        amount: req.dates.sum(&:amount),
-        fiscal_year_id: req.fiscal_year_employee.fiscal_year_id
+        amount: req.dates.map(&:amount).compact.sum,        fiscal_year_id: req.fiscal_year_employee.fiscal_year_id
       }
     end
   
