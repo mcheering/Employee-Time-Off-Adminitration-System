@@ -1,3 +1,6 @@
+#Author: Matthew Heering
+#Description:  Handles data relate to time off requests for CRUD application
+#Date: 7/2/25
 class TimeOffRequestsController < ApplicationController
   before_action :set_employee, if: -> { params[:employee_id].present? }
   before_action :set_request, only: [:show, :edit, :update, :manage, :supervisor_decision]
@@ -81,14 +84,13 @@ class TimeOffRequestsController < ApplicationController
     @request = TimeOffRequest.find(params[:id])
     decision_type = params[:decision]
   
-    # Always stamp supervisor_decision_date
     @request.update!(supervisor_decision_date: Time.current)
   
     case decision_type
     when "approve"
-      @request.dates.update_all(decision: 1) # approved
+      @request.dates.update_all(decision: 1)
     when "deny"
-      @request.dates.update_all(decision: 2) # denied
+      @request.dates.update_all(decision: 2)
     when "more_info"
       @request.update!(additional_information_date: Time.current)
     else

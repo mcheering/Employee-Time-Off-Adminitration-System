@@ -1,4 +1,6 @@
-// app/javascript/components/EmployeeRecordsView.jsx
+//Author: Matthew Heering
+//Description: SHows al employees under a supervisor
+//Date: 7/2/25
 import React from "react";
 import {
   Box,
@@ -13,10 +15,6 @@ import {
 } from "@mui/material";
 
 export default function EmployeeRecordsView({ fyeRecords }) {
-
-      console.log("SupervisorDashboard props", {
-        fyeRecords
-      });
   return (
     <Box>
       <Typography variant="h6" gutterBottom>

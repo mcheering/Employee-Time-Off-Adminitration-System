@@ -1,3 +1,6 @@
+//Author: Matthew Heering
+//Description: views a single time-off request
+//Date: 7/2/25
 import React from "react";
 import { Box, Typography, Paper, Grid, Button, Divider } from "@mui/material";
 
@@ -12,7 +15,6 @@ const TimeOffRequestView = ({ request, employeeId }) => {
     window.location = `/employees/${employeeId}/time_off_requests/${request.id}/edit`;
   };
 
-  // Ensure days array is accessible
   const days = request.dates || [];
 
   return (

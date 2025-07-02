@@ -1,3 +1,6 @@
+//Author: Matthew Heering
+//Descirption: COntains an employees requested days off, ability to request more, and an ability edit prior requests.
+//Date: 7/2/25
 import React, { useState } from "react";
 import {
   Box,
@@ -24,7 +27,6 @@ const EmployeeDashboard = ({
   employeeId,
   employeeName,
 }) => {
-  console.log("📊 RequestsData:", requestsData);
   const [selectedYear, setSelectedYear] = useState(
     fiscalYearsData[0]?.id || null
   );

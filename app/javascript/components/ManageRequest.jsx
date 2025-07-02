@@ -1,3 +1,6 @@
+//Author: Matthew Heering
+//Description: Form for adding or editing time-off requests
+//Date: 7/2/25
 import React, { useState } from "react";
 import { Box, Typography, Paper, Button, Stack, Divider } from "@mui/material";
 
@@ -20,7 +23,6 @@ export default function ManageTimeOffRequest({ request }) {
       const data = await response.json();
       alert("Status updated!");
 
-      // Redirect to supervisor dashboard
       window.location.href = `/supervisors/${request.supervisor_id}`;
     } catch (err) {
       console.error(err);

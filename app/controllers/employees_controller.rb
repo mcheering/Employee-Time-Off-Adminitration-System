@@ -4,12 +4,10 @@
 class EmployeesController < ApplicationController
   before_action :set_employee, only: %i[show edit update]
 
-  # GET /employees or /employees.json
   def index
     @employees = Employee.all
   end
 
-  # GET /employees/1 or /employees/1.json
   def show
     @employee = Employee.find(params[:id])
   
@@ -28,7 +26,8 @@ class EmployeesController < ApplicationController
         to: req.to_date,
         reason: req.reason_caption,
         status: req.status,
-        amount: req.dates.map(&:amount).compact.sum,        fiscal_year_id: req.fiscal_year_employee.fiscal_year_id
+        amount: req.dates.map(&:amount).compact.sum,        
+        fiscal_year_id: req.fiscal_year_employee.fiscal_year_id
       }
     end
   
@@ -54,19 +53,16 @@ class EmployeesController < ApplicationController
     render :dashboard
   end
 
-  # GET /employees/new
   def new
     @employee = Employee.new
     @supervisors = Employee.where(is_supervisor: true).map { |s| { id: s.id, name: "#{s.first_name} #{s.last_name}" } }
   end
 
-  # GET /employees/1/edit
   def edit
     @employee = Employee.find(params[:id])
     @supervisors = Employee.where(is_supervisor: true).map { |s| { id: s.id, name: "#{s.first_name} #{s.last_name}" } }
   end
 
-  # DELETE /employees/1/delete
   def destroy
     @employee = Employee.find_by(id: params[:id])
     if @employee
@@ -83,7 +79,6 @@ class EmployeesController < ApplicationController
     end
   end
 
-  # POST /employees or /employees.json
   def create
     @employee = Employee.new(employee_params)
   
@@ -98,7 +93,6 @@ class EmployeesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /employees/1 or /employees/1.json
   def update
     if params[:employee][:password].blank?
       params[:employee].delete(:password)
@@ -118,7 +112,6 @@ class EmployeesController < ApplicationController
 
   private
 
-    # Use callbacks to share common setup or constraints between actions.
     def set_employee
       @employee = Employee.find_by(id: params[:id])
       unless @employee
@@ -126,7 +119,6 @@ class EmployeesController < ApplicationController
       end
     end
 
-    # Only allow a list of trusted parameters through.
     def employee_params
       params.require(:employee).permit(
         :first_name, :last_name, :email, :password, :password_confirmation, :hire_date,
