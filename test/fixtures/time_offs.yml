@@ -1,9 +1,120 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  request_id: 1
-  date:       2025-06-15
-  amount:     1.5
-  was_taken:  false
-  decision:   0
+  time_off_request: one
+  date: 2025-01-05
+  amount: 1.0
+  was_taken: false
+  decision: approved
 
+two:
+  time_off_request: one
+  date: 2025-01-06
+  amount: 0.5
+  was_taken: true
+  decision: approved
+
+jury_duty_1:
+  time_off_request: for_jury_duty
+  date: 2025-02-05
+  amount: 1.0
+  was_taken: true
+  decision: approved
+
+jury_duty_2:
+  time_off_request: for_jury_duty
+  date: 2025-02-06
+  amount: 1.0
+  was_taken: true
+  decision: approved
+
+jury_duty_3:
+  time_off_request: for_jury_duty
+  date: 2025-02-07
+  amount: 1.0
+  was_taken: true
+  decision: approved
+
+bereavement_1:
+  time_off_request: for_bereavement
+  date: 2025-03-28
+  amount: 1.0
+  was_taken: true
+  decision: approved
+
+bereavement_2:
+  time_off_request: for_bereavement
+  date: 2025-03-29
+  amount: 1.0
+  was_taken: true
+  decision: approved
+
+vacation_1:
+  time_off_request: for_vacation
+  date: 2025-06-01
+  amount: 1.0
+  was_taken: true
+  decision: approved
+
+vacation_2:
+  time_off_request: for_vacation
+  date: 2025-06-02
+  amount: 1.0
+  was_taken: true
+  decision: approved
+
+vacation_3:
+  time_off_request: for_vacation
+  date: 2025-06-03
+  amount: 1.0
+  was_taken: true
+  decision: approved
+
+vacation_4:
+  time_off_request: for_vacation
+  date: 2025-06-04
+  amount: 1.0
+  was_taken: true
+  decision: approved
+
+vacation_5:
+  time_off_request: for_vacation
+  date: 2025-06-05
+  amount: 1.0
+  was_taken: true
+  decision: approved
+
+other_1:
+  time_off_request: for_other
+  date: 2025-12-15
+  amount: 1.0
+  was_taken: true
+  decision: approved
+
+other_2:
+  time_off_request: for_other
+  date: 2025-12-16
+  amount: 1.0
+  was_taken: true
+  decision: approved
+
+unpaid_1:
+  time_off_request: for_unpaid
+  date: 2025-06-07
+  amount: 1.0
+  was_taken: true
+  decision: approved
+
+unpaid_2:
+  time_off_request: for_unpaid
+  date: 2025-06-08
+  amount: 1.0
+  was_taken: true
+  decision: approved
+
+unpaid_3:
+  time_off_request: for_unpaid
+  date: 2025-06-09
+  amount: 1.0
+  was_taken: true
+  decision: approved
