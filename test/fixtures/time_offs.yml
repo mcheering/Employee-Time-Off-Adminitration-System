@@ -5,7 +5,7 @@ one:
   date: 2025-01-05
   amount: 1.0
   was_taken: false
-  decision: pending
+  decision: approved
 
 two:
   time_off_request: one
