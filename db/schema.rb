@@ -63,22 +63,23 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_27_183235) do
     t.integer "supervisor_id", null: false
     t.integer "submitted_by_id", null: false
     t.date "request_date", null: false
-    t.date "additional_information_date"
-    t.date "supervisor_decision_date"
-    t.date "final_decision_date"
     t.integer "reason", null: false
     t.boolean "is_fmla", default: false
+    t.date "additional_information_date"
+    t.date "information_received_date"
+    t.date "supervisor_decision_date"
+    t.date "final_decision_date"
     t.string "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "time_offs", force: :cascade do |t|
-    t.integer "request_id", null: false
+    t.integer "time_off_request_id"
     t.date "date", null: false
     t.float "amount", null: false
-    t.boolean "was_taken", default: true
-    t.integer "decision", default: 0, null: false
+    t.boolean "was_taken", default: false
+    t.integer "decision", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

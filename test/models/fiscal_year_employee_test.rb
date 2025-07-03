@@ -218,4 +218,68 @@ class FiscalYearEmployeeTest < ActiveSupport::TestCase
     fiscal_year_employee = FiscalYearEmployee.create(employee: employee, fiscal_year: fiscal_year)
     assert_equal 20, fiscal_year_employee.earned_vacation_days
   end
+
+  # Author: Terry Thompson
+  # Date: 7/3/2025
+  test "taken_pto_days equals 0.5 for fiscal_year_employee(:one)" do
+    fiscal_year_employee = fiscal_year_employees(:one)
+    days_taken = 0.5 # ignores a day scheduled but not taken
+    assert_equal days_taken, fiscal_year_employee.taken_pto_days
+  end
+
+  # Author: Terry Thompson
+  # Date: 7/3/2025
+  test "taken_jury_duty_days equals 3.0 for fiscal_year_employee(:one)" do
+    fiscal_year_employee = fiscal_year_employees(:one)
+    days_taken = 3.0
+    assert_equal days_taken, fiscal_year_employee.taken_jury_duty_days
+  end
+
+  # Author: Terry Thompson
+  # Date: 7/3/2025
+  test "taken_bereavement_days equals 2.0 for fiscal_year_employee(:one)" do
+    fiscal_year_employee = fiscal_year_employees(:one)
+    days_taken = 2.0
+    assert_equal days_taken, fiscal_year_employee.taken_bereavement_days
+  end
+
+  # Author: Terry Thompson
+  # Date: 7/3/2025
+  test "taken_other_days equals 2.0 for fiscal_year_employee(:one)" do
+    fiscal_year_employee = fiscal_year_employees(:one)
+    days_taken = 2.0
+    assert_equal days_taken, fiscal_year_employee.taken_other_days
+  end
+
+  # Author: Terry Thompson
+  # Date: 7/3/2025
+  test "taken_vacation_days equals 5.0 for fiscal_year_employee(:one)" do
+    fiscal_year_employee = fiscal_year_employees(:four)
+    days_taken = 5.0
+    assert_equal days_taken, fiscal_year_employee.taken_vacation_days
+  end
+
+  # Author: Terry Thompson
+  # Date: 7/3/2025
+  test "taken_unpaid_days equals 3.0 for fiscal_year_employee(:one)" do
+    fiscal_year_employee = fiscal_year_employees(:one)
+    days_taken = 3.0
+    assert_equal days_taken, fiscal_year_employee.taken_unpaid_days
+  end
+
+  # Author: Terry Thompson
+  # Date: 7/3/2025
+  test "remaining_pto_days equals 8.5 for fiscal_year_employee(:one)" do
+    fiscal_year_employee = fiscal_year_employees(:one)
+    days_remaining = 8.5 # ignores a day scheduled but not taken
+    assert_equal days_remaining, fiscal_year_employee.remaining_pto_days
+  end
+
+  # Author: Terry Thompson
+  # Date: 7/3/2025
+  test "remaining_vacation_days equals 10 for fiscal_year_employee(:four)" do
+    fiscal_year_employee = fiscal_year_employees(:four)
+    days_remaining = 5
+    assert_equal days_remaining, fiscal_year_employee.remaining_vacation_days
+  end
 end

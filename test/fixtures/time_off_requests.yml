@@ -1,30 +1,57 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
 one:
-  # link to your fiscal_year_employee fixture (must exist in fiscal_year_employees.yml)
-  fiscal_year_employee_id: 1
-
-  # supervisors and submitters are both employees, so use the *_id columns
-  supervisor_id:           1
-  submitted_by_id:         1
-
-  # dates
-  request_date:            2025-06-26
-  supervisor_decision_date: 2025-06-27
-  final_decision_date:     
-
-  # reason can be the enum key or integer—using the key is clearer
-  reason:                  pto
-
-  # FMLA flag and comment
-  is_fmla:                 false
-  comment:                 "MyString"
+  fiscal_year_employee: one
+  supervisor: supervisor
+  submitted_by_id: 1
+  request_date: 2025-01-04
+  reason: pto
+  is_fmla: false
 
 two:
-  fiscal_year_employee_id: 2
-  supervisor_id:           1
-  submitted_by_id:         1
-  request_date:            2025-06-26
-  supervisor_decision_date: 2025-06-27
-  final_decision_date:     
-  reason:                  vacation
-  is_fmla:                 false
-  comment:                 "MyString"
+  fiscal_year_employee: one
+  supervisor: supervisor
+  submitted_by_id: 1
+  request_date: 2025-02-05
+  reason: pto
+  is_fmla: false
+
+for_jury_duty:
+  fiscal_year_employee: one
+  supervisor: supervisor
+  submitted_by_id: 1
+  request_date: 2025-03-01
+  reason: jury_duty
+  is_fmla: false
+
+for_bereavement:
+  fiscal_year_employee: one
+  supervisor: supervisor
+  submitted_by_id: 1
+  request_date: 2025-04-01
+  reason: bereavement
+  is_fmla: false
+
+for_vacation:
+  fiscal_year_employee: four
+  supervisor: supervisor
+  submitted_by_id: 1
+  request_date: 2025-05-05
+  reason: vacation
+  is_fmla: false
+
+for_unpaid:
+  fiscal_year_employee: one
+  supervisor: supervisor
+  submitted_by_id: 1
+  request_date: 2025-06-05
+  reason: unpaid
+  is_fmla: false
+
+for_other:
+  fiscal_year_employee: one
+  supervisor: supervisor
+  submitted_by_id: 1
+  request_date: 2024-12-01
+  reason: other
+  is_fmla: false
