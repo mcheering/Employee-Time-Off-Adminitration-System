@@ -218,4 +218,20 @@ class FiscalYearEmployeeTest < ActiveSupport::TestCase
     fiscal_year_employee = FiscalYearEmployee.create(employee: employee, fiscal_year: fiscal_year)
     assert_equal 20, fiscal_year_employee.earned_vacation_days
   end
+
+  # Author: Terry Thompson
+  # Date: 7/3/2025
+  test "taken_pto_days equals 0.5 for fiscal_year_employee(:one)" do
+    fiscal_year_employee = fiscal_year_employees(:one)
+    days_taken = 0.5 # ignores a day scheduled but not taken
+    assert_equal days_taken, fiscal_year_employee.taken_pto_days
+  end
+
+  # Author: Terry Thompson
+  # Date: 7/3/2025
+  test "remaining_pto_days equals 8.5 for fiscal_year_employee(:one)" do
+    fiscal_year_employee = fiscal_year_employees(:one)
+    days_taken = 8.5 # ignores a day scheduled but not taken
+    assert_equal days_taken, fiscal_year_employee.remaining_pto_days
+  end
 end

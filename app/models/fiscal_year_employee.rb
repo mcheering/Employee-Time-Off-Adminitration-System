@@ -119,24 +119,27 @@ class FiscalYearEmployee < ApplicationRecord
   # Author: Terry Thompson
   # Date: 7/2/2025
   # Description: Calculates the employees' unused PTO for the fiscal year
-  def pto_remaining
+  def remaining_pto_days
     allotted_pto_days - taken_pto_days
   end
 
   # Author: Terry Thompson
   # Date: 7/2/2025
   # Description: Calculates the employees' unused vacation days for the fiscal year
-  def vacation_remaining
+  def remaining_vacation_days
     earned_vacation_days - taken_vacation_days
   end
 
   private
-  # Author: William Pevytoe
-  # Date: 6/27/2025
-  def days_used_for(reason_sym)
+   # Author: William Pevytoe
+   # Date: 6/27/2025
+   # Description: Returns that number of days taken during a fiscal year for a specified reason.
+   #              Ignores days scheduled but marked not taken.
+   def days_used_for(reason_sym)
     time_off_requests
       .where(reason: reason_sym)
       .joins(:dates)
+      .where(dates: { was_taken: true }) # added 7/2/2025 by Terry Thompson
       .sum("dates.amount")
   end
 end
