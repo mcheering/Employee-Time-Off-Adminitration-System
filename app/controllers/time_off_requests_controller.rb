@@ -24,20 +24,29 @@ class TimeOffRequestsController < ApplicationController
     permitted = request_params
     days = permitted[:days]
     request_data = permitted.except(:days)
-
+  
+    request_data[:reason] = request_data[:reason].to_sym if request_data[:reason].is_a?(String)
+  
+    request_data[:request_date] = days.first[:date] if days.present?
+  
+    request_data[:supervisor_id] ||= @employee.supervisor_id || Employee.where(is_supervisor: true).sample.id
+  
     @request = TimeOffRequest.new(request_data)
-    @request.fiscal_year_employee_id = permitted[:fiscal_year_employee_id]
-    @request.supervisor_id = permitted[:supervisor_id]
-    @request.submitted_by_id = permitted[:submitted_by_id]
-    @request.request_date = days.first[:date] if days.present?
-
+  
     if @request.save
-      days.each do |day|
+      (days || []).each do |day|
         @request.dates.create(date: day[:date], amount: day[:amount])
       end
-      redirect_to employee_path(@employee)
+  
+      respond_to do |format|
+        format.html { redirect_to employee_path(@employee), notice: "Time off request created." }
+        format.json { render json: { success: true, request: @request }, status: :created }
+      end
     else
-      render :form
+      respond_to do |format|
+        format.html { render :form, status: :unprocessable_entity }
+        format.json { render json: { errors: @request.errors.full_messages }, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -61,15 +70,32 @@ class TimeOffRequestsController < ApplicationController
     permitted = request_params
     days = permitted[:days]
     request_data = permitted.except(:days)
-
+  
+    request_data[:reason] = request_data[:reason].to_sym if request_data[:reason].is_a?(String)
+  
+    if days.present?
+      request_data[:request_date] = days.first[:date]
+    else
+      request_data[:request_date] ||= @request.request_date
+    end
+  
+    request_data[:supervisor_id] ||= @request.supervisor_id || @employee.supervisor_id || Employee.where(is_supervisor: true).sample.id
+  
     if @request.update(request_data)
       @request.dates.destroy_all
       (days || []).each do |day|
         @request.dates.create(date: day[:date], amount: day[:amount])
       end
-      redirect_to employee_path(@employee)
+  
+      respond_to do |format|
+        format.html { redirect_to employee_path(@employee) }
+        format.json { render json: { success: true, request: @request }, status: :ok }
+      end
     else
-      render :form
+      respond_to do |format|
+        format.html { render :form, status: :unprocessable_entity }
+        format.json { render json: { errors: @request.errors.full_messages }, status: :unprocessable_entity }
+      end
     end
   end
 

@@ -47,6 +47,13 @@ class TimeOffRequest < ApplicationRecord
     end
   end
 
+  # Author: Matthew Heering
+  # Date: 7/3/2025
+  # Description: Returns the human-readable reason for the request.
+  def reason_caption
+    reason.humanize
+  end
+
   # Author: Terry Thompson
   # Date: 6/24/2025
   # Description: Identifies the first date on a time off request.
