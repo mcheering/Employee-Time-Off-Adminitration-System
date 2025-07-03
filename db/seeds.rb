@@ -78,7 +78,7 @@ end
 
 all_employees = [admin1, admin2] + supervisors + employees
 
-puts "TimeOffRequests"
+puts "Creating some random TimeOffRequests"
 
 reasons   = %w[pto vacation juryDuty bereavement unpaid other]
 decisions = %w[approved denied pending]
@@ -92,6 +92,7 @@ requesters = Employee
 supervisors   = Employee.where(is_supervisor: true).to_a
 fiscal_years  = FiscalYear.all.to_a
 
+# Create 20 random requests
 20.times do
   employee     = requesters.sample
   supervisor   = supervisors.find { |s| s.id == employee.supervisor_id } || supervisors.sample
@@ -128,5 +129,58 @@ fiscal_years  = FiscalYear.all.to_a
     )
   end
 end
+
+puts "Creating 3 TimeOffRequests for every FiscalYearEmployee of every employee…"
+
+reasons   = %w[pto vacation juryDuty bereavement unpaid other]
+decisions = %w[approved denied pending]
+
+employees = Employee.all.to_a
+fiscal_years = FiscalYear.all.to_a
+
+employees.each do |employee|
+  fiscal_year_employees = FiscalYearEmployee.where(employee_id: employee.id)
+
+  fiscal_year_employees.each do |fye|
+    existing_reasons = []
+
+    3.times do
+      # pick a unique reason each time
+      reason_idx = (reasons.map.with_index { |_, i| i } - existing_reasons).sample
+      existing_reasons << reason_idx
+
+      req_date = Faker::Date.between(from: fye.fiscal_year.start_date, to: fye.fiscal_year.end_date)
+
+      request = TimeOffRequest.create!(
+        fiscal_year_employee_id:  fye.id,
+        submitted_by_id:          employee.id,
+        supervisor_id:            employee.supervisor_id || Employee.where(is_supervisor: true).sample.id,
+        request_date:             req_date,
+        reason:                   reason_idx,
+        comment:                  Faker::Lorem.sentence(word_count: 6),
+        is_fmla:                  [true, false].sample,
+        supervisor_decision_date: req_date + rand(1..5).days,
+        final_decision_date:      req_date + rand(6..10).days
+      )
+
+      rand(1..3).times do
+        day = Faker::Date.between(
+          from: [employee.hire_date, fye.fiscal_year.start_date].max,
+          to: fye.fiscal_year.end_date
+        )
+
+        request.dates.create!(
+          date:       day,
+          amount:     [0.5, 1.0].sample,
+          was_taken:  [true, false].sample,
+          decision:   decisions.index(decisions.sample)
+        )
+      end
+    end
+  end
+end
+
+puts "✅ Finished creating 3 TimeOffRequests for every FiscalYearEmployee."
+
 
 puts "Seeding complete."

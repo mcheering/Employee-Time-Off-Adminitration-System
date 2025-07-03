@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_27_183235) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_03_171757) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -63,28 +63,29 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_27_183235) do
     t.integer "supervisor_id", null: false
     t.integer "submitted_by_id", null: false
     t.date "request_date", null: false
-    t.integer "reason", null: false
-    t.boolean "is_fmla", default: false
     t.date "additional_information_date"
-    t.date "information_received_date"
     t.date "supervisor_decision_date"
     t.date "final_decision_date"
+    t.integer "reason", null: false
+    t.boolean "is_fmla", default: false
     t.string "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "time_offs", force: :cascade do |t|
-    t.integer "time_off_request_id"
     t.date "date", null: false
     t.float "amount", null: false
-    t.boolean "was_taken", default: false
-    t.integer "decision", null: false
+    t.boolean "was_taken", default: true
+    t.integer "decision", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "time_off_request_id", null: false
+    t.index ["time_off_request_id"], name: "index_time_offs_on_time_off_request_id"
   end
 
   add_foreign_key "employees", "employees", column: "supervisor_id"
   add_foreign_key "fiscal_year_employees", "employees"
   add_foreign_key "fiscal_year_employees", "fiscal_years"
+  add_foreign_key "time_offs", "time_off_requests"
 end
