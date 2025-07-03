@@ -13,5 +13,45 @@ two:
   supervisor: supervisor
   submitted_by_id: 1
   request_date: 2025-02-05
+  reason: pto
+  is_fmla: false
+
+for_jury_duty:
+  fiscal_year_employee: one
+  supervisor: supervisor
+  submitted_by_id: 1
+  request_date: 2025-03-01
   reason: jury_duty
+  is_fmla: false
+
+for_bereavement:
+  fiscal_year_employee: one
+  supervisor: supervisor
+  submitted_by_id: 1
+  request_date: 2025-04-01
+  reason: bereavement
+  is_fmla: false
+
+for_vacation:
+  fiscal_year_employee: four
+  supervisor: supervisor
+  submitted_by_id: 1
+  request_date: 2025-05-05
+  reason: vacation
+  is_fmla: false
+
+for_unpaid:
+  fiscal_year_employee: one
+  supervisor: supervisor
+  submitted_by_id: 1
+  request_date: 2025-06-05
+  reason: unpaid
+  is_fmla: false
+
+for_other:
+  fiscal_year_employee: one
+  supervisor: supervisor
+  submitted_by_id: 1
+  request_date: 2024-12-01
+  reason: other
   is_fmla: false
