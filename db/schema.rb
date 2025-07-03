@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_03_171757) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_03_234803) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -71,6 +71,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_03_171757) do
     t.string "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "information_received_date"
   end
 
   create_table "time_offs", force: :cascade do |t|
