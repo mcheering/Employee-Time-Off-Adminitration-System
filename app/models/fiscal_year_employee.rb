@@ -13,7 +13,7 @@ class FiscalYearEmployee < ApplicationRecord
 
   has_many :dates,
            through:    :time_off_requests
-           
+
 
   delegate :name,             to: :employee,     prefix: :employee
   delegate :hire_date,        to: :employee,     prefix: :employee
@@ -74,9 +74,66 @@ class FiscalYearEmployee < ApplicationRecord
     end
   end
 
-  #Author: William Pevytoe
-  #Date: 6/27/2025
-  def used_days_for(reason_sym)
+  # Author: Terry Thompson
+  # Date: 7/2/2025
+  # Description: Calculates the number of PTO days taken by the employee during the fiscal year
+  def taken_pto_days
+    days_used_for(:pto)
+  end
+
+  # Author: Terry Thompson
+  # Date: 7/2/2025
+  # Description: Calculates the number of vacation days taken by the employee during the fiscal year
+  def taken_vacation_days
+    days_used_for(:vacation)
+  end
+
+  # Author: Terry Thompson
+  # Date: 7/2/2025
+  # Description: Calculates the number of jury duty days taken by the employee during the fiscal year
+  def taken_jury_duty_days
+    days_used_for(:jury_duty)
+  end
+
+  # Author: Terry Thompson
+  # Date: 7/2/2025
+  # Description: Calculates the number of bereavement days taken by the employee during the fiscal year
+  def taken_bereavement_days
+    days_used_for(:bereavement)
+  end
+
+  # Author: Terry Thompson
+  # Date: 7/2/2025
+  # Description: Calculates the number of unpaid days taken by the employee during the fiscal year
+  def taken_unpaid_days
+    days_used_for(:unpaid)
+  end
+
+  # Author: Terry Thompson
+  # Date: 7/2/2025
+  # Description: Calculates the number of other days taken by the employee during the fiscal year
+  def taken_other_days
+    days_used_for(:other)
+  end
+
+  # Author: Terry Thompson
+  # Date: 7/2/2025
+  # Description: Calculates the employees' unused PTO for the fiscal year
+  def pto_remaining
+    allotted_pto_days - taken_pto_days
+  end
+
+  # Author: Terry Thompson
+  # Date: 7/2/2025
+  # Description: Calculates the employees' unused vacation days for the fiscal year
+  def vacation_remaining
+    earned_vacation_days - taken_vacation_days
+  end
+
+  private
+  # Author: William Pevytoe
+  # Date: 6/27/2025
+  def days_used_for(reason_sym)
     time_off_requests
       .where(reason: reason_sym)
       .joins(:dates)
