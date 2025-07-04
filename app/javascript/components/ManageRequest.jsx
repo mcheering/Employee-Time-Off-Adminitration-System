@@ -1,16 +1,29 @@
-//Author: Matthew Heering
-//Description: Form for adding or editing time-off requests
-//Date: 7/2/25
+// Author: Matthew Heering
+// Description: Manage time-off request with per-day and bulk approval/denial
+// Date: 7/2/25
+
 import React, { useState } from "react";
-import { Box, Typography, Paper, Button, Stack, Divider } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Paper,
+  Button,
+  Stack,
+  Divider,
+  Grid,
+} from "@mui/material";
 
 export default function ManageTimeOffRequest({ request }) {
-  const [status, setStatus] = useState(request.status);
+  const [dates, setDates] = useState(request.dates);
 
-  const handleStatusUpdate = async (decision) => {
+  const handleBack = () => {
+    window.history.back();
+  };
+
+  const handleStatusUpdate = async (dateId, decision) => {
     try {
       const response = await fetch(
-        `/supervisors/${request.supervisor_id}/time_off_requests/${request.id}/supervisor_decision`,
+        `/supervisors/${request.supervisor_id}/time_off_requests/${request.id}/update_date/${dateId}`,
         {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
@@ -20,19 +33,39 @@ export default function ManageTimeOffRequest({ request }) {
 
       if (!response.ok) throw new Error("Status update failed");
 
-      const data = await response.json();
-      alert("Status updated!");
-
-      window.location.href = `/supervisors/${request.supervisor_id}`;
+      setDates(dates.map((d) => (d.id === dateId ? { ...d, decision } : d)));
     } catch (err) {
       console.error(err);
       alert("Update failed.");
     }
   };
 
+  const handleBulkUpdate = async (decision) => {
+    try {
+      const response = await fetch(
+        `/supervisors/${request.supervisor_id}/time_off_requests/${request.id}/update_all`,
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ decision }),
+        }
+      );
+
+      if (!response.ok) throw new Error("Bulk update failed");
+
+      setDates(dates.map((d) => ({ ...d, decision })));
+    } catch (err) {
+      console.error(err);
+      alert("Bulk update failed.");
+    }
+  };
+
   return (
-    <Paper sx={{ p: 4, maxWidth: 600, mx: "auto", mt: 4 }}>
-      <Typography variant="h6">Manage Time-Off Request</Typography>
+    <Paper sx={{ p: 4, maxWidth: 800, mx: "auto", mt: 4 }}>
+      <Typography variant="h6" gutterBottom>
+        Manage Time-Off Request
+      </Typography>
+
       <Typography>
         <strong>Employee:</strong> {request.employee_name}
       </Typography>
@@ -40,37 +73,103 @@ export default function ManageTimeOffRequest({ request }) {
         <strong>Reason:</strong> {request.reason}
       </Typography>
       <Typography>
-        <strong>Current Status:</strong> {request.status}
-      </Typography>
-      <Typography>
-        <strong>Comment:</strong> {request.comment}
+        <strong>Comment:</strong> {request.comment || "None"}
       </Typography>
 
       <Divider sx={{ my: 3 }} />
 
-      <Stack direction="row" spacing={2}>
+      <Typography variant="subtitle1" gutterBottom>
+        Requested Days:
+      </Typography>
+
+      {dates.map((date) => (
+        <Paper key={date.id} sx={{ mb: 2, p: 2, backgroundColor: "#f9f9f9" }}>
+          <Grid container spacing={2} alignItems="center">
+            <Grid item xs={3}>
+              <Typography>
+                <strong>Date:</strong> {date.date}
+              </Typography>
+            </Grid>
+            <Grid item xs={2}>
+              <Typography>
+                <strong>Amount:</strong> {date.amount === 1 ? "Full" : "Half"}{" "}
+                Day
+              </Typography>
+            </Grid>
+            <Grid item xs={2}>
+              <Typography>
+                <strong>Status:</strong> {date.decision}
+              </Typography>
+            </Grid>
+            <Grid item xs={5}>
+              <Stack direction="row" spacing={1}>
+                <Button
+                  size="small"
+                  variant="contained"
+                  color="success"
+                  onClick={() => handleStatusUpdate(date.id, "approved")}
+                >
+                  Approve
+                </Button>
+                <Button
+                  size="small"
+                  variant="contained"
+                  color="error"
+                  onClick={() => handleStatusUpdate(date.id, "denied")}
+                >
+                  Deny
+                </Button>
+                <Button
+                  size="small"
+                  variant="contained"
+                  color="warning"
+                  onClick={() => handleStatusUpdate(date.id, "pending")}
+                >
+                  Request Info
+                </Button>
+              </Stack>
+            </Grid>
+          </Grid>
+        </Paper>
+      ))}
+
+      <Divider sx={{ my: 3 }} />
+
+      <Typography variant="subtitle1" gutterBottom>
+        Bulk Actions:
+      </Typography>
+
+      <Stack direction="row" spacing={2} justifyContent="center" sx={{ mb: 3 }}>
         <Button
           variant="contained"
           color="success"
-          onClick={() => handleStatusUpdate("approve")}
+          onClick={() => handleBulkUpdate("approved")}
         >
-          Approve
+          Approve All
         </Button>
         <Button
           variant="contained"
           color="error"
-          onClick={() => handleStatusUpdate("deny")}
+          onClick={() => handleBulkUpdate("denied")}
         >
-          Deny
+          Deny All
         </Button>
         <Button
           variant="contained"
           color="warning"
-          onClick={() => handleStatusUpdate("more_info")}
+          onClick={() => handleBulkUpdate("pending")}
         >
-          Request Info
+          Request Info For All
         </Button>
       </Stack>
+
+      <Divider sx={{ my: 3 }} />
+
+      <Box textAlign="center">
+        <Button variant="outlined" onClick={handleBack}>
+          Back to Dashboard
+        </Button>
+      </Box>
     </Paper>
   );
 }

@@ -10,47 +10,62 @@ class EmployeesController < ApplicationController
 
   def show
     @employee = Employee.find(params[:id])
-
-    fiscal_year_employees = FiscalYearEmployee
-                              .includes(:fiscal_year)
-                              .where(employee_id: @employee.id)
-
+  
+    selected_fy_id = params[:fiscal_year_id] || FiscalYear.order(start_date: :desc).first&.id
+  
+    fye = FiscalYearEmployee
+            .includes(:fiscal_year)
+            .find_by(employee_id: @employee.id, fiscal_year_id: selected_fy_id)
+  
     time_off_requests = TimeOffRequest
                           .includes(:dates, :fiscal_year_employee)
-                          .where(fiscal_year_employee_id: fiscal_year_employees.pluck(:id))
-
+                          .where(fiscal_year_employee_id: fye&.id)
+  
     @time_off_payload = time_off_requests.map do |req|
-      {
-        id: req.id,
-        from: req.from_date,
-        to: req.to_date,
-        reason: req.reason_caption,
-        status: req.status,
-        amount: req.dates.map(&:amount).compact.sum,        
-        fiscal_year_id: req.fiscal_year_employee.fiscal_year_id
-      }
-    end
-
+                            breakdown = req.dates.group(:decision).count
+                            %w[pending approved denied].each { |status| breakdown[status] ||= 0 }
+                          
+                            {
+                              id: req.id,
+                              from: req.from_date,
+                              to: req.to_date,
+                              reason: req.reason_caption,
+                              status: req.status, # still useful maybe
+                              decision_breakdown: breakdown,
+                              amount: req.dates.map(&:amount).compact.sum,
+                              fiscal_year_id: req.fiscal_year_employee.fiscal_year_id
+                            }
+                          end
+  
     @fiscal_years = FiscalYear.order(start_date: :desc).map do |fy|
       {
         id: fy.id,
         caption: fy.caption
       }
     end
-
-    total_earned_vacation = fiscal_year_employees.sum(&:earned_vacation_days)
-    total_allotted_pto = fiscal_year_employees.sum(&:allotted_pto_days)
-    used_vacation = fiscal_year_employees.sum { |fye| fye.taken_vacation_days }
-    used_pto = fiscal_year_employees.sum { |fye| fye.taken_pto_days }
-
-    @summary = {
-      earned_vacation_days: total_earned_vacation,
-      allotted_pto_days: total_allotted_pto,
-      used_vacation: used_vacation,
-      used_pto: used_pto
-    }
-
-    render :dashboard
+  
+    if fye
+      @summary = {
+        earned_vacation_days: fye.earned_vacation_days,
+        used_vacation:        fye.taken_vacation_days,
+        remaining_vacation:   fye.remaining_vacation_days,
+        allotted_pto_days:    fye.allotted_pto_days,
+        used_pto:             fye.taken_pto_days,
+        remaining_pto:        fye.remaining_pto_days
+      }
+    else
+      @summary = {}
+    end
+  
+    respond_to do |format|
+      format.html { render :dashboard }
+      format.json {
+        render json: {
+          time_off_payload: @time_off_payload,
+          summary: @summary
+        }
+      }
+    end
   end
 
   def new

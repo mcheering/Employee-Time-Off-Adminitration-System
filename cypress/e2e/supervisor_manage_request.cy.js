@@ -1,7 +1,7 @@
 /*
 Author: Matthew Heering
-Description: E2E test to manage a time-off request via the Manage Request panel.
-Date: 7/2/25
+Description: E2E test — approve a request & verify status updated.
+Date: 7/3/25
 */
 
 describe("Supervisor Manage Request", () => {
@@ -9,29 +9,14 @@ describe("Supervisor Manage Request", () => {
   const supervisorId = 12;
   const requestId = 8;
   const manageUrl = `${baseUrl}/supervisors/${supervisorId}/time_off_requests/${requestId}/manage`;
-  const dashboardUrl = `${baseUrl}/supervisors/${supervisorId}`;
 
-  it("approves a request", () => {
+  it("approves a request and verifies status", () => {
     cy.visit(manageUrl);
-    cy.contains("Manage Time-Off Request").should("exist");
-    cy.contains("Approve").click();
 
-    cy.url().should("eq", dashboardUrl);
-  });
+    cy.contains(/Manage Time-Off Request/i).should("exist");
 
-  it("denies a request", () => {
-    cy.visit(manageUrl);
-    cy.contains("Manage Time-Off Request").should("exist");
-    cy.contains("Deny").click();
+    cy.contains(/^Approve$/i).click();
 
-    cy.url().should("eq", dashboardUrl);
-  });
-
-  it("requests more information", () => {
-    cy.visit(manageUrl);
-    cy.contains("Manage Time-Off Request").should("exist");
-    cy.contains("Request Info").click();
-
-    cy.url().should("eq", dashboardUrl);
+    cy.contains(/approved/i).should("exist");
   });
 });

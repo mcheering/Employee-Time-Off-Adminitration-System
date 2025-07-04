@@ -1,9 +1,10 @@
 #Author: Matthew Heering
-#Description:  Handles data relate to time off requests for CRUD application
+#Description:  Handles data related to time off requests for CRUD application
 #Date: 7/2/25
+
 class TimeOffRequestsController < ApplicationController
   before_action :set_employee, if: -> { params[:employee_id].present? }
-  before_action :set_request, only: [:show, :edit, :update, :manage, :supervisor_decision]
+  before_action :set_request, only: [:show, :edit, :update, :manage, :supervisor_decision, :update_date, :update_all]
 
   def new
     @request = TimeOffRequest.new
@@ -24,20 +25,18 @@ class TimeOffRequestsController < ApplicationController
     permitted = request_params
     days = permitted[:days]
     request_data = permitted.except(:days)
-  
+
     request_data[:reason] = request_data[:reason].to_sym if request_data[:reason].is_a?(String)
-  
     request_data[:request_date] = days.first[:date] if days.present?
-  
     request_data[:supervisor_id] ||= @employee.supervisor_id || Employee.where(is_supervisor: true).sample.id
-  
+
     @request = TimeOffRequest.new(request_data)
-  
+
     if @request.save
       (days || []).each do |day|
         @request.dates.create(date: day[:date], amount: day[:amount])
       end
-  
+
       respond_to do |format|
         format.html { redirect_to employee_path(@employee), notice: "Time off request created." }
         format.json { render json: { success: true, request: @request }, status: :created }
@@ -51,7 +50,30 @@ class TimeOffRequestsController < ApplicationController
   end
 
   def show
-    render :show
+    # Get counts from DB grouped by enum *integer*
+    counts = @request.dates.group(:decision).count
+  
+    # Initialize
+    breakdown = {
+      "pending" => 0,
+      "approved" => 0,
+      "denied" => 0
+    }
+  
+    counts.each do |key, count|
+      status = TimeOff.decisions.key(key) # convert integer to string
+      breakdown[status] = count if breakdown.key?(status)
+    end
+  
+    respond_to do |format|
+      format.html do
+        @decision_breakdown = breakdown
+        render :show
+      end
+      format.json do
+        render json: { request: @request, decision_breakdown: breakdown }
+      end
+    end
   end
 
   def edit
@@ -70,23 +92,17 @@ class TimeOffRequestsController < ApplicationController
     permitted = request_params
     days = permitted[:days]
     request_data = permitted.except(:days)
-  
+
     request_data[:reason] = request_data[:reason].to_sym if request_data[:reason].is_a?(String)
-  
-    if days.present?
-      request_data[:request_date] = days.first[:date]
-    else
-      request_data[:request_date] ||= @request.request_date
-    end
-  
+    request_data[:request_date] = days.first[:date] if days.present?
     request_data[:supervisor_id] ||= @request.supervisor_id || @employee.supervisor_id || Employee.where(is_supervisor: true).sample.id
-  
+
     if @request.update(request_data)
       @request.dates.destroy_all
       (days || []).each do |day|
         @request.dates.create(date: day[:date], amount: day[:amount])
       end
-  
+
       respond_to do |format|
         format.html { redirect_to employee_path(@employee) }
         format.json { render json: { success: true, request: @request }, status: :ok }
@@ -107,23 +123,47 @@ class TimeOffRequestsController < ApplicationController
   end
 
   def supervisor_decision
-    @request = TimeOffRequest.find(params[:id])
-    decision_type = params[:decision]
-  
     @request.update!(supervisor_decision_date: Time.current)
-  
+    decision_type = params[:decision]
+
     case decision_type
     when "approve"
-      @request.dates.update_all(decision: 1)
+      @request.dates.update_all(decision: "approved")
     when "deny"
-      @request.dates.update_all(decision: 2)
+      @request.dates.update_all(decision: "denied")
     when "more_info"
       @request.update!(additional_information_date: Time.current)
     else
       return render json: { error: "Invalid decision type" }, status: :unprocessable_entity
     end
-  
+
     render json: { success: true, status: @request.status }
+  end
+
+  def update_date
+    date = @request.dates.find(params[:date_id])
+    decision = params[:decision]
+
+    unless %w[pending approved denied].include?(decision)
+      return render json: { error: 'Invalid decision' }, status: :unprocessable_entity
+    end
+
+    if date.update(decision: decision)
+      render json: { success: true, date: date }
+    else
+      render json: { error: date.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
+  def update_all
+    decision = params[:decision]
+
+    unless %w[pending approved denied].include?(decision)
+      return render json: { error: 'Invalid decision' }, status: :unprocessable_entity
+    end
+
+    @request.dates.update_all(decision: decision)
+    render json: { success: true }
   end
 
   private

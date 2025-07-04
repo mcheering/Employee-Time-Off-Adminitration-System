@@ -35,11 +35,14 @@ Rails.application.routes.draw do
       get :calendar
       get :employee_records
     end
-
+  
     resources :time_off_requests, only: [:show] do
       member do
-        get :manage           # /supervisors/:supervisor_id/time_off_requests/:id/manage
+        get :manage
         patch :supervisor_decision
+  
+        patch 'update_date/:date_id', to: 'time_off_requests#update_date', as: :update_date
+        patch 'update_all', to: 'time_off_requests#update_all', as: :update_all
       end
     end
   end

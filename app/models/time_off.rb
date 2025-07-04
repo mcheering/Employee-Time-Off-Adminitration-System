@@ -9,7 +9,8 @@ class TimeOff < ApplicationRecord
 
   delegate :fiscal_year_employee_name, to: :time_off_request, prefix: true
   delegate :supervisor_name, to: :time_off_request, prefix: true
-
+  delegate :reason, to: :time_off_request, prefix: false
+  
   enum :decision,  { pending: 0, approved: 1, denied: 2 }
 
   # Author: Terry Thompson

@@ -67,6 +67,12 @@ const TimeOffRequestView = ({ request, employeeId }) => {
               <strong>Amount:</strong>{" "}
               {parseFloat(day.amount) === 1 ? "Full Day" : "Half Day"}
             </Typography>
+            <Typography>
+              <strong>Decision:</strong>{" "}
+              {day.decision
+                ? day.decision.charAt(0).toUpperCase() + day.decision.slice(1)
+                : "Pending"}
+            </Typography>
           </Box>
         ))
       ) : (

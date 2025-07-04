@@ -31,21 +31,30 @@ const EmployeeDashboard = ({
     fiscalYearsData[0]?.id || null
   );
   const [requests, setRequests] = useState(requestsData);
-
+  const [summary, setSummary] = useState(summaryData);
   const handleYearChange = (event) => {
     const yearId = event.target.value;
     setSelectedYear(yearId);
-    const filtered = requestsData.filter(
-      (req) => req.fiscal_year_id === yearId
-    );
-    setRequests(filtered);
+
+    fetch(`/employees/${employeeId}.json?fiscal_year_id=${yearId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setRequests(data.time_off_payload);
+        setSummary(data.summary);
+      })
+      .catch((err) => {
+        console.error("Failed to fetch data for fiscal year:", err);
+      });
   };
 
-  const { earned_vacation_days, allotted_pto_days, used_vacation, used_pto } =
-    summaryData;
-
-  const remainingVacation = earned_vacation_days - used_vacation;
-  const remainingPTO = allotted_pto_days - used_pto;
+  const {
+    earned_vacation_days,
+    allotted_pto_days,
+    used_vacation,
+    used_pto,
+    remaining_vacation,
+    remaining_pto,
+  } = summary || {};
 
   const handleView = (id) => {
     window.location.href = `/employees/${employeeId}/time_off_requests/${id}`;
@@ -64,7 +73,13 @@ const EmployeeDashboard = ({
       <Typography variant="h5" gutterBottom>
         {employeeName}'s Time-Off Dashboard
       </Typography>
-
+      <Select value={selectedYear} onChange={handleYearChange} size="small">
+        {fiscalYearsData.map((fy) => (
+          <MenuItem key={fy.id} value={fy.id}>
+            {fy.caption}
+          </MenuItem>
+        ))}
+      </Select>
       <Card sx={{ mb: 3 }}>
         <CardContent>
           <Typography variant="h6" gutterBottom>
@@ -78,7 +93,7 @@ const EmployeeDashboard = ({
               <Typography>Used Vacation: {used_vacation}</Typography>
             </Grid>
             <Grid item xs={6} md={3}>
-              <Typography>Remaining Vacation: {remainingVacation}</Typography>
+              <Typography>Remaining Vacation: {remaining_vacation}</Typography>
             </Grid>
             <Grid item xs={6} md={3}>
               <Typography>Allotted PTO: {allotted_pto_days}</Typography>
@@ -87,7 +102,7 @@ const EmployeeDashboard = ({
               <Typography>Used PTO: {used_pto}</Typography>
             </Grid>
             <Grid item xs={6} md={3}>
-              <Typography>Remaining PTO: {remainingPTO}</Typography>
+              <Typography>Remaining PTO: {remaining_pto}</Typography>
             </Grid>
           </Grid>
         </CardContent>
@@ -99,14 +114,6 @@ const EmployeeDashboard = ({
         alignItems="center"
         mb={2}
       >
-        <Select value={selectedYear} onChange={handleYearChange} size="small">
-          {fiscalYearsData.map((fy) => (
-            <MenuItem key={fy.id} value={fy.id}>
-              {fy.caption}
-            </MenuItem>
-          ))}
-        </Select>
-
         <Button variant="contained" color="primary" onClick={handleNewRequest}>
           Request Time Off
         </Button>
@@ -135,7 +142,11 @@ const EmployeeDashboard = ({
                     ? req.amount.toFixed(1)
                     : "N/A"}
                 </TableCell>
-                <TableCell>{req.status}</TableCell>
+                <TableCell>
+                  <div>Approved: {req.decision_breakdown?.approved || 0}</div>
+                  <div>Pending: {req.decision_breakdown?.pending || 0}</div>
+                  <div>Denied: {req.decision_breakdown?.denied || 0}</div>
+                </TableCell>{" "}
                 <TableCell align="right">
                   <Button
                     size="small"
