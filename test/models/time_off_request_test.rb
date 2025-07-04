@@ -103,4 +103,46 @@ class TimeOffRequestTest < ActiveSupport::TestCase
     request = TimeOffRequest.new()
     assert_equal "pending", request.status
   end
+
+  # Author: Terry Thompson
+  # 7/3/2025
+  test "reason caption returns 'bereavement' when reason equals bereavement" do
+    request = TimeOffRequest.new(reason: :bereavement)
+    assert_equal "bereavement", request.reason_caption
+  end
+
+  # Author: Terry Thompson
+  # 7/3/2025
+  test "reason caption returns 'jury duty' when reason equals jury_duty" do
+    request = TimeOffRequest.new(reason: :jury_duty)
+    assert_equal "jury duty", request.reason_caption
+  end
+
+  # Author: Terry Thompson
+  # 7/3/2025
+  test "reason caption returns 'pto' when reason equals pto" do
+    request = TimeOffRequest.new(reason: :pto)
+    assert_equal "pto", request.reason_caption
+  end
+
+  # Author: Terry Thompson
+  # 7/3/2025
+  test "reason caption returns 'other' when reason equals other" do
+    request = TimeOffRequest.new(reason: :other)
+    assert_equal "other", request.reason_caption
+  end
+
+  # Author: Terry Thompson
+  # 7/3/2025
+  test "reason caption returns 'unpaid' when reason equals unpaid" do
+    request = TimeOffRequest.new(reason: :unpaid)
+    assert_equal "unpaid", request.reason_caption
+  end
+
+  # Author: Terry Thompson
+  # 7/3/2025
+  test "reason caption returns 'vacation' when reason equals vacation" do
+    request = TimeOffRequest.new(reason: :vacation)
+    assert_equal "vacation", request.reason_caption
+  end
 end
