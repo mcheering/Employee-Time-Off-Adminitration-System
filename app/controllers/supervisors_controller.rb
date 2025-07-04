@@ -43,14 +43,31 @@ class SupervisorsController < ApplicationController
       end
     end
     @time_off_requests_payload = requests.map do |req|
+      counts = req.dates.group(:decision).count
+    
+      breakdown = {
+        "pending" => 0,
+        "approved" => 0,
+        "denied" => 0
+      }
+    
+      counts.each do |k, v|
+        if k.is_a?(String) && breakdown.key?(k)
+          breakdown[k] = v
+        else
+          status = TimeOff.decisions.key(k)
+          breakdown[status] = v if status && breakdown.key?(status)
+        end
+      end
+    
       {
         id: req.id,
         employee_name: req.fiscal_year_employee&.employee&.name || "Unknown",
         from: req.from_date,
         to: req.to_date,
         reason: req.reason,
-        status: req.status,
-        amount: req.dates.sum(&:amount)
+        amount: req.dates.sum(&:amount),
+        decision_breakdown: breakdown
       }
     end
 
@@ -60,8 +77,8 @@ class SupervisorsController < ApplicationController
           date: date.date,
           employee_name: req.fiscal_year_employee&.employee&.name || "Unknown",
           reason: req.reason,
-          status: req.status,
-          amount: date.amount
+          amount: date.amount,
+          status: date.decision
         }
       end
     end.group_by { |entry| entry[:date] }
