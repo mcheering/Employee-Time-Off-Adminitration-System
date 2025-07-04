@@ -51,7 +51,7 @@ class TimeOffRequest < ApplicationRecord
   # Date: 7/3/2025
   # Description: Returns the human-readable reason for the request.
   def reason_caption
-    reason.humanize
+    reason.sub("_", " ")
   end
 
   # Author: Terry Thompson
