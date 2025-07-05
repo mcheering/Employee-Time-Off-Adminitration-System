@@ -1,6 +1,6 @@
 // Author: Matthew Heering
-// Description: Manage time-off request with per-day and bulk approval/denial
-// Date: 7/2/25
+// Description: Manage time-off request with per-day and bulk approval/denial, with toast + redirect
+// Date: 7/3/25
 
 import React, { useState } from "react";
 import {
@@ -12,12 +12,16 @@ import {
   Divider,
   Grid,
 } from "@mui/material";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function ManageTimeOffRequest({ request }) {
   const [dates, setDates] = useState(request.dates);
 
-  const handleBack = () => {
-    window.history.back();
+  const redirectToDashboard = () => {
+    setTimeout(() => {
+      window.location.href = `/supervisors/${request.supervisor_id}`;
+    }, 1500); // give user time to see the toast
   };
 
   const handleStatusUpdate = async (dateId, decision) => {
@@ -34,9 +38,12 @@ export default function ManageTimeOffRequest({ request }) {
       if (!response.ok) throw new Error("Status update failed");
 
       setDates(dates.map((d) => (d.id === dateId ? { ...d, decision } : d)));
+
+      toast.success(`Date updated to "${decision}"`, { autoClose: 1200 });
+      redirectToDashboard();
     } catch (err) {
       console.error(err);
-      alert("Update failed.");
+      toast.error("Update failed.");
     }
   };
 
@@ -54,10 +61,17 @@ export default function ManageTimeOffRequest({ request }) {
       if (!response.ok) throw new Error("Bulk update failed");
 
       setDates(dates.map((d) => ({ ...d, decision })));
+
+      toast.success(`All dates updated to "${decision}"`, { autoClose: 1200 });
+      redirectToDashboard();
     } catch (err) {
       console.error(err);
-      alert("Bulk update failed.");
+      toast.error("Bulk update failed.");
     }
+  };
+
+  const handleBack = () => {
+    window.history.back();
   };
 
   return (
