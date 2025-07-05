@@ -6,6 +6,7 @@ one:
   encrypted_password: <%= Devise::Encryptor.digest(User, 'password123') %>
   is_administrator: false
   is_supervisor: false
+  supervisor_id: <%= ActiveRecord::FixtureSet.identify(:supervisor) %>
 
 two:
   first_name: Jane
@@ -44,6 +45,7 @@ supervisor:
   encrypted_password: <%= Devise::Encryptor.digest(User, 'password123') %>
   is_administrator: false
   is_supervisor: true
+  supervisor_id: null
 
 administrator:
   first_name: Mary

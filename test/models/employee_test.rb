@@ -51,8 +51,9 @@ class EmployeeTest < ActiveSupport::TestCase
   # Author: Terry Thompson
   # Date: 6/18/2025
   test "supervisor_name should return 'none' when supervisor_id is nil" do
-    employee = employees(:one)
-    assert_equal "none", employee.supervisor_name
+    emp = employees(:one)
+    emp.supervisor_id = nil
+    assert_equal "none", emp.supervisor_name
   end
 
   # Author: Terry Thompson

@@ -55,3 +55,12 @@ for_other:
   request_date: 2024-12-01
   reason: other
   is_fmla: false
+
+for_test_payload:
+  fiscal_year_employee: john_fy2025
+  supervisor: supervisor
+  submitted_by_id: 1
+  request_date: 2025-07-01
+  reason: pto
+  is_fmla: false
+
