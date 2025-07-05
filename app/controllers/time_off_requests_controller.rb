@@ -50,7 +50,6 @@ class TimeOffRequestsController < ApplicationController
   end
 
   def show
-    # Get counts from DB grouped by enum *integer*
     counts = @request.dates.group(:decision).count
   
     # Initialize

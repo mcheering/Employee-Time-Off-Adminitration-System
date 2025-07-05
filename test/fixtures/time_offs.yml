@@ -118,3 +118,18 @@ unpaid_3:
   amount: 1.0
   was_taken: true
   decision: approved
+
+payload_test_1:
+  time_off_request: for_test_payload
+  date: 2025-07-02
+  amount: 1.0
+  was_taken: true
+  decision: approved
+
+payload_test_2:
+  time_off_request: for_test_payload
+  date: 2025-07-03
+  amount: 1.0
+  was_taken: false
+  decision: pending
+

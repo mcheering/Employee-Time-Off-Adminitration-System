@@ -34,7 +34,7 @@ class AdministratorsControllerTest < ActionController::TestCase
 
     fiscal_year_employees = assigns(:fiscal_year_employees)
     assert_kind_of Array, fiscal_year_employees
-    assert_equal 3, fiscal_year_employees.size
+    assert_equal 4, fiscal_year_employees.size
 
     record = fiscal_year_employees.find { |h| h[:employee_id] == @employee1.id }
     assert record, "expected a record for employee ##{@employee1.id}"
