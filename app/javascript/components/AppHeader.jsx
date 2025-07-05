@@ -31,7 +31,12 @@ export default function AppHeader({ loggedIn }) {
         </Typography>
 
         <Box>
-          {loggedIn ? (
+          {
+            <Button color="inherited" href="/">
+              Return to landing page
+            </Button>
+          }
+          {/* {loggedIn ? (
             <Button color="inherit" href="/logout">
               Logout
             </Button>
@@ -39,7 +44,7 @@ export default function AppHeader({ loggedIn }) {
             <Button color="inherit" disabled sx={{ opacity: 0.6 }}>
               Login (Not Working)
             </Button>
-          )}
+          )} */}
         </Box>
       </Toolbar>
     </AppBar>

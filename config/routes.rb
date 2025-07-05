@@ -1,11 +1,12 @@
 Rails.application.routes.draw do
   # === Devise ===
-  devise_for :employees, skip: [:registrations]
+  devise_for :employees, skip: [ :registrations ]
 
   # === Admin & Dashboard ===
-  resources :administrators, only: [:index]
+  resources :administrators, only: [ :index ]
   get "/admin/dashboard", to: "administrators#dashboard", as: "admin_dashboard"
-  root "administrators#dashboard"
+  get "/employee/dashboard", to: "employees#dashboard", as: "employee_dashboard"
+  root "start_up#index"
 
   # === Employees CRUD ===
   get    "employees",          to: "employees#index",  as: :employees
@@ -19,30 +20,30 @@ Rails.application.routes.draw do
 
   # === Time-Off Requests for employees (for self-service)
   resources :employees, only: [] do
-    resources :time_off_requests, only: [:new, :create, :edit, :update, :show]
+    resources :time_off_requests, only: [ :new, :create, :edit, :update, :show ]
   end
 
   # === Fiscal Years ===
-  resources :fiscal_years, only: [:create, :update] do
+  resources :fiscal_years, only: [ :create, :update ] do
     member do
       patch :toggle_status
     end
   end
 
   # === Supervisors routes with time_off_requests nested ===
-  resources :supervisors, only: [:index, :show] do 
+  resources :supervisors, only: [ :index, :show ] do
     member do
       get :calendar
       get :employee_records
     end
-  
-    resources :time_off_requests, only: [:show] do
+
+    resources :time_off_requests, only: [ :show ] do
       member do
         get :manage
         patch :supervisor_decision
-  
-        patch 'update_date/:date_id', to: 'time_off_requests#update_date', as: :update_date
-        patch 'update_all', to: 'time_off_requests#update_all', as: :update_all
+
+        patch "update_date/:date_id", to: "time_off_requests#update_date", as: :update_date
+        patch "update_all", to: "time_off_requests#update_all", as: :update_all
       end
     end
   end

@@ -1,0 +1,44 @@
+<style>
+  body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: "helvetica";
+  }
+
+  .centered-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    height: 100vh;
+    text-align: center;
+  }
+
+  .square-btn {
+    width: 120px;
+    height: 120px;
+    font-size: 1rem;
+    padding: 0;
+    display: inline-block;
+    border-radius: 5px;
+    border-width: 1px;
+  }
+
+  .button-group {
+    display: flex;
+    gap: 16px;
+    margin-top: 20px;
+  }
+</style>
+
+<div class="centered-page">
+  <h1>Temporary Landing Page</h1>
+  <h2>Iteration 2 Only </h2>
+  <div class="button-group">
+    <%= button_to "Administrator Dashboard", admin_dashboard_path, method: :get, class: "btn btn-primary square-btn" %>
+    <%= button_to "Employee Dashboard", employee_path(14), method: :get, class: "btn btn-primary square-btn" %>
+    <%= button_to "Supervisor Dashboard", supervisor_path(4), method: :get, class: "btn btn-primary square-btn" %>
+  </div>
+  <br>
+  <p>Please note that the Administrator dashboard is unchanged from iteration 1.</p>
+</div>
