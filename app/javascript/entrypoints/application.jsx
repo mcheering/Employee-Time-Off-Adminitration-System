@@ -21,6 +21,8 @@ import EmployeeDashboard from "../components/EmployeeDashboard";
 import TimeOffRequestForm from "../components/TimeOffRequestForm";
 import TimeOffRequestView from "../components/TimeOffRequestView";
 import ManageRequest from "../components/ManageRequest";
+import DashboardSelector from "../components/DashboardSelector";
+import LoginForm from "../components/LoginForm";
 
 document.addEventListener("DOMContentLoaded", () => {
   const renderWithToast = (element, component) => {
@@ -33,9 +35,24 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const headerRoot = document.getElementById("react-layout-header");
+
   if (headerRoot) {
     const loggedIn = headerRoot.dataset.loggedIn === "true";
-    renderWithToast(headerRoot, <AppHeader loggedIn={loggedIn} />);
+    const companyName = headerRoot.dataset.companyName || "Your Company";
+
+    let roles = {};
+    if (loggedIn) {
+      try {
+        roles = JSON.parse(headerRoot.dataset.roles);
+      } catch (e) {
+        console.error("Failed to parse roles JSON:", e);
+      }
+    }
+
+    renderWithToast(
+      headerRoot,
+      <AppHeader loggedIn={loggedIn} roles={roles} companyName={companyName} />
+    );
   }
 
   const tableRoot = document.getElementById("employees-react-table");
@@ -102,12 +119,18 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     };
 
+    const employees = parseScriptJSON("employees-data");
+    const fiscalYears = parseScriptJSON("fiscal-years-data");
+    const fiscalYearEmployees = parseScriptJSON("fiscal-year-employees-data");
+    const timeOffRequests = parseScriptJSON("time-off-requests-data");
+
     renderWithToast(
       dashboardRoot,
       <AdminDashboard
-        employees={parseScriptJSON("employees-data")}
-        fiscalYears={parseScriptJSON("fiscal-years-data")}
-        fiscalYearEmployees={parseScriptJSON("fiscal-year-employees-data")}
+        employees={employees}
+        fiscalYears={fiscalYears}
+        fiscalYearEmployees={fiscalYearEmployees}
+        timeOffRequests={timeOffRequests} // 👈 new prop
       />
     );
   }
@@ -253,6 +276,28 @@ document.addEventListener("DOMContentLoaded", () => {
     renderWithToast(
       manageRoot,
       <ManageRequest request={request} supervisorId={supervisorId} />
+    );
+  }
+
+  const selectorRoot = document.getElementById("dashboard-selector");
+  if (selectorRoot) {
+    createRoot(selectorRoot).render(
+      <>
+        <DashboardSelector />
+        <ToastContainer position="top-center" autoClose={3000} />
+      </>
+    );
+  }
+  const loginRoot = document.getElementById("login-root");
+  if (loginRoot) {
+    const loginUrl = loginRoot.dataset.loginUrl;
+    const csrfToken = loginRoot.dataset.csrfToken;
+
+    createRoot(loginRoot).render(
+      <>
+        <LoginForm loginUrl={loginUrl} csrfToken={csrfToken} />
+        <ToastContainer position="top-center" />
+      </>
     );
   }
 });

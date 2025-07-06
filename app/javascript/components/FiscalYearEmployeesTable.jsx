@@ -18,6 +18,7 @@ import {
   Button,
   Stack,
   TablePagination,
+  Typography,
 } from "@mui/material";
 
 function formatCaption(startDate, endDate) {
@@ -65,6 +66,9 @@ export default function FiscalYearEmployeesTable({
 
   return (
     <>
+      <Typography variant="h6" align="center" gutterBottom>
+        Manage Fiscal Year Employees
+      </Typography>
       <Stack direction="row" spacing={2} sx={{ mb: 2 }}>
         <FormControl sx={{ minWidth: 150 }}>
           <InputLabel id="fiscal-year-label">Fiscal Year</InputLabel>

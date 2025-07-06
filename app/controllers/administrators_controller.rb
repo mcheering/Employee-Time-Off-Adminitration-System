@@ -23,5 +23,17 @@ class AdministratorsController < ApplicationController
       }
     end
 
+    @time_off_requests = TimeOffRequest.includes(fiscal_year_employee: :employee).map do |r|
+      {
+        id: r.id,
+        employee_id: r.fiscal_year_employee.employee.id,
+        employee_name: "#{r.fiscal_year_employee.employee.first_name} #{r.fiscal_year_employee.employee.last_name}",
+        from: r.from_date,
+        to: r.to_date,
+        reason: r.reason_caption,
+        status: r.status,
+        decisions: r.dates.map { |d| { date: d.date, decision: d.decision } }
+      }
+    end
   end
 end
