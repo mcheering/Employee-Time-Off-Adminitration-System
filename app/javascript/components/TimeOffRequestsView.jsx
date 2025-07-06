@@ -1,6 +1,7 @@
-//Author: Matthew Heering
-//Description: Allows user to view a timeoff request they've made or an employee made.
-//Date: 7/2/25
+// Author: Matthew Heering
+// Description: Allows admin/supervisor to view and manage time-off requests with search, sorting, status & supervisor filters.
+// Date: 7/5/25
+
 import React, { useState } from "react";
 import {
   Box,
@@ -14,25 +15,99 @@ import {
   Button,
   Pagination,
   Stack,
+  TextField,
+  Checkbox,
+  FormControlLabel,
+  TableSortLabel,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
 } from "@mui/material";
 
 export default function TimeOffRequestsView({
   timeOffRequests,
   supervisor,
-  fiscalYears,
-  selectedFy,
-  statusOptions,
-  selectedStatus,
+  supervisorsList = [],
 }) {
-  const fullName = `${supervisor.first_name} ${supervisor.last_name}`;
+  const fullName = supervisor?.name || "Unknown Supervisor";
   const [page, setPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortColumn, setSortColumn] = useState(null);
+  const [sortDirection, setSortDirection] = useState("asc");
+  const [statusFilters, setStatusFilters] = useState({
+    approved: true,
+    pending: true,
+    denied: true,
+  });
+  const [selectedSupervisor, setSelectedSupervisor] = useState("");
+
   const rowsPerPage = 10;
 
-  const handleChangePage = (event, value) => {
-    setPage(value);
+  const handleChangePage = (_, value) => setPage(value);
+
+  const handleSort = (column) => {
+    if (sortColumn === column) {
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    } else {
+      setSortColumn(column);
+      setSortDirection("asc");
+    }
   };
 
-  const paginatedRequests = timeOffRequests.slice(
+  const handleStatusChange = (status) => {
+    setStatusFilters((prev) => ({
+      ...prev,
+      [status]: !prev[status],
+    }));
+  };
+
+  const filteredRequests = timeOffRequests
+    .filter((req) => {
+      const matchesSearch =
+        req.employee_name?.toLowerCase().includes(searchQuery) ||
+        req.reason?.toLowerCase().includes(searchQuery);
+      const matchesStatus =
+        Object.entries(req.decision_breakdown || {}).every(
+          ([status, count]) => {
+            if (count > 0 && !statusFilters[status]) {
+              return false;
+            }
+            return true;
+          }
+        ) &&
+        Object.entries(statusFilters).some(([status, enabled]) => {
+          return enabled && req.decision_breakdown?.[status] > 0;
+        });
+      const matchesSupervisor =
+        !selectedSupervisor || req.supervisor_id === selectedSupervisor;
+      return matchesSearch && matchesStatus && matchesSupervisor;
+    })
+    .sort((a, b) => {
+      if (!sortColumn) return 0;
+      const aVal = a[sortColumn] || "";
+      const bVal = b[sortColumn] || "";
+      if (aVal < bVal) return sortDirection === "asc" ? -1 : 1;
+      if (aVal > bVal) return sortDirection === "asc" ? 1 : -1;
+      return 0;
+    });
+
+  const summary = filteredRequests.reduce(
+    (acc, req) => {
+      acc.requests += 1;
+      acc.days +=
+        req.decision_breakdown.approved +
+        req.decision_breakdown.pending +
+        req.decision_breakdown.denied;
+      acc.approved += req.decision_breakdown.approved;
+      acc.pending += req.decision_breakdown.pending;
+      acc.denied += req.decision_breakdown.denied;
+      return acc;
+    },
+    { requests: 0, days: 0, approved: 0, pending: 0, denied: 0 }
+  );
+
+  const paginatedRequests = filteredRequests.slice(
     (page - 1) * rowsPerPage,
     page * rowsPerPage
   );
@@ -40,11 +115,58 @@ export default function TimeOffRequestsView({
   return (
     <Box>
       <Typography variant="h5" gutterBottom>
-        {fullName}'s Supervisor Dashboard
+        {fullName}'s
       </Typography>
       <Typography variant="h6" gutterBottom>
         Time-Off Requests
       </Typography>
+
+      <Typography variant="subtitle1">Summary:</Typography>
+      <Typography variant="body2">
+        Requests: <strong>{summary.requests}</strong> | Total Days:{" "}
+        <strong>{summary.days}</strong> | Approved:{" "}
+        <strong>{summary.approved}</strong> | Pending:{" "}
+        <strong>{summary.pending}</strong> | Denied:{" "}
+        <strong>{summary.denied}</strong>
+      </Typography>
+
+      <Stack direction="row" spacing={2} sx={{ mb: 2 }} flexWrap="wrap">
+        <TextField
+          label="Search"
+          variant="outlined"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value.toLowerCase())}
+          sx={{ minWidth: 200 }}
+        />
+        {["approved", "pending", "denied"].map((status) => (
+          <FormControlLabel
+            key={status}
+            control={
+              <Checkbox
+                checked={statusFilters[status]}
+                onChange={() => handleStatusChange(status)}
+              />
+            }
+            label={status.charAt(0).toUpperCase() + status.slice(1)}
+          />
+        ))}
+        <FormControl sx={{ minWidth: 200 }}>
+          <InputLabel>Supervisor</InputLabel>
+          <Select
+            value={selectedSupervisor}
+            onChange={(e) => setSelectedSupervisor(e.target.value)}
+          >
+            <MenuItem value="">
+              <em>All Supervisors</em>
+            </MenuItem>
+            {supervisorsList.map((sup) => (
+              <MenuItem key={sup.id} value={sup.id}>
+                {sup.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Stack>
 
       {timeOffRequests.length === 0 ? (
         <Typography>No requests to display.</Typography>
@@ -53,10 +175,22 @@ export default function TimeOffRequestsView({
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Employee</TableCell>
-                <TableCell>From</TableCell>
-                <TableCell>To</TableCell>
-                <TableCell>Reason</TableCell>
+                {[
+                  { label: "Employee", key: "employee_name" },
+                  { label: "From", key: "from" },
+                  { label: "To", key: "to" },
+                  { label: "Reason", key: "reason" },
+                ].map((col) => (
+                  <TableCell key={col.key}>
+                    <TableSortLabel
+                      active={sortColumn === col.key}
+                      direction={sortColumn === col.key ? sortDirection : "asc"}
+                      onClick={() => handleSort(col.key)}
+                    >
+                      {col.label}
+                    </TableSortLabel>
+                  </TableCell>
+                ))}
                 <TableCell>Status</TableCell>
                 <TableCell>Actions</TableCell>
               </TableRow>
@@ -78,7 +212,7 @@ export default function TimeOffRequestsView({
                       variant="contained"
                       size="small"
                       onClick={() =>
-                        (window.location.href = `/supervisors/${supervisor.id}/time_off_requests/${req.id}/manage`)
+                        (window.location.href = `/supervisors/${req.supervisor_id}/time_off_requests/${req.id}/manage`)
                       }
                     >
                       Manage
@@ -91,7 +225,7 @@ export default function TimeOffRequestsView({
 
           <Stack mt={2} alignItems="center">
             <Pagination
-              count={Math.ceil(timeOffRequests.length / rowsPerPage)}
+              count={Math.ceil(filteredRequests.length / rowsPerPage)}
               page={page}
               onChange={handleChangePage}
               color="primary"

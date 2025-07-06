@@ -1,31 +1,12 @@
 <div id="supervisor-dashboard"></div>
-
-<!-- 🔍 Supervisor: <%= @supervisor.to_json %> -->
 <%= tag.script type: "application/json", id: "supervisor-data" do %><%= raw @supervisor.to_json %><% end %>
-
-<!-- 🔍 Fiscal Years: <%= @fiscal_years.map(&:id).join(", ") %> -->
 <%= tag.script type: "application/json", id: "fiscal-years-data" do %><%= raw @fiscal_years.to_json %><% end %>
-
-<!-- 🔍 Selected FY: <%= @selected_fy.inspect %> -->
 <%= tag.script type: "application/json", id: "selected-fy" do %><%= raw @selected_fy.to_json %><% end %>
-
-<!-- 🔍 Status Options: <%= @status_options.inspect %> -->
 <%= tag.script type: "application/json", id: "status-options" do %><%= raw @status_options.to_json %><% end %>
-
-<!-- 🔍 Selected Status: <%= @selected_status.inspect %> -->
 <%= tag.script type: "application/json", id: "selected-status" do %><%= raw @selected_status.to_json %><% end %>
-
-<!-- 🔍 Time-Off Requests Count: <%= @time_off_requests_payload.size %> -->
 <%= tag.script type: "application/json", id: "time-off-requests" do %><%= raw @time_off_requests_payload.to_json %><% end %>
-
-<!-- 🔍 Calendar Data Dates: <%= @calendar_data.keys.join(", ") %> -->
-<%= tag.script type: "application/json", id: "by-date" do %><%= raw @calendar_data.to_json %><% end %>
-
-<!-- 🔍 FYE Records Count: <%= @fye_records.size %> -->
 <%= tag.script type: "application/json", id: "fye-records" do %><%= raw @fye_records.to_json %><% end %>
-
-      <%= tag.script type: "application/json", id: "calendar-data" do %>
+<%= tag.script type: "application/json", id: "calendar-data" do %>
   <%= raw @calendar_data.to_json %>
 <% end %>
-
 <%= vite_javascript_tag "entrypoints/application.jsx", type: "module" %>

@@ -10,21 +10,21 @@ class EmployeesController < ApplicationController
 
   def show
     @employee = Employee.find(params[:id])
-  
+
     selected_fy_id = params[:fiscal_year_id] || FiscalYear.order(start_date: :desc).first&.id
-  
+
     fye = FiscalYearEmployee
             .includes(:fiscal_year)
             .find_by(employee_id: @employee.id, fiscal_year_id: selected_fy_id)
-  
+
     time_off_requests = TimeOffRequest
                           .includes(:dates, :fiscal_year_employee)
                           .where(fiscal_year_employee_id: fye&.id)
-  
+
     @time_off_payload = time_off_requests.map do |req|
                             breakdown = req.dates.group(:decision).count
                             %w[pending approved denied].each { |status| breakdown[status] ||= 0 }
-                          
+
                             {
                               id: req.id,
                               from: req.from_date,
@@ -36,14 +36,14 @@ class EmployeesController < ApplicationController
                               fiscal_year_id: req.fiscal_year_employee.fiscal_year_id
                             }
                           end
-  
+
     @fiscal_years = FiscalYear.order(start_date: :desc).map do |fy|
       {
         id: fy.id,
         caption: fy.caption
       }
     end
-  
+
     if fye
       @summary = {
         earned_vacation_days: fye.earned_vacation_days,
@@ -56,7 +56,7 @@ class EmployeesController < ApplicationController
     else
       @summary = {}
     end
-  
+
     respond_to do |format|
       format.html { render :dashboard }
       format.json {
@@ -96,7 +96,7 @@ class EmployeesController < ApplicationController
 
   def create
     @employee = Employee.new(employee_params)
-  
+
     respond_to do |format|
       if @employee.save
         format.html { redirect_to @employee, notice: "Employee was successfully created." }
@@ -113,7 +113,7 @@ class EmployeesController < ApplicationController
       params[:employee].delete(:password)
       params[:employee].delete(:password_confirmation)
     end
-  
+
     respond_to do |format|
       if @employee.update(employee_params)
         format.html { redirect_to @employee, notice: "Employee was successfully updated." }

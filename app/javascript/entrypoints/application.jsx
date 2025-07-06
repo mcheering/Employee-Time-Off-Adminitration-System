@@ -4,6 +4,7 @@ Description: React entrypoint for rendering employee-related components, includi
 tables for employees, supervisors, administrators, a form, and a show view.
 Date: 6/14/25
 */
+
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { ToastContainer } from "react-toastify";
@@ -123,20 +124,21 @@ document.addEventListener("DOMContentLoaded", () => {
     const fiscalYears = parseScriptJSON("fiscal-years-data");
     const fiscalYearEmployees = parseScriptJSON("fiscal-year-employees-data");
     const timeOffRequests = parseScriptJSON("time-off-requests-data");
-
+    const supervisorsList = parseScriptJSON("supervisors-data");
+    console.log("👨‍💼 supervisorsList:", supervisorsList);
     renderWithToast(
       dashboardRoot,
       <AdminDashboard
         employees={employees}
         fiscalYears={fiscalYears}
         fiscalYearEmployees={fiscalYearEmployees}
-        timeOffRequests={timeOffRequests} // 👈 new prop
+        timeOffRequests={timeOffRequests}
+        supervisorsList={supervisorsList}
       />
     );
   }
 
   const supRoot = document.getElementById("supervisor-dashboard");
-
   if (supRoot) {
     const parseScriptJSON = (id, fallback = null) => {
       const el = document.getElementById(id);
@@ -145,10 +147,9 @@ document.addEventListener("DOMContentLoaded", () => {
         return fallback;
       }
       try {
-        const data = JSON.parse(el.textContent);
-        return data;
+        return JSON.parse(el.textContent);
       } catch (err) {
-        console.error(`❌ Failed to parse #${id}:`, err);
+        console.error(`Failed to parse #${id}:`, err);
         return fallback;
       }
     };
@@ -159,7 +160,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const statusOptions = parseScriptJSON("status-options", []);
     const selectedStatus = parseScriptJSON("selected-status", "");
     const timeOffRequests = parseScriptJSON("time-off-requests", []);
-    const byDate = parseScriptJSON("by-date", {});
     const fyeRecords = parseScriptJSON("fye-records", []);
     const calendarData = parseScriptJSON("calendar-data", {});
 
@@ -172,7 +172,7 @@ document.addEventListener("DOMContentLoaded", () => {
         statusOptions={statusOptions}
         selectedStatus={selectedStatus}
         timeOffRequests={timeOffRequests}
-        byDate={byDate}
+        byDate={calendarData}
         fyeRecords={fyeRecords}
         calendarData={calendarData}
       />
@@ -194,6 +194,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const employeeId = parseInt(employeeDashRoot.dataset.employeeId, 10);
     const employeeName = employeeDashRoot.dataset.employeeName;
+
     renderWithToast(
       employeeDashRoot,
       <EmployeeDashboard
@@ -238,7 +239,7 @@ document.addEventListener("DOMContentLoaded", () => {
           />
         );
       } catch (err) {
-        console.error("❌ Error parsing or rendering:", err);
+        console.error("Error parsing or rendering:", err);
       }
     }
   }, 500);
@@ -257,7 +258,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const manageRoot = document.getElementById("supervisor-manage-request");
-
   if (manageRoot) {
     const parseScriptJSON = (id, fallback = null) => {
       const el = document.getElementById(id);
@@ -265,17 +265,23 @@ document.addEventListener("DOMContentLoaded", () => {
       try {
         return JSON.parse(el.textContent);
       } catch (err) {
-        console.error(`❌ Failed to parse #${id}:`, err);
+        console.error(`Failed to parse #${id}:`, err);
         return fallback;
       }
     };
 
     const request = parseScriptJSON("request-data");
     const supervisorId = parseScriptJSON("supervisor-id");
+    const meta = parseScriptJSON("manage-request-meta");
+
+    const redirectPath =
+      meta?.redirect_path ||
+      manageRoot.dataset.redirectPath ||
+      `/supervisors/${supervisorId}`;
 
     renderWithToast(
       manageRoot,
-      <ManageRequest request={request} supervisorId={supervisorId} />
+      <ManageRequest request={request} redirectPath={redirectPath} />
     );
   }
 
@@ -288,6 +294,7 @@ document.addEventListener("DOMContentLoaded", () => {
       </>
     );
   }
+
   const loginRoot = document.getElementById("login-root");
   if (loginRoot) {
     const loginUrl = loginRoot.dataset.loginUrl;

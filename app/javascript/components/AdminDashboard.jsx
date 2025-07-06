@@ -25,11 +25,11 @@ export default function AdminDashboard() {
   const [activeView, setActiveView] = useState("employees");
   const [selectedEmployee, setSelectedEmployee] = useState(null);
 
-  // Load once
   const employees = getJSONFromScript("employees-data");
   const fiscalYears = getJSONFromScript("fiscal-years-data");
   const fiscalYearEmployees = getJSONFromScript("fiscal-year-employees-data");
   const timeOffRequests = getJSONFromScript("time-off-requests-data");
+  const supervisorsList = getJSONFromScript("supervisors-data");
 
   const renderActiveView = () => {
     if (selectedEmployee) {
@@ -58,11 +58,12 @@ export default function AdminDashboard() {
         return (
           <TimeOffRequestsView
             timeOffRequests={timeOffRequests}
-            supervisor={{ first_name: "Admin", last_name: "" }} // 👈 Customize if desired
+            supervisor={{ first_name: "Admin", last_name: "" }}
             fiscalYears={fiscalYears}
             selectedFy={null}
-            statusOptions={[]} // adjust as needed
+            statusOptions={[]}
             selectedStatus={null}
+            supervisorsList={supervisorsList}
           />
         );
 

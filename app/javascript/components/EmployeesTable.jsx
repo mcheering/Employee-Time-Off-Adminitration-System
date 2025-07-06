@@ -1,6 +1,6 @@
 /*
 Author: Matthew Heering
-Description:  SUmmary table showing all employees, and allows admin to add employees, along with edit and delete by clicking view
+Description: Summary table showing all employees, and allows admin to add employees, along with edit and delete by clicking view
 Date: 6/14/25
 */
 import React, { useState } from "react";
@@ -43,8 +43,7 @@ export default function EmployeesTable({ employees, onManage }) {
   const filteredEmployees = employees
     .filter((emp) => {
       const matchesSearch =
-        emp.first_name.toLowerCase().includes(searchQuery) ||
-        emp.last_name.toLowerCase().includes(searchQuery) ||
+        emp.name.toLowerCase().includes(searchQuery) ||
         emp.email.toLowerCase().includes(searchQuery);
       const matchesFilter =
         filter === "all" ||
@@ -55,9 +54,9 @@ export default function EmployeesTable({ employees, onManage }) {
     .sort((a, b) => {
       switch (sortOption) {
         case "A-Z":
-          return a.last_name.localeCompare(b.last_name);
+          return a.name.localeCompare(b.name);
         case "Z-A":
-          return b.last_name.localeCompare(a.last_name);
+          return b.name.localeCompare(a.name);
         case "Hire Date ↑":
           return new Date(a.hire_date) - new Date(b.hire_date);
         case "Hire Date ↓":
@@ -118,8 +117,8 @@ export default function EmployeesTable({ employees, onManage }) {
             onChange={handleSortChange}
             label="Sort By"
           >
-            <MenuItem value="A-Z">A–Z (Last Name)</MenuItem>
-            <MenuItem value="Z-A">Z–A (Last Name)</MenuItem>
+            <MenuItem value="A-Z">A–Z (Name)</MenuItem>
+            <MenuItem value="Z-A">Z–A (Name)</MenuItem>
             <MenuItem value="Hire Date ↑">Hire Date ↑</MenuItem>
             <MenuItem value="Hire Date ↓">Hire Date ↓</MenuItem>
           </Select>
@@ -159,9 +158,7 @@ export default function EmployeesTable({ employees, onManage }) {
           <TableBody>
             {paginatedEmployees.map((emp) => (
               <TableRow key={emp.id}>
-                <TableCell>
-                  {emp.first_name} {emp.last_name}
-                </TableCell>
+                <TableCell>{emp.name}</TableCell>
                 <TableCell>{emp.email}</TableCell>
                 <TableCell>{emp.hire_date}</TableCell>
                 <TableCell>{emp.is_supervisor ? "Yes" : "No"}</TableCell>

@@ -1,3 +1,9 @@
-<div id="dashboard-selector" data-roles="{&quot;is_admin&quot;:true,&quot;is_supervisor&quot;:true,&quot;employee_id&quot;:1}"></div>
+<div id="dashboard-selector"
+     data-roles='<%= {
+       employee_id: current_employee.id,
+       is_admin: current_employee.is_administrator?,
+       is_supervisor: current_employee.is_supervisor?
+     }.to_json %>'>
+</div>
 
 <%= vite_javascript_tag "entrypoints/application.jsx", type: "module" %>

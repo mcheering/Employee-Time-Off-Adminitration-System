@@ -26,16 +26,14 @@ export default function SupervisorsTable({ supervisors }) {
         <TableHead>
           <TableRow>
             <TableCell>ID</TableCell>
-            <TableCell>First Name</TableCell>
-            <TableCell>Last Name</TableCell>
+            <TableCell>Name</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {supervisors.map((sup) => (
             <TableRow key={sup.id}>
               <TableCell>{sup.id}</TableCell>
-              <TableCell>{sup.first_name}</TableCell>
-              <TableCell>{sup.last_name}</TableCell>
+              <TableCell>{sup.name}</TableCell>
             </TableRow>
           ))}
         </TableBody>

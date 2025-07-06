@@ -15,13 +15,16 @@ import {
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export default function ManageTimeOffRequest({ request }) {
+export default function ManageTimeOffRequest({ request, redirectPath }) {
   const [dates, setDates] = useState(request.dates);
+
+  const getCSRFToken = () =>
+    document.querySelector('meta[name="csrf-token"]')?.content || "";
 
   const redirectToDashboard = () => {
     setTimeout(() => {
-      window.location.href = `/supervisors/${request.supervisor_id}`;
-    }, 1500); // give user time to see the toast
+      window.location.href = redirectPath;
+    }, 1500);
   };
 
   const handleStatusUpdate = async (dateId, decision) => {
@@ -30,7 +33,10 @@ export default function ManageTimeOffRequest({ request }) {
         `/supervisors/${request.supervisor_id}/time_off_requests/${request.id}/update_date/${dateId}`,
         {
           method: "PATCH",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": getCSRFToken(),
+          },
           body: JSON.stringify({ decision }),
         }
       );
@@ -53,7 +59,10 @@ export default function ManageTimeOffRequest({ request }) {
         `/supervisors/${request.supervisor_id}/time_off_requests/${request.id}/update_all`,
         {
           method: "PATCH",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": getCSRFToken(),
+          },
           body: JSON.stringify({ decision }),
         }
       );

@@ -105,11 +105,16 @@ const TimeOffRequestForm = ({
         submitted_by_id: employeeId,
       };
 
+      const csrfToken = document.querySelector(
+        "meta[name='csrf-token']"
+      )?.content;
+
       const response = await fetch(url, {
         method,
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
+          "X-CSRF-Token": csrfToken,
         },
         body: JSON.stringify({ time_off_request: payload }),
       });

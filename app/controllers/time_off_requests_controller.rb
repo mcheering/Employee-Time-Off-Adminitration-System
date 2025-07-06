@@ -1,10 +1,10 @@
-#Author: Matthew Heering
-#Description:  Handles data related to time off requests for CRUD application
-#Date: 7/2/25
+# Author: Matthew Heering
+# Description:  Handles data related to time off requests for CRUD application
+# Date: 7/2/25
 
 class TimeOffRequestsController < ApplicationController
   before_action :set_employee, if: -> { params[:employee_id].present? }
-  before_action :set_request, only: [:show, :edit, :update, :manage, :supervisor_decision, :update_date, :update_all]
+  before_action :set_request, only: [ :show, :edit, :update, :manage, :supervisor_decision, :update_date, :update_all ]
 
   def new
     @request = TimeOffRequest.new
@@ -51,19 +51,19 @@ class TimeOffRequestsController < ApplicationController
 
   def show
     counts = @request.dates.group(:decision).count
-  
+
     # Initialize
     breakdown = {
       "pending" => 0,
       "approved" => 0,
       "denied" => 0
     }
-  
+
     counts.each do |key, count|
       status = TimeOff.decisions.key(key) # convert integer to string
       breakdown[status] = count if breakdown.key?(status)
     end
-  
+
     respond_to do |format|
       format.html do
         @decision_breakdown = breakdown
@@ -116,9 +116,14 @@ class TimeOffRequestsController < ApplicationController
 
   def manage
     @supervisor = Employee.find(params[:supervisor_id])
-    @request = TimeOffRequest.includes(:dates).find(params[:id])
+    @request = TimeOffRequest.find(params[:id])
 
-    render :manage
+    @redirect_path =
+  if current_employee.is_administrator
+    admin_dashboard_path
+  else
+    supervisor_path(@supervisor)
+  end
   end
 
   def supervisor_decision
@@ -144,7 +149,7 @@ class TimeOffRequestsController < ApplicationController
     decision = params[:decision]
 
     unless %w[pending approved denied].include?(decision)
-      return render json: { error: 'Invalid decision' }, status: :unprocessable_entity
+      return render json: { error: "Invalid decision" }, status: :unprocessable_entity
     end
 
     if date.update(decision: decision)
@@ -158,7 +163,7 @@ class TimeOffRequestsController < ApplicationController
     decision = params[:decision]
 
     unless %w[pending approved denied].include?(decision)
-      return render json: { error: 'Invalid decision' }, status: :unprocessable_entity
+      return render json: { error: "Invalid decision" }, status: :unprocessable_entity
     end
 
     @request.dates.update_all(decision: decision)
@@ -183,7 +188,7 @@ class TimeOffRequestsController < ApplicationController
       :fiscal_year_employee_id,
       :supervisor_id,
       :submitted_by_id,
-      days: [:date, :amount]
+      days: [ :date, :amount ]
     )
   end
 end

@@ -1,6 +1,6 @@
-#Author: Matthew Heering & William Pevytoe
-#Description:  Handles data relate to supervisor to send correct data to the view, and take in requests from the view
-#Date: 7/2/25
+# Author: Matthew Heering & William Pevytoe
+# Description:  Handles data relate to supervisor to send correct data to the view, and take in requests from the view
+# Date: 7/2/25
 class SupervisorsController < ApplicationController
   def show
     @supervisor = Employee.find(params[:id])
@@ -16,11 +16,11 @@ class SupervisorsController < ApplicationController
     @selected_status = params[:status].presence || ""
 
     @status_options = [
-      ["All", ""],
-      ["Waiting for information", "waiting_information"],
-      ["Approved", "supervisor_reviewed"],
-      ["Decided", "decided"],
-      ["Pending", "pending"]
+      [ "All", "" ],
+      [ "Waiting for information", "waiting_information" ],
+      [ "Approved", "supervisor_reviewed" ],
+      [ "Decided", "decided" ],
+      [ "Pending", "pending" ]
     ]
 
     team_ids = Employee.where(supervisor_id: @supervisor.id).pluck(:id)
@@ -36,21 +36,17 @@ class SupervisorsController < ApplicationController
 
 
     if @selected_status.present?
-      Rails.logger.debug "🟨 Filtering requests by status: #{@selected_status}"
+      Rails.logger.debug "Filtering requests by status: #{@selected_status}"
       requests = requests.select do |r|
-        Rails.logger.debug "➡️ Request ID: #{r.id} | Status: #{r.status}"
+        Rails.logger.debug "Request ID: #{r.id} | Status: #{r.status}"
         r.status.to_s == @selected_status
       end
     end
     @time_off_requests_payload = requests.map do |req|
       counts = req.dates.group(:decision).count
-    
-      breakdown = {
-        "pending" => 0,
-        "approved" => 0,
-        "denied" => 0
-      }
-    
+
+      breakdown = { "pending" => 0, "approved" => 0, "denied" => 0 }
+
       counts.each do |k, v|
         if k.is_a?(String) && breakdown.key?(k)
           breakdown[k] = v
@@ -59,10 +55,14 @@ class SupervisorsController < ApplicationController
           breakdown[status] = v if status && breakdown.key?(status)
         end
       end
-    
+
+      employee = req.fiscal_year_employee&.employee
+
       {
         id: req.id,
-        employee_name: req.fiscal_year_employee&.employee&.name || "Unknown",
+        employee_name: employee&.name || "Unknown",
+        employee_id: employee&.id,
+        supervisor_id: @supervisor.id,
         from: req.from_date,
         to: req.to_date,
         reason: req.reason,
