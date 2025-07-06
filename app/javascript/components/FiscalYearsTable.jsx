@@ -17,6 +17,7 @@ import {
   DialogContent,
   Snackbar,
   Alert,
+  Typography,
 } from "@mui/material";
 import FiscalYearForm from "./FiscalYearForm";
 
@@ -93,6 +94,9 @@ export default function FiscalYearsTable({ fiscalYears: initialFiscalYears }) {
 
   return (
     <>
+      <Typography variant="h6" align="center" gutterBottom>
+        Manage Fiscal Years
+      </Typography>
       <Button variant="outlined" sx={{ mb: 2 }} onClick={handleAdd}>
         Add Fiscal Year
       </Button>

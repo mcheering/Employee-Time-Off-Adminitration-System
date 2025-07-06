@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   # === Admin & Dashboard ===
   resources :administrators, only: [:index]
   get "/admin/dashboard", to: "administrators#dashboard", as: "admin_dashboard"
-  root "administrators#dashboard"
+  root "home#selector"
 
   # === Employees CRUD ===
   get    "employees",          to: "employees#index",  as: :employees

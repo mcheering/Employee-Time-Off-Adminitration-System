@@ -6,3 +6,4 @@
 <%= tag.script raw(@time_off_payload.to_json), id: "employee-requests-data", type: "application/json" %>
 <%= tag.script raw(@fiscal_years.to_json), id: "fiscal-years-data", type: "application/json" %>
 <%= tag.script raw(@summary.to_json), id: "employee-summary-data", type: "application/json" %> 
+<%= tag.script raw(@time_off_requests.to_json), id: "time-off-requests-data", type: "application/json" %>

@@ -79,7 +79,7 @@ export default function EmployeesTable({ employees, onManage }) {
   return (
     <>
       <Typography variant="h6" align="center" gutterBottom>
-        Employees
+        Manage Employees
       </Typography>
 
       <Stack

@@ -10,10 +10,15 @@
   </head>
 
   <body>
-    <div id="react-layout-header"
-         data-logged-in="false"
-         data-company-name="<%= Company.first&.name || 'Your Company' %>">
-    </div>
+  <div id="react-layout-header"
+  data-logged-in="<%= employee_signed_in?.to_s %>"
+  data-roles="<%= (employee_signed_in? ? {
+    is_admin: current_employee.is_administrator,
+    is_supervisor: current_employee.is_supervisor,
+    employee_id: current_employee.id
+  } : {}).to_json %>"
+  data-company-name="<%= Company.first&.name || 'Your Company' %>">
+</div>
 
     <%= yield %>
   </body>
