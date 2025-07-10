@@ -1,6 +1,7 @@
 //Author: Matthew Heering
 //Description: provides all data of employees undeer a supervisor and ability to manage their time-off requests
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import {
   Box,
   Button,
@@ -27,6 +28,29 @@ export default function SupervisorDashboard({
   fyeRecords = [],
 }) {
   const [activeTab, setActiveTab] = useState("requests");
+
+  useEffect(() => {
+    const el = document.getElementById("supervisor-attention-requests");
+    if (!el) return;
+
+    let attentionRequests = [];
+    try {
+      attentionRequests = JSON.parse(el.textContent);
+    } catch (err) {
+      console.error("Failed to parse supervisor attention requests:", err);
+      return;
+    }
+
+    attentionRequests.forEach((req) => {
+      toast.info(
+        <span>
+          Employee <strong>{req.employee_name}</strong> updated request starting
+          on <strong>{req.from}</strong>. <a href={req.edit_path}>Review now</a>
+        </span>,
+        { autoClose: false }
+      );
+    });
+  }, []);
 
   const handleFyChange = (event) => {
     const selectedId = event.target.value;
@@ -57,6 +81,7 @@ export default function SupervisorDashboard({
             selectedStatus={selectedStatus}
             fiscalYears={fiscalYears}
             selectedFy={selectedFy}
+            role="supervisor"
           />
         );
     }

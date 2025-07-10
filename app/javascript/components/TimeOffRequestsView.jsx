@@ -29,8 +29,13 @@ export default function TimeOffRequestsView({
   timeOffRequests,
   supervisor,
   supervisorsList = [],
+  role = "supervisor",
 }) {
-  const fullName = supervisor?.name || "Unknown Supervisor";
+  const fullName =
+    role === "supervisor" && supervisor?.name
+      ? `${supervisor.name}'s Employees Time-Off Requests`
+      : "All Time-Off Requests";
+
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortColumn, setSortColumn] = useState(null);
@@ -112,13 +117,17 @@ export default function TimeOffRequestsView({
     page * rowsPerPage
   );
 
+  const getManageUrl = (req) => {
+    if (role === "admin") {
+      return `/administrators/time_off_requests/${req.id}/manage`;
+    }
+    return `/supervisors/${req.supervisor_id}/time_off_requests/${req.id}/manage`;
+  };
+
   return (
     <Box>
       <Typography variant="h5" gutterBottom>
-        {fullName}'s
-      </Typography>
-      <Typography variant="h6" gutterBottom>
-        Time-Off Requests
+        {fullName}
       </Typography>
 
       <Typography variant="subtitle1">Summary:</Typography>
@@ -191,10 +200,13 @@ export default function TimeOffRequestsView({
                     </TableSortLabel>
                   </TableCell>
                 ))}
-                <TableCell>Status</TableCell>
+                <TableCell>Request Status</TableCell>
+                <TableCell>Final Decision</TableCell>
+                <TableCell>Days (A/P/D)</TableCell>
                 <TableCell>Actions</TableCell>
               </TableRow>
             </TableHead>
+
             <TableBody>
               {paginatedRequests.map((req) => (
                 <TableRow key={req.id}>
@@ -202,18 +214,26 @@ export default function TimeOffRequestsView({
                   <TableCell>{req.from}</TableCell>
                   <TableCell>{req.to}</TableCell>
                   <TableCell>{req.reason}</TableCell>
+
                   <TableCell>
-                    <div>Approved: {req.decision_breakdown?.approved || 0}</div>
-                    <div>Pending: {req.decision_breakdown?.pending || 0}</div>
-                    <div>Denied: {req.decision_breakdown?.denied || 0}</div>
+                    {req.request_status === "waiting_information"
+                      ? "Waiting for Info"
+                      : req.request_status}
                   </TableCell>
+
+                  <TableCell>{req.final_decision}</TableCell>
+
+                  <TableCell>
+                    {req.decision_breakdown?.approved || 0}/
+                    {req.decision_breakdown?.pending || 0}/
+                    {req.decision_breakdown?.denied || 0}
+                  </TableCell>
+
                   <TableCell>
                     <Button
                       variant="contained"
                       size="small"
-                      onClick={() =>
-                        (window.location.href = `/supervisors/${req.supervisor_id}/time_off_requests/${req.id}/manage`)
-                      }
+                      onClick={() => (window.location.href = getManageUrl(req))}
                     >
                       Manage
                     </Button>

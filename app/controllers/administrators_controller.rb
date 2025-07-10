@@ -1,4 +1,5 @@
 class AdministratorsController < ApplicationController
+  before_action :authorize_admin!
   def dashboard
     @employees_raw = Employee.all
 
@@ -27,7 +28,9 @@ class AdministratorsController < ApplicationController
           decision_breakdown: breakdown,
           amount: req.dates.sum(&:amount),
           fiscal_year_id: req.fiscal_year_employee&.fiscal_year_id,
-          supervisor_name: supervisor_id ? employee_lookup[supervisor_id]&.name || "None" : "None"
+          supervisor_name: supervisor_id ? employee_lookup[supervisor_id]&.name || "None" : "None",
+          request_status: req.request_status,
+          final_decision: req.final_decision
         }
       end
 
@@ -66,5 +69,19 @@ class AdministratorsController < ApplicationController
         allotted_pto_days: fye.allotted_pto_days
       }
     end
+
+    @ready_for_admin_requests = TimeOffRequest
+  .includes(fiscal_year_employee: :employee)
+  .where.not(supervisor_decision_date: nil)
+  .where(admin_decision_date: nil)
+  .map do |req|
+    {
+      id: req.id,
+      employee_name: req.fiscal_year_employee.employee.name,
+      supervisor_name: req.fiscal_year_employee.employee.supervisor&.name || "Unknown",
+      from: req.from_date,
+      edit_path: "/administrators/time_off_requests/#{req.id}/manage"
+    }
+  end
   end
 end

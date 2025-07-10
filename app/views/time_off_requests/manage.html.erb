@@ -20,7 +20,10 @@
 <% end %>
 
 <%= tag.script(type: "application/json", id: "manage-request-meta") do %>
-  <%= raw({ redirect_path: @redirect_path }.to_json) %>
+  <%= raw({
+    redirect_path: @redirect_path,
+    role: @role
+  }.to_json) %>
 <% end %>
 
 <%= vite_javascript_tag "entrypoints/application.jsx", type: "module" %>

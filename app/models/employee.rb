@@ -6,22 +6,27 @@
 class Employee < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  # === Associations ===
+  belongs_to :supervisor, class_name: "Employee", foreign_key: "supervisor_id", optional: true
+  has_many :subordinates, class_name: "Employee", foreign_key: "supervisor_id"
 
+  has_many :fiscal_year_employees
+  has_many :fiscal_years, through: :fiscal_year_employees
+  has_many :time_off_requests
+
+  # === Devise ===
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable
+
+  # === Callbacks ===
   after_initialize :set_default_is_administrator, :set_default_is_supervisor
   after_create :create_fiscal_year_employees
   before_destroy :delete_fiscal_year_employees
 
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
-
-  has_many :fiscal_years, through: :fiscal_year_employees
-  has_many :fiscal_year_employees
-  has_many :time_off_requests
-
+  # === Validations ===
   validates :first_name, :last_name, :hire_date, :email, presence: true
   validates :is_administrator, :is_supervisor, inclusion: { in: [ true, false ] }
   validates :email, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
-
   validate :hire_date_before_termination_date
 
   # Author: Terry Thompson

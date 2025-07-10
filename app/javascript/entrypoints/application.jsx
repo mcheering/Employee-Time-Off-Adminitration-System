@@ -24,6 +24,7 @@ import TimeOffRequestView from "../components/TimeOffRequestView";
 import ManageRequest from "../components/ManageRequest";
 import DashboardSelector from "../components/DashboardSelector";
 import LoginForm from "../components/LoginForm";
+import ResetPasswordForm from "../components/ResetPasswordForm";
 
 document.addEventListener("DOMContentLoaded", () => {
   const renderWithToast = (element, component) => {
@@ -125,7 +126,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const fiscalYearEmployees = parseScriptJSON("fiscal-year-employees-data");
     const timeOffRequests = parseScriptJSON("time-off-requests-data");
     const supervisorsList = parseScriptJSON("supervisors-data");
-    console.log("👨‍💼 supervisorsList:", supervisorsList);
     renderWithToast(
       dashboardRoot,
       <AdminDashboard
@@ -135,6 +135,19 @@ document.addEventListener("DOMContentLoaded", () => {
         timeOffRequests={timeOffRequests}
         supervisorsList={supervisorsList}
       />
+    );
+  }
+
+  const resetRoot = document.getElementById("reset-password-root");
+  if (resetRoot) {
+    const resetUrl = resetRoot.dataset.resetUrl;
+    const csrfToken = resetRoot.dataset.csrfToken;
+
+    createRoot(resetRoot).render(
+      <>
+        <ResetPasswordForm resetUrl={resetUrl} csrfToken={csrfToken} />
+        <ToastContainer position="top-center" />
+      </>
     );
   }
 
@@ -279,9 +292,15 @@ document.addEventListener("DOMContentLoaded", () => {
       manageRoot.dataset.redirectPath ||
       `/supervisors/${supervisorId}`;
 
+    const role = meta?.role || "supervisor";
+
     renderWithToast(
       manageRoot,
-      <ManageRequest request={request} redirectPath={redirectPath} />
+      <ManageRequest
+        request={request}
+        redirectPath={redirectPath}
+        role={role}
+      />
     );
   }
 

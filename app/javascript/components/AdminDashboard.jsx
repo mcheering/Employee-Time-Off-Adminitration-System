@@ -2,7 +2,8 @@
 //Description: Admin dashboard with tabs for employees, fiscal years, fiscal year employees, and time-off requests
 //Date: 7/2/25
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import { Box, Stack, Button, Paper, Typography } from "@mui/material";
 import EmployeeShow from "./EmployeeShow";
 import EmployeesTable from "./EmployeesTable";
@@ -30,6 +31,30 @@ export default function AdminDashboard() {
   const fiscalYearEmployees = getJSONFromScript("fiscal-year-employees-data");
   const timeOffRequests = getJSONFromScript("time-off-requests-data");
   const supervisorsList = getJSONFromScript("supervisors-data");
+
+  useEffect(() => {
+    const el = document.getElementById("admin-ready-requests");
+    if (!el) return;
+
+    let readyRequests = [];
+    try {
+      readyRequests = JSON.parse(el.textContent);
+    } catch (err) {
+      console.error("Failed to parse admin ready requests:", err);
+      return;
+    }
+
+    readyRequests.forEach((req) => {
+      toast.info(
+        <span>
+          Request from <strong>{req.employee_name}</strong> under{" "}
+          <strong>{req.supervisor_name}</strong> is ready for your review.{" "}
+          <a href={req.edit_path}>Review now</a>
+        </span>,
+        { autoClose: false }
+      );
+    });
+  }, []);
 
   const renderActiveView = () => {
     if (selectedEmployee) {
@@ -64,6 +89,7 @@ export default function AdminDashboard() {
             statusOptions={[]}
             selectedStatus={null}
             supervisorsList={supervisorsList}
+            role="admin"
           />
         );
 

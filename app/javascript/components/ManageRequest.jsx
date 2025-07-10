@@ -1,52 +1,43 @@
 // Author: Matthew Heering
-// Description: Manage time-off request with per-day and bulk approval/denial, with toast + redirect
-// Date: 7/3/25
+// Description: Manage time-off request with per-day (supervisor) and bulk (admin) decisions clearly separated.
+// Date: 7/9/25
 
 import React, { useState } from "react";
-import {
-  Box,
-  Typography,
-  Paper,
-  Button,
-  Stack,
-  Divider,
-  Grid,
-} from "@mui/material";
+import { Box, Typography, Paper, Button, Stack, Divider } from "@mui/material";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export default function ManageTimeOffRequest({ request, redirectPath }) {
+export default function ManageTimeOffRequest({ request, redirectPath, role }) {
   const [dates, setDates] = useState(request.dates);
+  const [finalDecision, setFinalDecision] = useState(request.final_decision);
 
   const getCSRFToken = () =>
     document.querySelector('meta[name="csrf-token"]')?.content || "";
 
-  const redirectToDashboard = () => {
-    setTimeout(() => {
-      window.location.href = redirectPath;
-    }, 1500);
-  };
+  const baseUrl =
+    role === "admin"
+      ? `/administrators/time_off_requests/${request.id}`
+      : `/supervisors/${request.supervisor_id}/time_off_requests/${request.id}`;
 
   const handleStatusUpdate = async (dateId, decision) => {
+    if (role === "admin") return;
     try {
-      const response = await fetch(
-        `/supervisors/${request.supervisor_id}/time_off_requests/${request.id}/update_date/${dateId}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            "X-CSRF-Token": getCSRFToken(),
-          },
-          body: JSON.stringify({ decision }),
-        }
-      );
+      const endpoint = `${baseUrl}/update_date/${dateId}`;
+
+      const response = await fetch(endpoint, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": getCSRFToken(),
+        },
+        body: JSON.stringify({ decision }),
+      });
 
       if (!response.ok) throw new Error("Status update failed");
 
       setDates(dates.map((d) => (d.id === dateId ? { ...d, decision } : d)));
 
       toast.success(`Date updated to "${decision}"`, { autoClose: 1200 });
-      redirectToDashboard();
     } catch (err) {
       console.error(err);
       toast.error("Update failed.");
@@ -55,24 +46,29 @@ export default function ManageTimeOffRequest({ request, redirectPath }) {
 
   const handleBulkUpdate = async (decision) => {
     try {
-      const response = await fetch(
-        `/supervisors/${request.supervisor_id}/time_off_requests/${request.id}/update_all`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            "X-CSRF-Token": getCSRFToken(),
-          },
-          body: JSON.stringify({ decision }),
-        }
-      );
+      const endpoint =
+        role === "admin"
+          ? `${baseUrl}/update_final_all`
+          : `${baseUrl}/update_all`;
+
+      const response = await fetch(endpoint, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": getCSRFToken(),
+        },
+        body: JSON.stringify({ decision }),
+      });
 
       if (!response.ok) throw new Error("Bulk update failed");
 
-      setDates(dates.map((d) => ({ ...d, decision })));
+      if (role === "admin") {
+        setFinalDecision(decision);
+      } else {
+        setDates(dates.map((d) => ({ ...d, decision })));
+      }
 
-      toast.success(`All dates updated to "${decision}"`, { autoClose: 1200 });
-      redirectToDashboard();
+      toast.success(`All updated to "${decision}"`, { autoClose: 1200 });
     } catch (err) {
       console.error(err);
       toast.error("Bulk update failed.");
@@ -80,7 +76,7 @@ export default function ManageTimeOffRequest({ request, redirectPath }) {
   };
 
   const handleBack = () => {
-    window.history.back();
+    window.location.href = redirectPath;
   };
 
   return (
@@ -98,6 +94,12 @@ export default function ManageTimeOffRequest({ request, redirectPath }) {
       <Typography>
         <strong>Comment:</strong> {request.comment || "None"}
       </Typography>
+      <Typography>
+        <strong>Request Status:</strong> {request.request_status}
+      </Typography>
+      <Typography>
+        <strong>Final Decision:</strong> {finalDecision}
+      </Typography>
 
       <Divider sx={{ my: 3 }} />
 
@@ -107,25 +109,18 @@ export default function ManageTimeOffRequest({ request, redirectPath }) {
 
       {dates.map((date) => (
         <Paper key={date.id} sx={{ mb: 2, p: 2, backgroundColor: "#f9f9f9" }}>
-          <Grid container spacing={2} alignItems="center">
-            <Grid item xs={3}>
-              <Typography>
-                <strong>Date:</strong> {date.date}
-              </Typography>
-            </Grid>
-            <Grid item xs={2}>
-              <Typography>
-                <strong>Amount:</strong> {date.amount === 1 ? "Full" : "Half"}{" "}
-                Day
-              </Typography>
-            </Grid>
-            <Grid item xs={2}>
-              <Typography>
-                <strong>Status:</strong> {date.decision}
-              </Typography>
-            </Grid>
-            <Grid item xs={5}>
-              <Stack direction="row" spacing={1}>
+          <Box sx={{ textAlign: "center", mb: 1 }}>
+            <Typography>
+              <strong>Date:</strong> {date.date} &nbsp;&nbsp;
+              <strong>Amount:</strong> {date.amount === 1 ? "Full" : "Half"} Day
+              &nbsp;&nbsp;
+              <strong>Supervisor Decision:</strong> {date.decision}
+            </Typography>
+          </Box>
+
+          {role === "supervisor" && (
+            <Box sx={{ textAlign: "center" }}>
+              <Stack direction="row" spacing={1} justifyContent="center">
                 <Button
                   size="small"
                   variant="contained"
@@ -151,42 +146,51 @@ export default function ManageTimeOffRequest({ request, redirectPath }) {
                   Request Info
                 </Button>
               </Stack>
-            </Grid>
-          </Grid>
+            </Box>
+          )}
         </Paper>
       ))}
 
       <Divider sx={{ my: 3 }} />
 
-      <Typography variant="subtitle1" gutterBottom>
-        Bulk Actions:
-      </Typography>
+      {role === "admin" && (
+        <>
+          <Typography variant="subtitle1" gutterBottom>
+            Final Decision (Admin Only):
+          </Typography>
 
-      <Stack direction="row" spacing={2} justifyContent="center" sx={{ mb: 3 }}>
-        <Button
-          variant="contained"
-          color="success"
-          onClick={() => handleBulkUpdate("approved")}
-        >
-          Approve All
-        </Button>
-        <Button
-          variant="contained"
-          color="error"
-          onClick={() => handleBulkUpdate("denied")}
-        >
-          Deny All
-        </Button>
-        <Button
-          variant="contained"
-          color="warning"
-          onClick={() => handleBulkUpdate("pending")}
-        >
-          Request Info For All
-        </Button>
-      </Stack>
+          <Stack
+            direction="row"
+            spacing={2}
+            justifyContent="center"
+            sx={{ mb: 3 }}
+          >
+            <Button
+              variant="contained"
+              color="success"
+              onClick={() => handleBulkUpdate("approved")}
+            >
+              Approve Request
+            </Button>
+            <Button
+              variant="contained"
+              color="error"
+              onClick={() => handleBulkUpdate("denied")}
+            >
+              Deny Request
+            </Button>
+            <Button
+              variant="contained"
+              color="warning"
+              onClick={() => handleBulkUpdate("undecided")}
+            >
+              Mark Undecided
+            </Button>
+          </Stack>
 
-      <Divider sx={{ my: 3 }} />
+          <Divider sx={{ my: 3 }} />
+        </>
+      )}
 
       <Box textAlign="center">
         <Button variant="outlined" onClick={handleBack}>

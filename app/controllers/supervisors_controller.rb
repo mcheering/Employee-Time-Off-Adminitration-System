@@ -1,7 +1,6 @@
-# Author: Matthew Heering & William Pevytoe
-# Description:  Handles data relate to supervisor to send correct data to the view, and take in requests from the view
-# Date: 7/2/25
 class SupervisorsController < ApplicationController
+  before_action :authorize_supervisor_or_admin!
+
   def show
     @supervisor = Employee.find(params[:id])
     @fiscal_years = FiscalYear.order(start_date: :desc)
@@ -34,19 +33,13 @@ class SupervisorsController < ApplicationController
       requests = requests.where(fiscal_year_employees: { fiscal_year_id: @selected_fy.id })
     end
 
-
     if @selected_status.present?
-      Rails.logger.debug "Filtering requests by status: #{@selected_status}"
-      requests = requests.select do |r|
-        Rails.logger.debug "Request ID: #{r.id} | Status: #{r.status}"
-        r.status.to_s == @selected_status
-      end
+      requests = requests.select { |r| r.status.to_s == @selected_status }
     end
+
     @time_off_requests_payload = requests.map do |req|
       counts = req.dates.group(:decision).count
-
       breakdown = { "pending" => 0, "approved" => 0, "denied" => 0 }
-
       counts.each do |k, v|
         if k.is_a?(String) && breakdown.key?(k)
           breakdown[k] = v
@@ -67,9 +60,27 @@ class SupervisorsController < ApplicationController
         to: req.to_date,
         reason: req.reason,
         amount: req.dates.sum(&:amount),
-        decision_breakdown: breakdown
+        decision_breakdown: breakdown,
+        request_status: req.request_status,
+        final_decision: req.final_decision
       }
     end
+
+    @updated_requests = TimeOffRequest
+      .includes(:fiscal_year_employee)
+      .where(fiscal_year_employees: { employee_id: team_ids })
+      .where("time_off_requests.updated_at > time_off_requests.supervisor_decision_date")
+      .map do |req|
+        {
+          id: req.id,
+          employee_name: req.fiscal_year_employee.employee.name,
+          from: req.from_date,
+          edit_path: Rails.application.routes.url_helpers.manage_supervisor_time_off_request_path(
+            supervisor_id: @supervisor.id,
+            id: req.id
+          )
+        }
+      end
 
     @calendar_data = requests.flat_map do |req|
       req.dates.map do |date|
@@ -97,6 +108,15 @@ class SupervisorsController < ApplicationController
     else
       []
     end
+
     render :show
+  end
+
+  private
+
+  def authorize_supervisor_or_admin!
+    unless current_employee.is_administrator? || params[:id].to_i == current_employee.id
+      redirect_to root_path, alert: "Access denied."
+    end
   end
 end

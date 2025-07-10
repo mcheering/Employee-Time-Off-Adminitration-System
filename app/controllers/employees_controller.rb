@@ -2,7 +2,9 @@
 # Description: Controls the flow of data from the employees model to the react views.
 # Date: 6/18/25
 class EmployeesController < ApplicationController
-  before_action :set_employee, only: %i[show edit update]
+  before_action :set_employee, only: %i[show edit update destroy]
+  before_action :authorize_self!, only: %i[show edit update destroy]
+
 
   def index
     @employees = Employee.all
@@ -33,7 +35,9 @@ class EmployeesController < ApplicationController
                               status: req.status, # still useful maybe
                               decision_breakdown: breakdown,
                               amount: req.dates.map(&:amount).compact.sum,
-                              fiscal_year_id: req.fiscal_year_employee.fiscal_year_id
+                              fiscal_year_id: req.fiscal_year_employee.fiscal_year_id,
+                              request_status: req.request_status,
+                              final_decision: req.final_decision
                             }
                           end
 
@@ -55,6 +59,18 @@ class EmployeesController < ApplicationController
       }
     else
       @summary = {}
+    end
+
+    @attention_requests = time_off_requests.select do |req|
+      req.dates.any? { |d| d.decision == "waiting_information" }
+    end.map do |req|
+      {
+        id: req.id,
+        from: req.from_date,
+        to: req.to_date,
+        reason: req.reason,
+        edit_path: edit_employee_time_off_request_path(@employee, req)
+      }
     end
 
     respond_to do |format|
@@ -127,12 +143,16 @@ class EmployeesController < ApplicationController
 
   private
 
-    def set_employee
-      @employee = Employee.find_by(id: params[:id])
-      unless @employee
-        redirect_to employees_path, alert: "Employee not found."
-      end
+  def set_employee
+    @employee = Employee.find_by(id: params[:id])
+    redirect_to employees_path, alert: "Employee not found." and return unless @employee
+  end
+
+  def authorize_self!
+    unless @employee && @employee.id == current_employee.id
+      redirect_to root_path, alert: "Access denied." and return
     end
+  end
 
     def employee_params
       params.require(:employee).permit(

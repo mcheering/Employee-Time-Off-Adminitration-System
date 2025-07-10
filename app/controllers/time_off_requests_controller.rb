@@ -6,6 +6,19 @@ class TimeOffRequestsController < ApplicationController
   before_action :set_employee, if: -> { params[:employee_id].present? }
   before_action :set_request, only: [ :show, :edit, :update, :manage, :supervisor_decision, :update_date, :update_all ]
 
+  before_action only: [ :new, :create, :edit, :update, :show ] do
+    authorize_self!(@employee) if @employee
+  end
+
+  before_action only: [ :manage, :supervisor_decision, :update_date, :update_all ] do
+    if params[:supervisor_id]
+      employee = @request.fiscal_year_employee.employee
+      authorize_supervisor_of!(employee)
+    else
+      authorize_admin!
+    end
+  end
+
   def new
     @request = TimeOffRequest.new
     @fiscal_years = FiscalYear.all
@@ -52,7 +65,6 @@ class TimeOffRequestsController < ApplicationController
   def show
     counts = @request.dates.group(:decision).count
 
-    # Initialize
     breakdown = {
       "pending" => 0,
       "approved" => 0,
@@ -115,15 +127,17 @@ class TimeOffRequestsController < ApplicationController
   end
 
   def manage
-    @supervisor = Employee.find(params[:supervisor_id])
     @request = TimeOffRequest.find(params[:id])
 
-    @redirect_path =
-  if current_employee.is_administrator
-    admin_dashboard_path
-  else
-    supervisor_path(@supervisor)
-  end
+    if params[:supervisor_id].present?
+      @role = "supervisor"
+      @supervisor = Employee.find(params[:supervisor_id])
+      @redirect_path = supervisor_path(@supervisor)
+    else
+      @role = "admin"
+      @supervisor = @request.supervisor
+      @redirect_path = admin_dashboard_path
+    end
   end
 
   def supervisor_decision
@@ -147,12 +161,28 @@ class TimeOffRequestsController < ApplicationController
   def update_date
     date = @request.dates.find(params[:date_id])
     decision = params[:decision]
+    role = (params[:role] || "supervisor").downcase
 
-    unless %w[pending approved denied].include?(decision)
+    unless %w[pending approved denied waiting_information].include?(decision)
       return render json: { error: "Invalid decision" }, status: :unprocessable_entity
     end
 
     if date.update(decision: decision)
+      if role == "admin"
+        @request.update!(
+          final_decision_date: Time.current,
+          final_decision: decision,
+          request_status: "decided"
+        )
+        @request.dates.find(params[:date_id]).update!(decision: decision)
+      else
+        if @request.dates.where(decision: "pending").none? && @request.supervisor_decision_date.blank?
+          @request.update!(supervisor_decision_date: Time.current)
+        end
+      end
+
+      @request.update_status!
+
       render json: { success: true, date: date }
     else
       render json: { error: date.errors.full_messages }, status: :unprocessable_entity
@@ -161,12 +191,27 @@ class TimeOffRequestsController < ApplicationController
 
   def update_all
     decision = params[:decision]
+    role = params[:role] || "supervisor"
 
     unless %w[pending approved denied].include?(decision)
       return render json: { error: "Invalid decision" }, status: :unprocessable_entity
     end
 
     @request.dates.update_all(decision: decision)
+
+    if role == "admin"
+      @request.dates.update_all(decision: decision)
+      @request.update!(
+        final_decision_date: Time.current,
+        final_decision: decision,
+        request_status: "decided"
+      )
+    else
+      @request.update!(supervisor_decision_date: Time.current)
+    end
+
+    @request.update_status!
+
     render json: { success: true }
   end
 
@@ -190,5 +235,27 @@ class TimeOffRequestsController < ApplicationController
       :submitted_by_id,
       days: [ :date, :amount ]
     )
+  end
+
+  def authorize_self_or_admin!(employee)
+    unless current_employee.is_administrator? || current_employee.id == employee.id
+      redirect_to root_path, alert: "Access denied."
+    end
+  end
+
+  def authorize_admin!
+    unless current_employee.is_administrator?
+      redirect_to root_path, alert: "Administrator access required."
+    end
+  end
+
+  def authorize_supervisor_or_admin!(employee)
+    if current_employee.is_administrator?
+      return true
+    end
+
+    unless current_employee.is_supervisor? && employee.supervisor_id == current_employee.id
+      redirect_to root_path, alert: "Supervisor access required."
+    end
   end
 end

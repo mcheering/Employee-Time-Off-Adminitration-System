@@ -1,7 +1,8 @@
 //Author: Matthew Heering
 //Descirption: COntains an employees requested days off, ability to request more, and an ability edit prior requests.
 //Date: 7/2/25
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import {
   Box,
   Typography,
@@ -30,6 +31,30 @@ const EmployeeDashboard = ({
   const [selectedYear, setSelectedYear] = useState(
     fiscalYearsData[0]?.id || null
   );
+
+  const attentionRequests = (() => {
+    const el = document.getElementById("employee-attention-requests");
+    if (!el) return [];
+    try {
+      return JSON.parse(el.textContent);
+    } catch {
+      return [];
+    }
+  })();
+
+  useEffect(() => {
+    if (!attentionRequests.length) return;
+
+    attentionRequests.forEach((req) => {
+      toast.info(
+        <span>
+          Request for dates starting on <strong>{req.from}</strong> requires
+          your attention. <a href={req.edit_path}>Click here</a>
+        </span>,
+        { autoClose: false }
+      );
+    });
+  }, []);
   const [requests, setRequests] = useState(requestsData);
   const [summary, setSummary] = useState(summaryData);
   const handleYearChange = (event) => {
@@ -126,8 +151,9 @@ const EmployeeDashboard = ({
               <TableCell>From</TableCell>
               <TableCell>To</TableCell>
               <TableCell>Reason</TableCell>
-              <TableCell>Amount</TableCell>
-              <TableCell>Status</TableCell>
+              <TableCell>Days (A/P/D)</TableCell>{" "}
+              <TableCell>Request Status</TableCell>
+              <TableCell>Final Decision</TableCell>
               <TableCell align="right">Actions</TableCell>
             </TableRow>
           </TableHead>
@@ -138,15 +164,12 @@ const EmployeeDashboard = ({
                 <TableCell>{req.to}</TableCell>
                 <TableCell>{req.reason}</TableCell>
                 <TableCell>
-                  {typeof req.amount === "number"
-                    ? req.amount.toFixed(1)
-                    : "N/A"}
+                  {`${req.decision_breakdown?.approved || 0}/${
+                    req.decision_breakdown?.pending || 0
+                  }/${req.decision_breakdown?.denied || 0}`}
                 </TableCell>
-                <TableCell>
-                  <div>Approved: {req.decision_breakdown?.approved || 0}</div>
-                  <div>Pending: {req.decision_breakdown?.pending || 0}</div>
-                  <div>Denied: {req.decision_breakdown?.denied || 0}</div>
-                </TableCell>{" "}
+                <TableCell>{req.request_status?.replace(/_/g, " ")}</TableCell>
+                <TableCell>{req.final_decision}</TableCell>
                 <TableCell align="right">
                   <Button
                     size="small"
@@ -169,7 +192,7 @@ const EmployeeDashboard = ({
             ))}
             {requests.length === 0 && (
               <TableRow>
-                <TableCell colSpan={6} align="center">
+                <TableCell colSpan={7} align="center">
                   No requests for selected year.
                 </TableCell>
               </TableRow>

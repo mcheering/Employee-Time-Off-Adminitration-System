@@ -1,13 +1,13 @@
 //Author: Matthew Heering
-//Description: Login component
-//Date: 7/5/25
+//Description: Reset password form
+//Date: 7/9/25
+
 import React, { useState } from "react";
 import { TextField, Button, Box, Typography, Paper } from "@mui/material";
 import { toast } from "react-toastify";
 
-const LoginForm = ({ loginUrl, csrfToken }) => {
+const ResetPasswordForm = ({ resetUrl, csrfToken }) => {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -15,20 +15,19 @@ const LoginForm = ({ loginUrl, csrfToken }) => {
     setLoading(true);
 
     try {
-      const response = await fetch(loginUrl, {
+      const response = await fetch(resetUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "X-CSRF-Token": csrfToken,
         },
-        body: JSON.stringify({ employee: { email, password } }),
+        body: JSON.stringify({ employee: { email } }),
       });
 
       if (response.ok) {
-        toast.success("Login successful!");
-        window.location.href = "/";
+        toast.success("Password reset instructions sent.");
       } else {
-        toast.error("Invalid credentials.");
+        toast.error("Failed to send reset instructions.");
       }
     } catch (err) {
       console.error(err);
@@ -42,7 +41,7 @@ const LoginForm = ({ loginUrl, csrfToken }) => {
     <Box sx={{ mt: 10, display: "flex", justifyContent: "center" }}>
       <Paper sx={{ p: 4, width: 400 }}>
         <Typography variant="h5" gutterBottom>
-          Login
+          Reset Password
         </Typography>
         <form onSubmit={handleSubmit}>
           <TextField
@@ -52,14 +51,6 @@ const LoginForm = ({ loginUrl, csrfToken }) => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <TextField
-            label="Password"
-            type="password"
-            fullWidth
-            margin="normal"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
           <Button
             type="submit"
             variant="contained"
@@ -67,22 +58,12 @@ const LoginForm = ({ loginUrl, csrfToken }) => {
             fullWidth
             disabled={loading}
           >
-            {loading ? "Logging in..." : "Log In"}
+            {loading ? "Sending..." : "Send Reset Instructions"}
           </Button>
-          <Box textAlign="center" sx={{ mt: 2 }}>
-            <Typography variant="body2">
-              <a
-                href="/employees/password/new"
-                style={{ textDecoration: "none", color: "#1976d2" }}
-              >
-                Forgot Password?
-              </a>
-            </Typography>
-          </Box>
         </form>
       </Paper>
     </Box>
   );
 };
 
-export default LoginForm;
+export default ResetPasswordForm;
