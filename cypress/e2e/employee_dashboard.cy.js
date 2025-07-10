@@ -1,0 +1,35 @@
+describe("Employee Dashboard E2E", () => {
+  it("logs in, navigates employee dashboard, edits request, and submits new request", () => {
+    cy.visit("http://127.0.0.1:3000/employees/sign_in");
+    cy.get('input[type="text"]').type("perry@huels-shields.test");
+    cy.get('input[type="password"]').type("Password123!");
+    cy.contains("Log In").click();
+    cy.contains("Employee Dashboard").click();
+    cy.contains("View").click();
+    cy.url().should("include", "/time_off_requests/");
+    cy.contains("Back").click();
+    cy.url().should("match", /\/employees\/\d+$/);
+    cy.contains("Edit").click();
+    cy.url().should("include", "/edit");
+    cy.get('[role="combobox"]').first().click();
+    cy.get('[role="option"]').first().click();
+    cy.get('input[name="is_fmla"]').check({ force: true });
+    cy.get('textarea[name="comment"]').clear().type("This is a test");
+    cy.contains("Update Request").click();
+    cy.url().should("match", /\/employees\/\d+$/);
+    cy.contains("Request Time Off").click();
+    cy.url().should("include", "/time_off_requests/new");
+    cy.get('[role="combobox"]').first().click();
+    cy.get('[role="option"]').first().click();
+    cy.get('input[name="is_fmla"]').check({ force: true });
+    cy.get('textarea[name="comment"]').clear().type("New request test");
+    cy.get('input[type="date"]').clear().type("2025-07-10");
+    cy.get('[role="combobox"]').eq(1).click();
+    cy.get('[role="option"]').first().click();
+    cy.get("button").contains(/^Add$/).click();
+    cy.contains("2025-07-10").should("exist");
+    cy.contains("Submit Request").click();
+    cy.url().should("match", /\/employees\/\d+$/);
+    cy.contains("Edyth Roberts's Time-Off Dashboard").should("exist");
+  });
+});

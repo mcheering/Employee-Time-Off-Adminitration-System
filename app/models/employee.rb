@@ -44,6 +44,14 @@ class Employee < ApplicationRecord
     supervisor ? supervisor.name : "none"
   end
 
+  def is_administrator?
+    !!is_administrator
+  end
+
+  def is_supervisor?
+    !!is_supervisor
+  end
+
   private
   def create_fiscal_year_employees
     FiscalYear.all.each do |fiscal_year|

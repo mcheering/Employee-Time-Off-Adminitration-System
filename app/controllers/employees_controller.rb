@@ -3,8 +3,7 @@
 # Date: 6/18/25
 class EmployeesController < ApplicationController
   before_action :set_employee, only: %i[show edit update destroy]
-  before_action :authorize_self!, only: %i[show edit update destroy]
-
+  before_action :authorize_self_or_admin!, only: %i[show edit update destroy]
 
   def index
     @employees = Employee.all
@@ -153,6 +152,14 @@ class EmployeesController < ApplicationController
       redirect_to root_path, alert: "Access denied." and return
     end
   end
+
+  private
+
+def authorize_self_or_admin!
+  unless current_employee.is_administrator? || @employee.id == current_employee.id
+    redirect_to root_path, alert: "Access denied."
+  end
+end
 
     def employee_params
       params.require(:employee).permit(

@@ -46,6 +46,11 @@ export default function NewEmployeeForm({ employee = null, supervisors = [] }) {
     }
   }, [employee]);
 
+  const getCSRFToken = () => {
+    const meta = document.querySelector('meta[name="csrf-token"]');
+    return meta?.getAttribute("content");
+  };
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({
@@ -65,6 +70,7 @@ export default function NewEmployeeForm({ employee = null, supervisors = [] }) {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
+        "X-CSRF-Token": getCSRFToken(),
       },
       body: JSON.stringify({ employee: formData }),
     });
