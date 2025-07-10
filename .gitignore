@@ -13,7 +13,7 @@
 .byebug_history
 /config/master.key
 log/development.log
-
+log/*.log*
 # === RubyMotion ===
 .dat*
 .repl_history
