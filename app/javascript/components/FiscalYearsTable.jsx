@@ -55,13 +55,19 @@ export default function FiscalYearsTable({ fiscalYears: initialFiscalYears }) {
     try {
       const method = id ? "PATCH" : "POST";
       const url = id ? `/fiscal_years/${id}` : "/fiscal_years";
+
+      const csrfToken = document.querySelector(
+        'meta[name="csrf-token"]'
+      )?.content;
+
       const response = await fetch(url, {
         method,
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
+          "X-CSRF-Token": csrfToken,
         },
-        body: JSON.stringify({ fiscal_year: payload }),
+        body: JSON.stringify(payload),
       });
 
       if (!response.ok) throw new Error("Server error");

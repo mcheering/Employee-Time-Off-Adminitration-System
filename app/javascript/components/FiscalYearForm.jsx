@@ -10,7 +10,7 @@ import { TextField, Button, Stack } from "@mui/material";
 export default function FiscalYearForm({ onClose, onSave, fiscalYear }) {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-
+  const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
   useEffect(() => {
     if (fiscalYear) {
       setStartDate(fiscalYear.start_date);
@@ -23,8 +23,10 @@ export default function FiscalYearForm({ onClose, onSave, fiscalYear }) {
 
   const handleSubmit = () => {
     const payload = {
-      start_date: startDate,
-      end_date: endDate,
+      fiscal_year: {
+        start_date: startDate,
+        end_date: endDate,
+      },
     };
     onSave(payload, fiscalYear?.id);
   };
