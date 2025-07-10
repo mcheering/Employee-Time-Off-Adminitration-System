@@ -10,6 +10,7 @@ import EmployeesTable from "./EmployeesTable";
 import FiscalYearsTable from "./FiscalYearsTable";
 import FiscalYearEmployeesTable from "./FiscalYearEmployeesTable";
 import TimeOffRequestsView from "./TimeOffRequestsView";
+import NewEmployeeForm from "./NewEmployeeForm";
 
 function getJSONFromScript(id, fallback = []) {
   const el = document.getElementById(id);
@@ -31,7 +32,7 @@ export default function AdminDashboard() {
   const fiscalYearEmployees = getJSONFromScript("fiscal-year-employees-data");
   const timeOffRequests = getJSONFromScript("time-off-requests-data");
   const supervisorsList = getJSONFromScript("supervisors-data");
-
+  const [editingEmployee, setEditingEmployee] = useState(null);
   useEffect(() => {
     const el = document.getElementById("admin-ready-requests");
     if (!el) return;
@@ -57,10 +58,27 @@ export default function AdminDashboard() {
   }, []);
 
   const renderActiveView = () => {
+    if (editingEmployee) {
+      return (
+        <NewEmployeeForm
+          employee={editingEmployee}
+          supervisors={supervisorsList}
+          onSave={() => {
+            setEditingEmployee(null);
+            setSelectedEmployee(null);
+          }}
+        />
+      );
+    }
+
     if (selectedEmployee) {
       return (
         <EmployeeShow
           employee={selectedEmployee}
+          onEdit={() => {
+            setEditingEmployee(selectedEmployee);
+            setSelectedEmployee(null);
+          }}
           onBack={() => setSelectedEmployee(null)}
         />
       );
@@ -75,7 +93,14 @@ export default function AdminDashboard() {
           <FiscalYearEmployeesTable
             fiscalYearEmployees={fiscalYearEmployees}
             fiscalYears={fiscalYears}
-            onManage={(emp) => setSelectedEmployee(emp)}
+            onManage={(fye) => {
+              const emp = employees.find((e) => e.id === fye.employee_id);
+              if (emp) {
+                setSelectedEmployee(emp);
+              } else {
+                console.error("Employee not found for id", fye.employee_id);
+              }
+            }}
           />
         );
 

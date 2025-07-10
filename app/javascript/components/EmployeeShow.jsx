@@ -16,13 +16,9 @@ import {
   Button,
 } from "@mui/material";
 
-export default function EmployeeShow({ employee }) {
+export default function EmployeeShow({ employee, onEdit, onBack }) {
   const handleNavigation = (path) => {
     window.location.href = path;
-  };
-
-  const handleBack = () => {
-    window.location.href = "/admin/dashboard";
   };
 
   return (
@@ -75,8 +71,8 @@ export default function EmployeeShow({ employee }) {
           onClick={() => handleNavigation(`/employees/${employee.id}/edit`)}
         >
           Edit
-        </Button>
-        <Button variant="outlined" onClick={handleBack}>
+        </Button>{" "}
+        <Button variant="outlined" onClick={onBack}>
           Back
         </Button>
       </Stack>
