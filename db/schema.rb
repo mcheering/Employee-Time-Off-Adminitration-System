@@ -84,7 +84,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_09_210608) do
     t.integer "decision", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "time_off_request_id", null: false
+    t.bigint "time_off_request_id"
     t.index ["time_off_request_id"], name: "index_time_offs_on_time_off_request_id"
   end
 

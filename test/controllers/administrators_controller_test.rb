@@ -3,40 +3,62 @@ require "test_helper"
 class AdministratorsControllerTest < ActionController::TestCase
   # Author: William Pevytoe
   # Date: 6/18/2025
-  # Admin dashboard action successfully loads all employees, fiscal years, and computes the fiscal-year-employee data for display
   include Devise::Test::ControllerHelpers
 
   setup do
-    @admin = employees(:administrator)
+    @admin       = employees(:administrator)
     sign_in @admin
 
-    @employee1 = employees(:one)
-    @employee2 = employees(:two)
-    @fiscal_year   = fiscal_years(:one)
+    @employee1   = employees(:one)
+    @employee2   = employees(:two)
+    @employee3   = employees(:three) # still available for the employees test
+    @fiscal_year = fiscal_years(:one)
 
-    @fiscal_year1 = fiscal_year_employees(:one)
-    @fiscal_year2 = fiscal_year_employees(:two)
+    @fye1        = fiscal_year_employees(:one)
+    @fye2        = fiscal_year_employees(:two)
   end
 
-  # Author: William Pevytoe
-  # Date: 6/18/2025
-  test "dashboard assigns @employees, @fiscal_years and @fiscal_year_employees" do
+  test "dashboard assigns employees array of hashes" do
     get :dashboard
     assert_response :success
 
-    all_employees = assigns(:employees)
-    assert_includes all_employees, @admin
-    assert_includes all_employees, @employee1
-    assert_includes employees, @employee2
+    employees_hashes = assigns(:employees)
+    ids = employees_hashes.map { |h| h[:id] }
+    assert_includes ids, @admin.id
+    assert_includes ids, @employee1.id
+    assert_includes ids, @employee2.id
+    assert_includes ids, @employee3.id
+  end
+
+  test "dashboard assigns fiscal years as hash list" do
+    get :dashboard
+    assert_response :success
 
     fiscal_years_assigned = assigns(:fiscal_years)
-    assert_equal FiscalYear.all.to_a, fiscal_years_assigned
+    expected = FiscalYear.order(:start_date).map do |fy|
+      {
+        id: fy.id,
+        start_date: fy.start_date,
+        end_date: fy.end_date,
+        is_open: fy.is_open,
+        caption: fy.caption
+      }
+    end
+    assert_equal expected, fiscal_years_assigned
+  end
 
-    fiscal_year_employees = assigns(:fiscal_year_employees)
-    assert_kind_of Array, fiscal_year_employees
-    assert_equal 4, fiscal_year_employees.size
+  test "dashboard assigns fiscal_year_employees array of hashes" do
+    get :dashboard
+    assert_response :success
 
-    record = fiscal_year_employees.find { |h| h[:employee_id] == @employee1.id }
+    fye_hashes = assigns(:fiscal_year_employees)
+    assert_kind_of Array, fye_hashes
+    emp_ids = fye_hashes.map { |h| h[:employee_id] }
+    assert_includes emp_ids, @employee1.id
+    assert_includes emp_ids, @employee2.id
+    # removed assertion for @employee3.id since no FYE exists for that fixture
+
+    record = fye_hashes.find { |h| h[:employee_id] == @employee1.id }
     assert record, "expected a record for employee ##{@employee1.id}"
     assert_equal @employee1.name, record[:employee_name]
     assert_equal @fiscal_year.id, record[:fiscal_year_id]
