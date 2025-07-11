@@ -31,6 +31,9 @@ class TimeOffRequestsController < ApplicationController
       return redirect_to employee_path(@employee)
     end
 
+    @request.fiscal_year_employee_id = @fiscal_year_employee.id
+    @request.supervisor_id = @employee.supervisor_id
+
     render "form"
   end
 
@@ -39,6 +42,18 @@ class TimeOffRequestsController < ApplicationController
     days = permitted[:days]
     request_data = permitted.except(:days)
 
+    # Fetch fiscal year employee
+    @fiscal_year_employee = FiscalYearEmployee.find_by(id: request_data[:fiscal_year_employee_id], employee: @employee)
+
+    if @fiscal_year_employee.nil?
+      respond_to do |format|
+        format.html { redirect_to employee_path(@employee), alert: "Invalid fiscal year selected." }
+        format.json { render json: { errors: [ "Invalid fiscal year selected." ] }, status: :unprocessable_entity }
+      end
+      return
+    end
+
+    request_data[:fiscal_year_employee_id] = @fiscal_year_employee.id
     request_data[:reason] = request_data[:reason].to_sym if request_data[:reason].is_a?(String)
     request_data[:request_date] = days.first[:date] if days.present?
     request_data[:supervisor_id] ||= @employee.supervisor_id || Employee.where(is_supervisor: true).sample.id
@@ -61,6 +76,7 @@ class TimeOffRequestsController < ApplicationController
       end
     end
   end
+
 
   def show
     counts = @request.dates.group(:decision).count
@@ -88,12 +104,10 @@ class TimeOffRequestsController < ApplicationController
   end
 
   def edit
-    @fiscal_years = @employee.fiscal_year_employees.includes(:fiscal_year).map do |fye|
-      {
-        id: fye.fiscal_year.id,
-        year: fye.fiscal_year.start_date.year
-      }
-    end
+@fiscal_years = @employee
+.fiscal_year_employees
+.includes(:fiscal_year)
+.map(&:fiscal_year)
 
     @fiscal_year_employee = @request.fiscal_year_employee
     render :form, layout: true
@@ -190,29 +204,11 @@ class TimeOffRequestsController < ApplicationController
   end
 
   def update_all
-    decision = params[:decision]
-    role = params[:role] || "supervisor"
+    authorize_admin!
+    decision_enum = params[:decision] == "approved" ? :approved : :denied
+    @request.finalize!(decision: decision_enum)
 
-    unless %w[pending approved denied].include?(decision)
-      return render json: { error: "Invalid decision" }, status: :unprocessable_entity
-    end
-
-    @request.dates.update_all(decision: decision)
-
-    if role == "admin"
-      @request.dates.update_all(decision: decision)
-      @request.update!(
-        final_decision_date: Time.current,
-        final_decision: decision,
-        request_status: "decided"
-      )
-    else
-      @request.update!(supervisor_decision_date: Time.current)
-    end
-
-    @request.update_status!
-
-    render json: { success: true }
+    head :no_content
   end
 
   private

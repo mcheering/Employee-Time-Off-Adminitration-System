@@ -25,6 +25,7 @@ import ManageRequest from "../components/ManageRequest";
 import DashboardSelector from "../components/DashboardSelector";
 import LoginForm from "../components/LoginForm";
 import ResetPasswordForm from "../components/ResetPasswordForm";
+import { FormatLineSpacingOutlined } from "@mui/icons-material";
 
 document.addEventListener("DOMContentLoaded", () => {
   const renderWithToast = (element, component) => {
@@ -220,42 +221,68 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
 
-  setTimeout(() => {
-    const torFormRoot = document.getElementById("time-off-request-form");
-    if (torFormRoot) {
-      try {
-        const requestData = JSON.parse(torFormRoot.dataset.request);
-        const fiscalYearsData = JSON.parse(torFormRoot.dataset.fiscalYears);
-        const employeeId = parseInt(torFormRoot.dataset.employeeId, 10);
-        const supervisorId = parseInt(torFormRoot.dataset.supervisorId, 10);
+  const torFormRoot = document.getElementById("time-off-request-form");
 
-        if (requestData?.dates && !requestData.days) {
-          requestData.days = requestData.dates.map((d) => ({
-            date: d.date,
-            amount: d.amount,
-          }));
+  if (torFormRoot) {
+    try {
+      const parseJSON = (value, fallback = null) => {
+        try {
+          return JSON.parse(value);
+        } catch (err) {
+          console.error("Failed to parse JSON:", err, value);
+          return fallback;
         }
+      };
 
-        const fiscalYearEmployeeId = parseInt(
-          torFormRoot.dataset.fiscalYearEmployeeId,
-          10
-        );
+      const requestData = parseJSON(torFormRoot.dataset.request, {});
+      const fiscalYearsData = parseJSON(torFormRoot.dataset.fiscalYears, []);
+      const employeeId = parseInt(torFormRoot.dataset.employeeId, 10) || null;
+      const supervisorId =
+        parseInt(torFormRoot.dataset.supervisorId, 10) || null;
+      const selectedFiscalYearId = parseInt(
+        torFormRoot.dataset.selectedFiscalYearId,
+        10
+      );
+      const fiscalYearEmployeeId = parseInt(
+        torFormRoot.dataset.fiscalYearEmployeeId,
+        10
+      );
+      const fiscalYearClosed = torFormRoot.dataset.fiscalYearClosed === "true";
 
-        renderWithToast(
-          torFormRoot,
-          <TimeOffRequestForm
-            request={requestData}
-            fiscalYears={fiscalYearsData}
-            employeeId={employeeId}
-            fiscalYearEmployeeId={fiscalYearEmployeeId}
-            supervisorId={supervisorId}
-          />
-        );
-      } catch (err) {
-        console.error("Error parsing or rendering:", err);
+      console.log({
+        requestData,
+        fiscalYearsData,
+        selectedFiscalYearId,
+        employeeId,
+        supervisorId,
+        fiscalYearEmployeeId,
+        fiscalYearClosed,
+      });
+
+      if (requestData?.dates && !requestData.days) {
+        requestData.days = requestData.dates.map((d) => ({
+          date: d.date,
+          amount: d.amount,
+        }));
       }
+
+      renderWithToast(
+        torFormRoot,
+        <TimeOffRequestForm
+          request={requestData}
+          fiscalYears={fiscalYearsData}
+          initialFiscalYearId={selectedFiscalYearId}
+          initialFiscalYearEmployeeId={fiscalYearEmployeeId}
+          employeeId={employeeId}
+          supervisorId={supervisorId}
+          fiscalYearClosed={fiscalYearClosed}
+        />
+      );
+    } catch (err) {
+      console.error("Error mounting TimeOffRequestForm:", err);
+      toast.error("Failed to load the form — please contact support.");
     }
-  }, 500);
+  }
 
   const viewRoot = document.getElementById("time-off-request-view");
   if (viewRoot) {

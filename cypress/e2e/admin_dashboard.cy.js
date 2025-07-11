@@ -1,5 +1,5 @@
 describe("Admin Dashboard", () => {
-  const email = "perry@huels-shields.test";
+  const email = "morsega@westga.edu";
   const password = "Password123!";
 
   it("navigates through admin dashboard functionality", () => {
@@ -65,8 +65,15 @@ describe("Admin Dashboard", () => {
 
     cy.wait(2000);
 
-    // --- Fiscal Year Employees ---
     cy.contains(/^Fiscal Year Employees$/).click();
+
+    cy.get("label")
+      .contains("Fiscal Year")
+      .parent() // the FormControl wrapper
+      .click();
+
+    cy.get('ul[role="listbox"] li').contains("2024-25").click();
+
     cy.contains(/^Manage$/)
       .first()
       .click();
@@ -84,13 +91,11 @@ describe("Admin Dashboard", () => {
 
     cy.wait(2000);
 
-    // --- Manage Employee Time-Offs ---
     cy.contains(/^Manage Employee Time-Offs$/).click();
     cy.contains(/^Manage$/)
       .first()
       .click();
 
-    // Navigate to /manage page explicitly if needed
     cy.url().then((url) => {
       if (!url.includes("/manage")) {
         cy.visit(`${url}/manage`);
@@ -101,7 +106,6 @@ describe("Admin Dashboard", () => {
 
     cy.contains(/^Back to Dashboard$/).click();
 
-    // Confirm back at Admin Dashboard
     cy.contains(/^Admin Dashboard$/).should("exist");
   });
 });

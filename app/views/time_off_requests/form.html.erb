@@ -1,7 +1,15 @@
-<div id="time-off-request-form"
-     data-request="<%= @request.to_json(include: :dates) %>"
-     data-fiscal-years="<%= @fiscal_years.to_json %>"
-     data-employee-id="<%= @employee.id %>"
-     data-fiscal-year-employee-id="<%= @fiscal_year_employee.id %>"
-     data-supervisor-id="<%= @employee.supervisor_id %>">
-</div>
+<%= tag.div id: "time-off-request-form", 
+            data: {
+              request: @request.as_json(include: :dates),
+              fiscal_years: @fiscal_years.map { |fy| {
+                id: fy.id,
+                caption: fy.caption,
+                start_date: fy.start_date,
+                end_date: fy.end_date,
+                is_open:    fy.is_open
+              }},
+              selected_fiscal_year_id: @fiscal_year_employee.fiscal_year.id,
+              employee_id: @employee.id,
+              fiscal_year_employee_id: @fiscal_year_employee.id,
+              supervisor_id: @employee.supervisor_id
+            } %>

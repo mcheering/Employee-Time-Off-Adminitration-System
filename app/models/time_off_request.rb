@@ -42,6 +42,8 @@ class TimeOffRequest < ApplicationRecord
   validates :request_date, presence: true
   validates :submitted_by_id, presence: true
   validates :is_fmla, inclusion: { in: [ true, false ] }
+  validate :requested_dates_within_fiscal_year
+
 
   # Author: Terry Thompson
   # Date: 6/24/2025
@@ -129,10 +131,35 @@ class TimeOffRequest < ApplicationRecord
     save!
   end
 
-  def finalize!(decision:)
-    transaction do
-      update!(final_decision_date: Date.today)
-      dates.update_all(decision: decision)
-    end
+# Author: Matthew Heering
+# Date: 7/11/2025
+# Description: Ensures all requested dates fall within the selected fiscal year.
+def requested_dates_within_fiscal_year
+  fy = fiscal_year_employee&.fiscal_year
+  if fy.nil?
+    errors.add(:fiscal_year_employee, "must be associated with a valid fiscal year")
+    return
   end
+
+  invalid_dates = dates.reject do |time_off|
+    time_off.date >= fy.start_date && time_off.date <= fy.end_date
+  end
+
+  if invalid_dates.any?
+    invalid_str = invalid_dates.map(&:date).join(", ")
+    errors.add(:base, "Requested dates (#{invalid_str}) are outside of fiscal year #{fy.caption}")
+  end
+end
+
+def finalize!(decision:)
+  transaction do
+    self.final_decision_date = Date.today
+    self.final_decision      = decision
+    self.request_status      = :decided
+
+    save!(validate: false)
+
+    dates.update_all(decision: TimeOff.decisions[decision])
+  end
+end
 end

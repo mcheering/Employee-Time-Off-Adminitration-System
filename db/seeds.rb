@@ -13,8 +13,11 @@ Company.destroy_all
 
 puts "All records deleted."
 
+
 puts "Creating company..."
 company = Company.first_or_create!(name: "Your Company Name")
+
+
 
 puts "Creating fiscal years..."
 fiscal_years = []
@@ -23,6 +26,8 @@ fiscal_years = []
   end_date = Date.new(2021 + i, 6, 30)
   fiscal_years << FiscalYear.create!(start_date: start_date, end_date: end_date)
 end
+
+
 
 puts "Creating administrators..."
 admin1 = Employee.create!(
@@ -41,49 +46,100 @@ admin2 = Employee.create!(
   email: "alex.johnson@example.com",
   password: "Password123!",
   hire_date: Date.new(2018, 5, 15),
-  is_supervisor: false,
+  is_supervisor: true,
+  is_administrator: false
+)
+
+admin3 = Employee.create!(
+  first_name: "Mike",
+  last_name: "Orsega",
+  email: "morsega@westga.edu",
+  password: "Password123!",
+  hire_date: Date.new(2017, 5, 15),
+  is_supervisor: true,
   is_administrator: true
 )
 
+all_admins = [ admin1, admin2, admin3 ]
+all_admins.each do |admin|
+  fiscal_years.each do |fy|
+    FiscalYearEmployee.find_or_create_by!(
+      employee:    admin,
+      fiscal_year: fy
+    )
+  end
+end
+
+requesters = Employee
+  .where(is_administrator: false, is_supervisor: false)
+  .joins(:fiscal_year_employees)
+  .distinct
+  .to_a
+
+supervisors = all_admins.dup
+
 puts "Creating 10 supervisors"
-supervisors = []
 10.times do
-  supervisors << Employee.create!(
-    first_name: Faker::Name.first_name,
-    last_name: Faker::Name.last_name,
-    email: Faker::Internet.unique.email,
-    password: "Password123!",
-    hire_date: Faker::Date.between(from: '2018-01-01', to: '2020-12-31'),
-    is_supervisor: true,
+  first = Faker::Name.first_name
+  last  = Faker::Name.last_name
+
+  sup = Employee.create!(
+    first_name:       first,
+    last_name:        last,
+    email:            "#{first.downcase}.#{last.downcase}@example.com",
+    password:         "Password123!",
+    hire_date:        Faker::Date.between(from: '2018-01-01', to: '2020-12-31'),
+    is_supervisor:    true,
     is_administrator: false
   )
+  supervisors << sup
 end
+
+
 
 puts "Creating 100 employees (10 per supervisor)"
 employees = []
 supervisors.each do |supervisor|
   10.times do
-    employees << Employee.create!(
-      first_name: Faker::Name.first_name,
-      last_name: Faker::Name.last_name,
-      email: Faker::Internet.unique.email,
-      password: "Password123!",
-      hire_date: Faker::Date.between(from: '2019-01-01', to: '2023-12-31'),
+    first = Faker::Name.first_name
+    last  = Faker::Name.last_name
+    hire_date = Faker::Date.between(from: '2019-01-01', to: '2023-12-31')
+
+    emp = Employee.create!(
+      first_name:    first,
+      last_name:     last,
+      email:         "#{first.downcase}.#{last.downcase}@example.com",
+      password:      "Password123!",
+      hire_date:        hire_date,
+      termination_date: nil,
       supervisor_id: supervisor.id,
       is_supervisor: false,
       is_administrator: false
     )
+    employees << emp
+
+    fiscal_years.each do |fy|
+      FiscalYearEmployee.find_or_create_by!(employee: emp, fiscal_year: fy)
+    end
   end
 end
 
-all_employees = [ admin1, admin2 ] + supervisors + employees
+all_employees = (all_admins + employees)
+
+employees.sample(10).each do |emp|
+  emp.update!(
+    termination_date: emp.hire_date + rand(1..365).days
+  )
+end
+
+
+
 
 puts "Creating some random TimeOffRequests"
 
-reasons   = %w[pto vacation juryDuty bereavement unpaid other]
+reasons   = %w[pto vacation jury_duty bereavement unpaid other]
 decisions = %w[approved denied pending]
 
-# fetch enums from the model
 statuses = TimeOffRequest.request_statuses.keys
 final_decisions = TimeOffRequest.final_decisions.keys - [ 'undecided' ]
 
@@ -98,15 +154,25 @@ fiscal_years  = FiscalYear.all.to_a
 
 # Create 20 random requests
 20.times do
-  employee     = requesters.sample
-  supervisor   = supervisors.find { |s| s.id == employee.supervisor_id } || supervisors.sample
-  fiscal_year  = fiscal_years.sample
-  request_date = Faker::Date.between(from: fiscal_year.start_date, to: fiscal_year.end_date)
+  employee   = requesters.sample
+  supervisor = supervisors.find { |s| s.id == employee.supervisor_id } || supervisors.sample
+  fiscal_year = fiscal_years.sample
 
   fye = FiscalYearEmployee.find_or_create_by!(
-    employee_id:    employee.id,
-    fiscal_year_id: fiscal_year.id
+    employee:    employee,
+    fiscal_year: fiscal_year
   )
+
+    request_date = Faker::Date.between(
+    from: fiscal_year.start_date,
+    to:   fiscal_year.end_date
+  )
+
+  desired_length = rand(1..5)
+  days_left      = (fiscal_year.end_date - request_date).to_i + 1
+  num_days       = [ desired_length, days_left ].min
+
+  block_start = request_date
 
   request_status = statuses.sample
   final_decision = request_status == 'decided' ? final_decisions.sample : 'undecided'
@@ -115,73 +181,63 @@ fiscal_years  = FiscalYear.all.to_a
     fiscal_year_employee_id:  fye.id,
     submitted_by_id:          employee.id,
     supervisor_id:            supervisor.id,
-    request_date:             request_date,
-    reason:                   reasons.index(reasons.sample),
+    request_date:             block_start,
+    reason:                   reasons.sample,
     comment:                  Faker::Lorem.sentence(word_count: 8),
     is_fmla:                  [ true, false ].sample,
-    supervisor_decision_date: request_date + rand(1..5).days,
-    final_decision_date:      request_status == 'decided' ? (request_date + rand(6..10).days) : nil,
+    supervisor_decision_date: block_start + rand(1..5).days,
+    final_decision_date:      (request_status == 'decided' ? (block_start + rand(6..10).days) : nil),
     request_status:           TimeOffRequest.request_statuses[request_status],
     final_decision:           TimeOffRequest.final_decisions[final_decision]
   )
 
-  rand(1..4).times do
-    d = Faker::Date.between(
-      from: [ employee.hire_date, fiscal_year.start_date ].max,
-      to: fiscal_year.end_date
-    )
-
+  num_days.times do |days_off|
     request.dates.create!(
-      date:       d,
-      amount:     [ 0.5, 1.0 ].sample,
-      was_taken:  [ true, false ].sample,
-      decision:   decisions.index(decisions.sample)
+      date: block_start + days_off.days,
+      amount: [ 0.5, 1.0 ].sample,
+      was_taken: [ true, false ].sample,
+      decision:  decisions.sample
     )
   end
 end
 
+
+
+
 puts "Creating 3 TimeOffRequests for every FiscalYearEmployee of every employee…"
 
-employees.each do |employee|
-  fiscal_year_employees = FiscalYearEmployee.where(employee_id: employee.id)
-
-  fiscal_year_employees.each do |fye|
-    existing_reasons = []
-
+Employee.all.each do |employee|
+  employee.fiscal_year_employees.each do |fye|
     3.times do
-      reason_idx = (reasons.map.with_index { |_, i| i } - existing_reasons).sample
-      existing_reasons << reason_idx
+      start_date   = Faker::Date.between(
+                       from: fye.fiscal_year.start_date,
+                       to:   fye.fiscal_year.end_date
+                     )
 
-      req_date = Faker::Date.between(from: fye.fiscal_year.start_date, to: fye.fiscal_year.end_date)
-
-      request_status = statuses.sample
-      final_decision = request_status == 'decided' ? final_decisions.sample : 'undecided'
+      desired_len  = rand(1..5)
+      days_left    = (fye.fiscal_year.end_date - start_date).to_i + 1
+      num_days     = [ desired_len, days_left ].min
 
       request = TimeOffRequest.create!(
-        fiscal_year_employee_id:  fye.id,
-        submitted_by_id:          employee.id,
-        supervisor_id:            employee.supervisor_id || Employee.where(is_supervisor: true).sample.id,
-        request_date:             req_date,
-        reason:                   reason_idx,
-        comment:                  Faker::Lorem.sentence(word_count: 6),
-        is_fmla:                  [ true, false ].sample,
-        supervisor_decision_date: req_date + rand(1..5).days,
-        final_decision_date:      request_status == 'decided' ? (req_date + rand(6..10).days) : nil,
-        request_status:           TimeOffRequest.request_statuses[request_status],
-        final_decision:           TimeOffRequest.final_decisions[final_decision]
+        fiscal_year_employee_id: fye.id,
+        submitted_by_id:         employee.id,
+        supervisor_id:           (employee.supervisor_id || Employee.where(is_supervisor: true).sample.id),
+        request_date:            start_date,
+        reason:                  reasons.sample,
+        comment:                 Faker::Lorem.sentence(word_count: 6),
+        is_fmla:                 [ true, false ].sample,
+        supervisor_decision_date: start_date + rand(1..5).days,
+        final_decision_date:     nil,
+        request_status:          statuses.index(statuses.sample),
+        final_decision:          final_decisions.index(final_decisions.sample)
       )
 
-      rand(1..3).times do
-        day = Faker::Date.between(
-          from: [ employee.hire_date, fye.fiscal_year.start_date ].max,
-          to: fye.fiscal_year.end_date
-        )
-
+      num_days.times do |i|
         request.dates.create!(
-          date:       day,
-          amount:     [ 0.5, 1.0 ].sample,
-          was_taken:  [ true, false ].sample,
-          decision:   decisions.index(decisions.sample)
+          date:      start_date + i.days,
+          amount:    [ 0.5, 1.0 ].sample,
+          was_taken: false,
+          decision:  decisions.index(decisions.sample)
         )
       end
     end

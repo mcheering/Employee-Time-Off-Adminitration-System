@@ -19,6 +19,7 @@ import {
   Card,
   CardContent,
   Grid,
+  InputLabel,
 } from "@mui/material";
 
 const EmployeeDashboard = ({
@@ -90,7 +91,7 @@ const EmployeeDashboard = ({
   };
 
   const handleNewRequest = () => {
-    window.location.href = `/employees/${employeeId}/time_off_requests/new`;
+    window.location.href = `/employees/${employeeId}/time_off_requests/new?fiscal_year_id=${selectedYear}`;
   };
 
   return (
@@ -98,7 +99,13 @@ const EmployeeDashboard = ({
       <Typography variant="h5" gutterBottom>
         {employeeName}'s Time-Off Dashboard
       </Typography>
-      <Select value={selectedYear} onChange={handleYearChange} size="small">
+      <InputLabel>Fiscal Year</InputLabel>
+      <Select
+        value={selectedYear}
+        onChange={handleYearChange}
+        size="small"
+        label="Fiscal Years"
+      >
         {fiscalYearsData.map((fy) => (
           <MenuItem key={fy.id} value={fy.id}>
             {fy.caption}

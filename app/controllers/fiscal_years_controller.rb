@@ -26,6 +26,6 @@ class FiscalYearsController < ApplicationController
   private
 
   def fiscal_year_params
-    params.require(:fiscal_year).permit(:start_date, :end_date)
+    params.require(:fiscal_year).permit(:start_date, :end_date, :is_open)
   end
 end

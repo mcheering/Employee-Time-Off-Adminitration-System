@@ -1,6 +1,6 @@
 // Author: Matthew Heering
-// Description: Manage time-off request with per-day (supervisor) and bulk (admin) decisions clearly separated.
-// Date: 7/9/25
+// Description: Manage time-off request with per-day (supervisor) and bulk (admin) decisions clearly separated, with validation.
+// Date: 7/10/25 (Updated with validation)
 
 import React, { useState } from "react";
 import { Box, Typography, Paper, Button, Stack, Divider } from "@mui/material";
@@ -19,11 +19,20 @@ export default function ManageTimeOffRequest({ request, redirectPath, role }) {
       ? `/administrators/time_off_requests/${request.id}`
       : `/supervisors/${request.supervisor_id}/time_off_requests/${request.id}`;
 
+  const validateDatesExist = () => {
+    if (!dates || dates.length === 0) {
+      toast.error("No requested dates found for this request.");
+      return false;
+    }
+    return true;
+  };
+
   const handleStatusUpdate = async (dateId, decision) => {
+    if (!validateDatesExist()) return;
     if (role === "admin") return;
+
     try {
       const endpoint = `${baseUrl}/update_date/${dateId}`;
-
       const response = await fetch(endpoint, {
         method: "PATCH",
         headers: {
@@ -45,6 +54,8 @@ export default function ManageTimeOffRequest({ request, redirectPath, role }) {
   };
 
   const handleBulkUpdate = async (decision) => {
+    if (!validateDatesExist()) return;
+
     try {
       const endpoint =
         role === "admin"
@@ -140,7 +151,7 @@ export default function ManageTimeOffRequest({ request, redirectPath, role }) {
                 <Button
                   size="small"
                   variant="contained"
-                  color="warning"
+                  color="primary"
                   onClick={() => handleStatusUpdate(date.id, "pending")}
                 >
                   Request Info
@@ -185,6 +196,13 @@ export default function ManageTimeOffRequest({ request, redirectPath, role }) {
               onClick={() => handleBulkUpdate("undecided")}
             >
               Mark Undecided
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => handleBulkUpdate("waiting_information")}
+            >
+              Request Additional Info
             </Button>
           </Stack>
 

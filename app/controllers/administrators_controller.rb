@@ -3,8 +3,15 @@ class AdministratorsController < ApplicationController
   def dashboard
     @employees_raw = Employee.all
 
-    @fiscal_years = FiscalYear.all
-
+    @fiscal_years = FiscalYear.order(:start_date).map do |fy|
+      {
+        id: fy.id,
+        start_date: fy.start_date,
+        end_date: fy.end_date,
+        is_open: fy.is_open,
+        caption: fy.caption
+      }
+    end
     employee_lookup = @employees_raw.index_by(&:id)
 
     @time_off_requests = TimeOffRequest

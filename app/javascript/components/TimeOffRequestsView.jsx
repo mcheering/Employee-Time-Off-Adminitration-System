@@ -1,6 +1,6 @@
 // Author: Matthew Heering
 // Description: Allows admin/supervisor to view and manage time-off requests with search, sorting, status & supervisor filters.
-// Date: 7/5/25
+// Date: 7/5/25 (updated to hide supervisor filter for supervisors)
 
 import React, { useState } from "react";
 import {
@@ -75,15 +75,13 @@ export default function TimeOffRequestsView({
       const matchesStatus =
         Object.entries(req.decision_breakdown || {}).every(
           ([status, count]) => {
-            if (count > 0 && !statusFilters[status]) {
-              return false;
-            }
+            if (count > 0 && !statusFilters[status]) return false;
             return true;
           }
         ) &&
-        Object.entries(statusFilters).some(([status, enabled]) => {
-          return enabled && req.decision_breakdown?.[status] > 0;
-        });
+        Object.entries(statusFilters).some(
+          ([status, enabled]) => enabled && req.decision_breakdown?.[status] > 0
+        );
       const matchesSupervisor =
         !selectedSupervisor || req.supervisor_id === selectedSupervisor;
       return matchesSearch && matchesStatus && matchesSupervisor;
@@ -118,10 +116,9 @@ export default function TimeOffRequestsView({
   );
 
   const getManageUrl = (req) => {
-    if (role === "admin") {
-      return `/administrators/time_off_requests/${req.id}/manage`;
-    }
-    return `/supervisors/${req.supervisor_id}/time_off_requests/${req.id}/manage`;
+    return role === "admin"
+      ? `/administrators/time_off_requests/${req.id}/manage`
+      : `/supervisors/${req.supervisor_id}/time_off_requests/${req.id}/manage`;
   };
 
   return (
@@ -131,7 +128,7 @@ export default function TimeOffRequestsView({
       </Typography>
 
       <Typography variant="subtitle1">Summary:</Typography>
-      <Typography variant="body2">
+      <Typography variant="body2" paragraph>
         Requests: <strong>{summary.requests}</strong> | Total Days:{" "}
         <strong>{summary.days}</strong> | Approved:{" "}
         <strong>{summary.approved}</strong> | Pending:{" "}
@@ -147,6 +144,7 @@ export default function TimeOffRequestsView({
           onChange={(e) => setSearchQuery(e.target.value.toLowerCase())}
           sx={{ minWidth: 200 }}
         />
+
         {["approved", "pending", "denied"].map((status) => (
           <FormControlLabel
             key={status}
@@ -159,89 +157,104 @@ export default function TimeOffRequestsView({
             label={status.charAt(0).toUpperCase() + status.slice(1)}
           />
         ))}
-        <FormControl sx={{ minWidth: 200 }}>
-          <InputLabel>Supervisor</InputLabel>
-          <Select
-            value={selectedSupervisor}
-            onChange={(e) => setSelectedSupervisor(e.target.value)}
-          >
-            <MenuItem value="">
-              <em>All Supervisors</em>
-            </MenuItem>
-            {supervisorsList.map((sup) => (
-              <MenuItem key={sup.id} value={sup.id}>
-                {sup.name}
+
+        {role === "admin" && (
+          <FormControl sx={{ minWidth: 200 }}>
+            <InputLabel>Supervisor</InputLabel>
+            <Select
+              value={selectedSupervisor}
+              onChange={(e) => setSelectedSupervisor(e.target.value)}
+              label="Supervisor"
+            >
+              <MenuItem value="">
+                <em>All Supervisors</em>
               </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+              {supervisorsList.map((sup) => (
+                <MenuItem key={sup.id} value={sup.id}>
+                  {sup.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        )}
       </Stack>
 
       {timeOffRequests.length === 0 ? (
         <Typography>No requests to display.</Typography>
       ) : (
         <>
-          <Table>
-            <TableHead>
-              <TableRow>
-                {[
-                  { label: "Employee", key: "employee_name" },
-                  { label: "From", key: "from" },
-                  { label: "To", key: "to" },
-                  { label: "Reason", key: "reason" },
-                ].map((col) => (
-                  <TableCell key={col.key}>
-                    <TableSortLabel
-                      active={sortColumn === col.key}
-                      direction={sortColumn === col.key ? sortDirection : "asc"}
-                      onClick={() => handleSort(col.key)}
+          <Paper>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  {[
+                    { label: "Employee", key: "employee_name" },
+                    { label: "From", key: "from" },
+                    { label: "To", key: "to" },
+                    { label: "Reason", key: "reason" },
+                  ].map((col) => (
+                    <TableCell
+                      key={col.key}
+                      sortDirection={
+                        sortColumn === col.key ? sortDirection : false
+                      }
                     >
-                      {col.label}
-                    </TableSortLabel>
-                  </TableCell>
-                ))}
-                <TableCell>Request Status</TableCell>
-                <TableCell>Final Decision</TableCell>
-                <TableCell>Days (A/P/D)</TableCell>
-                <TableCell>Actions</TableCell>
-              </TableRow>
-            </TableHead>
-
-            <TableBody>
-              {paginatedRequests.map((req) => (
-                <TableRow key={req.id}>
-                  <TableCell>{req.employee_name}</TableCell>
-                  <TableCell>{req.from}</TableCell>
-                  <TableCell>{req.to}</TableCell>
-                  <TableCell>{req.reason}</TableCell>
-
-                  <TableCell>
-                    {req.request_status === "waiting_information"
-                      ? "Waiting for Info"
-                      : req.request_status}
-                  </TableCell>
-
-                  <TableCell>{req.final_decision}</TableCell>
-
-                  <TableCell>
-                    {req.decision_breakdown?.approved || 0}/
-                    {req.decision_breakdown?.pending || 0}/
-                    {req.decision_breakdown?.denied || 0}
-                  </TableCell>
-
-                  <TableCell>
-                    <Button
-                      variant="contained"
-                      size="small"
-                      onClick={() => (window.location.href = getManageUrl(req))}
-                    >
-                      Manage
-                    </Button>
-                  </TableCell>
+                      <TableSortLabel
+                        active={sortColumn === col.key}
+                        direction={
+                          sortColumn === col.key ? sortDirection : "asc"
+                        }
+                        onClick={() => handleSort(col.key)}
+                      >
+                        {col.label}
+                      </TableSortLabel>
+                    </TableCell>
+                  ))}
+                  <TableCell>Request Status</TableCell>
+                  <TableCell>Final Decision</TableCell>
+                  <TableCell>Days (A/P/D)</TableCell>
+                  <TableCell>Actions</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHead>
+
+              <TableBody>
+                {paginatedRequests.map((req) => (
+                  <TableRow key={req.id} hover>
+                    <TableCell>{req.employee_name}</TableCell>
+                    <TableCell>{req.from}</TableCell>
+                    <TableCell>{req.to}</TableCell>
+                    <TableCell>{req.reason}</TableCell>
+
+                    <TableCell>
+                      {req.request_status === "waiting_information"
+                        ? "Waiting for Info"
+                        : req.request_status}
+                    </TableCell>
+
+                    <TableCell>{req.final_decision}</TableCell>
+
+                    <TableCell>
+                      {req.decision_breakdown?.approved || 0}/
+                      {req.decision_breakdown?.pending || 0}/
+                      {req.decision_breakdown?.denied || 0}
+                    </TableCell>
+
+                    <TableCell>
+                      <Button
+                        variant="contained"
+                        size="small"
+                        onClick={() =>
+                          (window.location.href = getManageUrl(req))
+                        }
+                      >
+                        Manage
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Paper>
 
           <Stack mt={2} alignItems="center">
             <Pagination

@@ -45,16 +45,17 @@ export default function FiscalYearEmployeesTable({
   const [page, setPage] = useState(0);
   const rowsPerPage = 10;
 
-  const filtered = fiscalYearEmployees.filter((fye) => {
-    const matchesYear = fiscalYearId
-      ? fye.fiscal_year_id === Number(fiscalYearId)
-      : true;
-    const matchesSearch = fye.employee_name
-      ?.toLowerCase()
-      .includes(search.toLowerCase());
-    return matchesYear && matchesSearch;
-  });
-
+  const filtered = fiscalYearEmployees
+    .filter((fye) => {
+      const matchesYear = fiscalYearId
+        ? fye.fiscal_year_id === Number(fiscalYearId)
+        : true;
+      const matchesSearch = fye.employee_name
+        ?.toLowerCase()
+        .includes(search.toLowerCase());
+      return matchesYear && matchesSearch;
+    })
+    .sort((a, b) => a.employee_name.localeCompare(b.employee_name));
   const handlePageChange = (_, newPage) => {
     setPage(newPage);
   };

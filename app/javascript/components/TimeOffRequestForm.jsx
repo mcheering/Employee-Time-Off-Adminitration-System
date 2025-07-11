@@ -1,7 +1,10 @@
-//Auhor: Matthew Heering
-//Description: form for requesting time off or editing
-//Date: 7/2/25
+// Author: Matthew Heering
+// Description: Form for requesting or editing time-off with validation.
+// Date: 7/11/25 (updated to filter closed fiscal years)
+
 import React, { useState } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   Box,
   TextField,
@@ -15,9 +18,11 @@ import {
   ListItem,
   ListItemText,
   IconButton,
+  Select,
+  InputLabel,
+  FormControl,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { toast } from "react-toastify";
 
 const reasons = [
   { value: "pto", label: "PTO" },
@@ -32,14 +37,27 @@ const TimeOffRequestForm = ({
   request,
   fiscalYears,
   employeeId,
-  fiscalYearEmployeeId,
   supervisorId,
+  initialFiscalYearId,
+  initialFiscalYearEmployeeId,
+  fiscalYearClosed,
 }) => {
-  const isEdit = request && request.id;
+  const isEdit = !!request?.id;
+
+  const visibleYears = isEdit
+    ? fiscalYears
+    : fiscalYears.filter((fy) => fy.is_open);
+
+  const defaultFY = isEdit
+    ? initialFiscalYearId
+    : visibleYears[0]?.id || initialFiscalYearId;
+
+  const [selectedFiscalYearId, setSelectedFiscalYearId] = useState(defaultFY);
+  const [fiscalYearEmployeeId, setFiscalYearEmployeeId] = useState(
+    initialFiscalYearEmployeeId
+  );
 
   const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState(null);
-
   const [formData, setFormData] = useState({
     reason: request?.reason || "",
     is_fmla: !!request?.is_fmla,
@@ -47,19 +65,11 @@ const TimeOffRequestForm = ({
   });
 
   const [days, setDays] = useState(request?.days || []);
-  const [dayInput, setDayInput] = useState(() => {
-    if (request?.days && request.days.length > 0) {
-      return {
-        date: request.days[0].date,
-        amount: request.days[0].amount.toString(),
-      };
-    }
-
-    return {
-      date: new Date().toISOString().split("T")[0],
-      amount: "1.0",
-    };
+  const [dayInput, setDayInput] = useState({
+    date: new Date().toISOString().split("T")[0],
+    amount: "1.0",
   });
+
   const handleFormChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
@@ -75,6 +85,24 @@ const TimeOffRequestForm = ({
 
   const addDay = () => {
     if (!dayInput.date || !dayInput.amount) return;
+
+    const fy = fiscalYears.find((fy) => fy.id === selectedFiscalYearId);
+    if (!fy) {
+      toast.error("Fiscal year not selected.");
+      return;
+    }
+
+    const date = new Date(dayInput.date);
+    const start = new Date(fy.start_date);
+    const end = new Date(fy.end_date);
+
+    if (date < start || date > end) {
+      toast.error(
+        `Date ${dayInput.date} is outside fiscal year (${fy.start_date} - ${fy.end_date}).`
+      );
+      return;
+    }
+
     setDays((prev) => [...prev, { ...dayInput }]);
     setDayInput({ date: "", amount: "1.0" });
   };
@@ -86,31 +114,53 @@ const TimeOffRequestForm = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
-    setError(null);
+
+    const fy = fiscalYears.find((fy) => fy.id === selectedFiscalYearId);
+    if (!fy) {
+      toast.error("Fiscal year data missing.");
+      setSubmitting(false);
+      return;
+    }
+
+    const invalidDates = days.filter((d) => {
+      const date = new Date(d.date);
+      return date < new Date(fy.start_date) || date > new Date(fy.end_date);
+    });
+
+    if (invalidDates.length > 0) {
+      toast.error(
+        `Some dates (${invalidDates
+          .map((d) => d.date)
+          .join(", ")}) are outside fiscal year (${fy.start_date} - ${
+          fy.end_date
+        }).`
+      );
+      setSubmitting(false);
+      return;
+    }
 
     try {
       const method = isEdit ? "PATCH" : "POST";
       const url = isEdit
-        ? `/employees/${employeeId}/time_off_requests/${request.id}`
-        : `/employees/${employeeId}/time_off_requests`;
+        ? `/employees/${employeeId}/time_off_requests/${request.id}.json`
+        : `/employees/${employeeId}/time_off_requests.json`;
 
       const payload = {
         ...formData,
-        days: days.map((d) => ({
-          date: d.date,
-          amount: parseFloat(d.amount),
-        })),
+        days: days.map((d) => ({ date: d.date, amount: parseFloat(d.amount) })),
         fiscal_year_employee_id: fiscalYearEmployeeId,
         supervisor_id: supervisorId,
         submitted_by_id: employeeId,
       };
 
-      const csrfToken = document.querySelector(
-        "meta[name='csrf-token']"
-      )?.content;
+      console.log("payload", payload);
+
+      const csrfToken =
+        document.querySelector("meta[name='csrf-token']")?.content || "";
 
       const response = await fetch(url, {
         method,
+        credentials: "same-origin",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
@@ -121,28 +171,21 @@ const TimeOffRequestForm = ({
 
       const data = await response.json();
 
-      if (!response.ok) {
+      if (!response.ok)
         throw new Error(data.errors?.join(", ") || "Request failed");
-      }
 
       toast.success(
         isEdit
           ? "Request updated successfully!"
           : "Request submitted successfully!"
       );
-
       window.location.href = `/employees/${employeeId}`;
     } catch (err) {
       console.error(err);
-      setError(err.message || "Something went wrong");
       toast.error("Submission failed. Please check your input.");
     } finally {
       setSubmitting(false);
     }
-  };
-
-  const handleCancel = () => {
-    window.history.back();
   };
 
   return (
@@ -152,6 +195,22 @@ const TimeOffRequestForm = ({
       </Typography>
 
       <form onSubmit={handleSubmit}>
+        <FormControl fullWidth sx={{ mb: 2 }}>
+          <InputLabel>Fiscal Year</InputLabel>
+          <Select
+            value={selectedFiscalYearId}
+            onChange={(e) =>
+              setSelectedFiscalYearId(parseInt(e.target.value, 10))
+            }
+          >
+            {visibleYears.map((fy) => (
+              <MenuItem key={fy.id} value={fy.id}>
+                {fy.caption}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
         <TextField
           select
           fullWidth
@@ -245,14 +304,23 @@ const TimeOffRequestForm = ({
         )}
 
         <Box display="flex" justifyContent="space-between">
-          <Button type="button" variant="outlined" onClick={handleCancel}>
+          <Button
+            type="button"
+            variant="outlined"
+            onClick={() => window.history.back()}
+          >
             Cancel
           </Button>
+          {fiscalYearClosed && (
+            <Typography color="error">
+              This fiscal year is closed. You cannot submit new requests.
+            </Typography>
+          )}
           <Button
             type="submit"
             variant="contained"
             color="primary"
-            disabled={submitting}
+            disabled={submitting || fiscalYearClosed}
           >
             {isEdit ? "Update Request" : "Submit Request"}
           </Button>

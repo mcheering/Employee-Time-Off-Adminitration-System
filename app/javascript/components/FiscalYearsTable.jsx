@@ -1,10 +1,8 @@
-/*
-Author: Matthew Heering
-Description: view for the administrator dashboard to allow them to add and manage fiscal years
-Date: 6/14/25 (Updated 6/15/25)
-*/
+// Author: Matthew Heering
+// Description: view for the administrator dashboard to allow them to add and manage fiscal years
+// Date: 6/14/25 (Updated: with Close button)
 
-import React, { useState } from "react";
+import React from "react";
 import {
   Table,
   TableHead,
@@ -29,17 +27,14 @@ function formatCaption(startDate, endDate) {
     : `${start.getFullYear()}-${String(end.getFullYear()).slice(-2)}`;
 }
 
-export default function FiscalYearsTable({ fiscalYears: initialFiscalYears }) {
-  const [fiscalYears, setFiscalYears] = useState(initialFiscalYears);
-  const [openForm, setOpenForm] = useState(false);
-  const [editingFiscalYear, setEditingFiscalYear] = useState(null);
-  const [snackbar, setSnackbar] = useState({
+export default function FiscalYearsTable({ fiscalYears, setFiscalYears }) {
+  const [openForm, setOpenForm] = React.useState(false);
+  const [editingFiscalYear, setEditingFiscalYear] = React.useState(null);
+  const [snackbar, setSnackbar] = React.useState({
     open: false,
     message: "",
     severity: "success",
   });
-
-  const today = new Date();
 
   const handleAdd = () => {
     setEditingFiscalYear(null);
@@ -94,8 +89,100 @@ export default function FiscalYearsTable({ fiscalYears: initialFiscalYears }) {
     }
   };
 
-  const isClosed = (endDate) => {
-    return new Date(endDate) < today;
+  const handleReopen = async (fy) => {
+    try {
+      const csrfToken = document.querySelector(
+        'meta[name="csrf-token"]'
+      )?.content;
+
+      const payload = {
+        fiscal_year: {
+          start_date: fy.start_date,
+          end_date: fy.end_date,
+          is_open: true,
+        },
+      };
+
+      const response = await fetch(`/fiscal_years/${fy.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": csrfToken,
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const errData = await response.json();
+        console.error("Server returned errors:", errData);
+        throw new Error("Failed to reopen");
+      }
+
+      const updated = await response.json();
+      setFiscalYears(
+        fiscalYears.map((f) => (f.id === updated.id ? updated : f))
+      );
+      setSnackbar({
+        open: true,
+        message: "Fiscal year reopened!",
+        severity: "success",
+      });
+    } catch (err) {
+      console.error(err);
+      setSnackbar({
+        open: true,
+        message: "Error reopening fiscal year.",
+        severity: "error",
+      });
+    }
+  };
+
+  const handleClose = async (fy) => {
+    try {
+      const csrfToken = document.querySelector(
+        'meta[name="csrf-token"]'
+      )?.content;
+
+      const payload = {
+        fiscal_year: {
+          start_date: fy.start_date,
+          end_date: fy.end_date,
+          is_open: false,
+        },
+      };
+
+      const response = await fetch(`/fiscal_years/${fy.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": csrfToken,
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const errData = await response.json();
+        console.error("Server returned errors:", errData);
+        throw new Error("Failed to close");
+      }
+
+      const updated = await response.json();
+      setFiscalYears(
+        fiscalYears.map((f) => (f.id === updated.id ? updated : f))
+      );
+      setSnackbar({
+        open: true,
+        message: "Fiscal year closed!",
+        severity: "success",
+      });
+    } catch (err) {
+      console.error(err);
+      setSnackbar({
+        open: true,
+        message: "Error closing fiscal year.",
+        severity: "error",
+      });
+    }
   };
 
   return (
@@ -103,6 +190,7 @@ export default function FiscalYearsTable({ fiscalYears: initialFiscalYears }) {
       <Typography variant="h6" align="center" gutterBottom>
         Manage Fiscal Years
       </Typography>
+
       <Button variant="outlined" sx={{ mb: 2 }} onClick={handleAdd}>
         Add Fiscal Year
       </Button>
@@ -118,37 +206,51 @@ export default function FiscalYearsTable({ fiscalYears: initialFiscalYears }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {fiscalYears.map((fy) => {
-            const closed = isClosed(fy.end_date);
-            return (
-              <TableRow key={fy.id}>
-                <TableCell>
-                  {formatCaption(fy.start_date, fy.end_date)}
-                </TableCell>
-                <TableCell>{fy.start_date}</TableCell>
-                <TableCell>{fy.end_date}</TableCell>
-                <TableCell>{closed ? "Closed" : "Open"}</TableCell>
-                <TableCell>
+          {fiscalYears.map((fy) => (
+            <TableRow key={fy.id}>
+              <TableCell>
+                {formatCaption(fy.start_date, fy.end_date)}
+                {!fy.is_open && (
+                  <Typography variant="caption" color="error" display="block">
+                    Fiscal Year is Closed
+                  </Typography>
+                )}
+              </TableCell>
+              <TableCell>{fy.start_date}</TableCell>
+              <TableCell>{fy.end_date}</TableCell>
+              <TableCell>{fy.is_open ? "Open" : "Closed"}</TableCell>
+              <TableCell>
+                <Button
+                  variant="contained"
+                  onClick={() => handleEdit(fy)}
+                  disabled={!fy.is_open}
+                >
+                  Edit
+                </Button>
+
+                {fy.is_open && (
                   <Button
-                    variant="contained"
-                    onClick={() => handleEdit(fy)}
-                    disabled={closed}
+                    variant="outlined"
+                    color="error"
+                    sx={{ ml: 1 }}
+                    onClick={() => handleClose(fy)}
                   >
-                    Edit
+                    Close
                   </Button>
-                  {closed && (
-                    <Button
-                      variant="outlined"
-                      sx={{ ml: 1 }}
-                      onClick={() => handleEdit(fy)}
-                    >
-                      Reopen
-                    </Button>
-                  )}
-                </TableCell>
-              </TableRow>
-            );
-          })}
+                )}
+
+                {!fy.is_open && (
+                  <Button
+                    variant="outlined"
+                    sx={{ ml: 1 }}
+                    onClick={() => handleReopen(fy)}
+                  >
+                    Reopen
+                  </Button>
+                )}
+              </TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
 

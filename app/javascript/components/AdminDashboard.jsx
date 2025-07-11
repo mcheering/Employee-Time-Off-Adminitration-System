@@ -1,6 +1,6 @@
-//Author: Matthew Heering
-//Description: Admin dashboard with tabs for employees, fiscal years, fiscal year employees, and time-off requests
-//Date: 7/2/25
+// Author: Matthew Heering
+// Description: Admin dashboard with tabs for employees, fiscal years, fiscal year employees, and time-off requests
+// Date: 7/2/25 (Updated: with lifted fiscalYears state)
 
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
@@ -26,13 +26,20 @@ function getJSONFromScript(id, fallback = []) {
 export default function AdminDashboard() {
   const [activeView, setActiveView] = useState("employees");
   const [selectedEmployee, setSelectedEmployee] = useState(null);
-
-  const employees = getJSONFromScript("employees-data");
-  const fiscalYears = getJSONFromScript("fiscal-years-data");
-  const fiscalYearEmployees = getJSONFromScript("fiscal-year-employees-data");
-  const timeOffRequests = getJSONFromScript("time-off-requests-data");
-  const supervisorsList = getJSONFromScript("supervisors-data");
   const [editingEmployee, setEditingEmployee] = useState(null);
+
+  const [employees] = useState(getJSONFromScript("employees-data"));
+  const [fiscalYears, setFiscalYears] = useState(
+    getJSONFromScript("fiscal-years-data")
+  );
+  const [fiscalYearEmployees] = useState(
+    getJSONFromScript("fiscal-year-employees-data")
+  );
+  const [timeOffRequests] = useState(
+    getJSONFromScript("time-off-requests-data")
+  );
+  const [supervisorsList] = useState(getJSONFromScript("supervisors-data"));
+
   useEffect(() => {
     const el = document.getElementById("admin-ready-requests");
     if (!el) return;
@@ -86,7 +93,12 @@ export default function AdminDashboard() {
 
     switch (activeView) {
       case "fiscalYears":
-        return <FiscalYearsTable fiscalYears={fiscalYears} />;
+        return (
+          <FiscalYearsTable
+            fiscalYears={fiscalYears}
+            setFiscalYears={setFiscalYears}
+          />
+        );
 
       case "fiscalYearEmployees":
         return (
