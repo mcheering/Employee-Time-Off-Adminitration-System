@@ -53,7 +53,7 @@ admin2 = Employee.create!(
 admin3 = Employee.create!(
   first_name: "Mike",
   last_name: "Orsega",
-  email: "morsega@westga.edu",
+  email: "e ",
   password: "Password123!",
   hire_date: Date.new(2017, 5, 15),
   is_supervisor: true,

@@ -11,7 +11,6 @@ if time_off_ctrl
   end
 end
 
-
 # Disable authorization filters for tests
 class ApplicationController
   def authorize_self!(*); end
@@ -22,22 +21,23 @@ end
 
 class TimeOffRequestsControllerTest < ActionDispatch::IntegrationTest
   # Author: William Pevytoe
-  # Date: 7/4/2025
+  # Date:   7/4/2025
   # Testing methods for TimeOffRequestsController
-  setup do
-    @employee           = employees(:one)
-    @supervisor         = employees(:supervisor)
-    @fiscal_year        = fiscal_years(:two)
-    @fye                = FiscalYearEmployee.create!(employee: @employee, fiscal_year: @fiscal_year)
 
-    @time_off_request   = TimeOffRequest.create!(
+  setup do
+    @employee         = employees(:one)
+    @supervisor       = employees(:supervisor)
+    @fiscal_year      = fiscal_years(:two)
+    @fye              = FiscalYearEmployee.create!(employee: @employee, fiscal_year: @fiscal_year)
+
+    @time_off_request = TimeOffRequest.create!(
       fiscal_year_employee: @fye,
       supervisor:           @supervisor,
       submitted_by_id:      @employee.id,
       request_date:         Date.current,
       reason:               :pto
     )
-    @date               = @time_off_request.dates.create!(date: Date.current, amount: 1.0)
+    @date = @time_off_request.dates.create!(date: Date.current, amount: 1.0)
   end
 
   test "should get new" do
@@ -76,7 +76,9 @@ class TimeOffRequestsControllerTest < ActionDispatch::IntegrationTest
 
   test "create invalid params" do
     assert_no_difference("TimeOffRequest.count") do
-      post employee_time_off_requests_path(@employee), params: { time_off_request: { reason: nil } }, as: :json
+      post employee_time_off_requests_path(@employee),
+           params: { time_off_request: { reason: nil } },
+           as: :json
     end
     assert_response :unprocessable_entity
     body = JSON.parse(response.body)
@@ -84,17 +86,20 @@ class TimeOffRequestsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "create success" do
-    post employee_time_off_requests_path(@employee), params: {
-      time_off_request: {
-        reason:                  "pto",
-        is_fmla:                 false,
-        comment:                 "OK",
-        fiscal_year_employee_id: @fye.id,
-        supervisor_id:           @supervisor.id,
-        submitted_by_id:         @employee.id,
-        days: [ { date: Date.tomorrow.to_s, amount: 1.0 } ]
-      }
-    }, as: :json
+    post employee_time_off_requests_path(@employee),
+         params: {
+           time_off_request: {
+             reason:                  "pto",
+             is_fmla:                 false,
+             comment:                 "OK",
+             fiscal_year_employee_id: @fye.id,
+             supervisor_id:           @supervisor.id,
+             submitted_by_id:         @employee.id,
+             days: [ { date: Date.tomorrow.to_s, amount: 1.0 } ]
+           }
+         },
+         as: :json
+
     assert_response :created
     body = JSON.parse(response.body)
     assert body["success"]
@@ -120,25 +125,29 @@ class TimeOffRequestsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update time off request (HTML)" do
-    patch employee_time_off_request_path(@employee, @time_off_request), params: {
-      time_off_request: { reason: :vacation, days: [ { date: Date.today.to_s, amount: 0.5 } ] }
-    }
+    patch employee_time_off_request_path(@employee, @time_off_request),
+          params: { time_off_request: { reason: :vacation, days: [ { date: Date.today.to_s, amount: 0.5 } ] } }
+
     assert_redirected_to employee_path(@employee)
     @time_off_request.reload
     assert_equal "vacation", @time_off_request.reason
   end
 
   test "update invalid params (JSON)" do
-    patch employee_time_off_request_path(@employee, @time_off_request), params: { time_off_request: { reason: nil } }, as: :json
+    patch employee_time_off_request_path(@employee, @time_off_request),
+          params: { time_off_request: { reason: nil } },
+          as: :json
+
     assert_response :unprocessable_entity
     body = JSON.parse(response.body)
     assert body["errors"].any?
   end
 
   test "update success JSON" do
-    patch employee_time_off_request_path(@employee, @time_off_request), params: {
-      time_off_request: { reason: "vacation", days: [ { date: Date.tomorrow.to_s, amount: 2.0 } ] }
-    }, as: :json
+    patch employee_time_off_request_path(@employee, @time_off_request),
+          params: { time_off_request: { reason: "vacation", days: [ { date: Date.tomorrow.to_s, amount: 2.0 } ] } },
+          as: :json
+
     assert_response :ok
     body = JSON.parse(response.body)
     assert body["success"]
@@ -146,54 +155,69 @@ class TimeOffRequestsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should handle supervisor decision approve" do
-    patch supervisor_decision_supervisor_time_off_request_path(@supervisor, @time_off_request), params: { decision: "approve" }
+    patch supervisor_decision_supervisor_time_off_request_path(@supervisor, @time_off_request),
+          params: { decision: "approve" }
+
     assert_response :success
     @time_off_request.dates.each { |d| assert_equal "approved", d.reload.decision }
   end
 
   test "supervisor_decision deny" do
-    patch supervisor_decision_supervisor_time_off_request_path(@supervisor, @time_off_request), params: { decision: "deny" }
+    patch supervisor_decision_supervisor_time_off_request_path(@supervisor, @time_off_request),
+          params: { decision: "deny" }
+
     assert_response :success
     @time_off_request.dates.each { |d| assert_equal "denied", d.reload.decision }
   end
 
   test "supervisor_decision more_info" do
-    patch supervisor_decision_supervisor_time_off_request_path(@supervisor, @time_off_request), params: { decision: "more_info" }
+    patch supervisor_decision_supervisor_time_off_request_path(@supervisor, @time_off_request),
+          params: { decision: "more_info" }
+
     assert_response :success
     assert_not_nil @time_off_request.reload.additional_information_date
   end
 
   test "supervisor_decision invalid" do
-    patch supervisor_decision_supervisor_time_off_request_path(@supervisor, @time_off_request), params: { decision: "oops" }
+    patch supervisor_decision_supervisor_time_off_request_path(@supervisor, @time_off_request),
+          params: { decision: "oops" }
+
     assert_response :unprocessable_entity
     body = JSON.parse(response.body)
     assert_equal "Invalid decision type", body["error"]
   end
 
   test "should update date decision" do
-    patch update_date_supervisor_time_off_request_path(@supervisor, @time_off_request, @date.id), params: { decision: "denied" }
+    patch update_date_supervisor_time_off_request_path(@supervisor, @time_off_request, @date.id),
+          params: { decision: "denied" }
+
     assert_response :success
     assert_equal "denied", @date.reload.decision
   end
 
   test "update_date invalid decision" do
-    patch update_date_supervisor_time_off_request_path(@supervisor, @time_off_request, @date.id), params: { decision: "nope" }
+    patch update_date_supervisor_time_off_request_path(@supervisor, @time_off_request, @date.id),
+          params: { decision: "nope" }
+
     assert_response :unprocessable_entity
     body = JSON.parse(response.body)
     assert_includes body["error"], "Invalid decision"
   end
 
   test "should update all dates decisions" do
-    patch update_all_supervisor_time_off_request_path(@supervisor, @time_off_request), params: { decision: "approved" }
+    patch update_all_supervisor_time_off_request_path(@supervisor, @time_off_request),
+          params: { decision: "approved" }
+
     assert_response :success
     @time_off_request.dates.each { |d| assert_equal "approved", d.reload.decision }
   end
 
-    test "update_all invalid decision" do
-    # The controller treats any non-"approved" decision as :denied and returns no_content
-    patch update_all_supervisor_time_off_request_path(@supervisor, @time_off_request), params: { decision: "nah" }
+  test "update_all invalid decision" do
+    # any non-"approved" is treated as deny
+    patch update_all_supervisor_time_off_request_path(@supervisor, @time_off_request),
+          params: { decision: "nah" }
+
     assert_response :no_content
-    # Verify all dates have been set to denied
     @time_off_request.reload.dates.each do |d|
       assert_equal "denied", d.decision
     end
@@ -201,22 +225,25 @@ class TimeOffRequestsControllerTest < ActionDispatch::IntegrationTest
 
   test "manage action for supervisor" do
     get manage_supervisor_time_off_request_path(@supervisor, @time_off_request)
+
     assert_response :success
-    assert_equal @supervisor.id, assigns(:supervisor).id
-    assert_equal @time_off_request.id, assigns(:request).id
+    assert_equal @supervisor.id,        assigns(:supervisor).id
+    assert_equal @time_off_request.id,  assigns(:request).id
   end
 
   test "create redirects HTML when fiscal_year_employee invalid" do
     post employee_time_off_requests_path(@employee),
-         params: { time_off_request: { fiscal_year_employee_id: 0, days: [{ date: Date.tomorrow.to_s, amount: 1.0 }] } }
+         params: { time_off_request: { fiscal_year_employee_id: 0, days: [ { date: Date.tomorrow.to_s, amount: 1.0 } ] } }
+
     assert_redirected_to employee_path(@employee)
     assert_equal "Invalid fiscal year selected.", flash[:alert]
   end
 
   test "create returns JSON 422 when fiscal_year_employee invalid" do
     post employee_time_off_requests_path(@employee),
-         params: { time_off_request: { fiscal_year_employee_id: 0, days: [{ date: Date.tomorrow.to_s, amount: 1.0 }] } },
+         params: { time_off_request: { fiscal_year_employee_id: 0, days: [ { date: Date.tomorrow.to_s, amount: 1.0 } ] } },
          as: :json
+
     assert_response :unprocessable_entity
     body = JSON.parse(response.body)
     assert_includes body["errors"], "Invalid fiscal year selected."
@@ -226,9 +253,9 @@ class TimeOffRequestsControllerTest < ActionDispatch::IntegrationTest
     patch employee_time_off_request_path(@employee, @time_off_request),
           params: { time_off_request: { reason: nil, days: [] } },
           as: :json
+
     assert_response :unprocessable_entity
   end
-
 
   test "update_date_rejects waiting_information as invalid enum" do
     assert_raises ArgumentError do
@@ -237,4 +264,137 @@ class TimeOffRequestsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "admin manage page loads" do
+    @time_off_request.update!(
+      supervisor_decision_date: 1.day.ago,
+      request_status:         :supervisor_reviewed,
+      final_decision:         :undecided
+    )
+
+    get manage_administrators_time_off_request_path(@time_off_request.id)
+    assert_response :success
+    assert_equal @time_off_request.id, assigns(:request).id
+  end
+
+  test "admin bulk approve (update_all) returns no_content and sets all dates" do
+    patch update_final_all_administrators_time_off_request_path(@time_off_request.id),
+          params: { decision: "approved" },
+          as: :json
+
+    assert_response :no_content
+    @time_off_request.reload
+    @time_off_request.dates.each { |d| assert_equal "approved", d.decision }
+    assert_equal "decided",  @time_off_request.request_status
+    assert_equal "approved", @time_off_request.final_decision
+  end
+
+  test "admin bulk deny (update_all) with non-approved decision still works" do
+    patch update_final_all_administrators_time_off_request_path(@time_off_request.id),
+          params: { decision: "nah" },
+          as: :json
+
+    assert_response :no_content
+    @time_off_request.reload
+    @time_off_request.dates.each { |d| assert_equal "denied", d.decision }
+    assert_equal "decided", @time_off_request.request_status
+    assert_equal "denied",  @time_off_request.final_decision
+  end
+
+  test "admin can update single date and finalize on update_date" do
+    @time_off_request.update!(
+      supervisor_decision_date: 1.day.ago,
+      final_decision:         :undecided
+    )
+
+    patch update_final_date_administrators_time_off_request_path(@time_off_request.id, @date.id),
+          params: { decision: "approved", role: "admin" },
+          as: :json
+
+    assert_response :success
+    assert_equal "approved", @date.reload.decision
+
+    req = @time_off_request.reload
+    assert_not_nil req.final_decision_date
+    assert_equal "approved", req.final_decision
+    assert_equal "decided",  req.request_status
+  end
+
+  # ————————————————————————————————————————————————————
+  # Model‐level tests to cover status_caption, ready_for_final_decision?,
+  # update_status! branches, and date‐validation logic.
+  # ————————————————————————————————————————————————————
+  test "model status_caption branches" do
+    @time_off_request.update!(request_status: :pending, final_decision: :undecided)
+    assert_equal "Pending", @time_off_request.status_caption
+
+    @time_off_request.update!(request_status: :waiting_information)
+    assert_equal "Waiting for more information", @time_off_request.status_caption
+
+    @time_off_request.update!(request_status: :supervisor_reviewed)
+    assert_equal "Reviewed by supervisor", @time_off_request.status_caption
+
+    @time_off_request.update!(request_status: :decided, final_decision: :approved)
+    assert_equal "Final decision made: Approved by Admin", @time_off_request.status_caption
+  end
+
+  test "model final_decision_caption enum mapping" do
+    @time_off_request.final_decision = :approved
+    assert_equal "Approved by Admin", @time_off_request.final_decision_caption
+
+    @time_off_request.final_decision = :denied
+    assert_equal "Denied by Admin", @time_off_request.final_decision_caption
+
+    @time_off_request.final_decision = :undecided
+    assert_equal "Not yet decided", @time_off_request.final_decision_caption
+  end
+
+  test "model ready_for_final_decision? logic" do
+    @time_off_request.update!(request_status: :supervisor_reviewed, final_decision: :undecided)
+    assert @time_off_request.ready_for_final_decision?
+
+    @time_off_request.final_decision = :approved
+    refute @time_off_request.ready_for_final_decision?
+  end
+
+    test "model update_status! covers all branches" do
+    # pending branch
+    @time_off_request.dates.destroy_all
+    @time_off_request.dates.create!(date: Date.today,    amount: 1.0, decision: :pending)
+    @time_off_request.dates.create!(date: Date.tomorrow, amount: 1.0, decision: :approved)
+    @time_off_request.update_status!
+    assert_equal "pending",   @time_off_request.request_status
+    assert_equal "undecided", @time_off_request.final_decision
+
+    # denied branch
+    @time_off_request.dates.destroy_all
+    @time_off_request.dates.create!(date: Date.today, amount: 1.0, decision: :denied)
+    @time_off_request.update_status!
+    assert_equal "decided", @time_off_request.request_status
+    assert_equal "denied",  @time_off_request.final_decision
+
+    # all approved branch
+    @time_off_request.dates.destroy_all
+    2.times { @time_off_request.dates.create!(date: Date.today, amount: 1.0, decision: :approved) }
+    @time_off_request.update_status!
+    assert_equal "decided",  @time_off_request.request_status
+    assert_equal "approved", @time_off_request.final_decision
+
+    # mixed approved + denied branch
+    @time_off_request.dates.destroy_all
+    @time_off_request.dates.create!(date: Date.today,    amount: 1.0, decision: :approved)
+    @time_off_request.dates.create!(date: Date.tomorrow, amount: 1.0, decision: :denied)
+    @time_off_request.update_status!
+    assert_equal "decided", @time_off_request.request_status
+    assert_equal "denied",  @time_off_request.final_decision
+  end
+
+  test "model requested_dates_within_fiscal_year validation" do
+    @time_off_request.dates.destroy_all
+    @time_off_request.dates.create!(
+      date: @fiscal_year.start_date - 1.day,
+      amount: 1.0
+    )
+    refute @time_off_request.valid?
+    assert_match /outside of fiscal year/, @time_off_request.errors[:base].first
+  end
 end
