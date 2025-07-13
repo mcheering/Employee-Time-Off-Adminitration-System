@@ -11,7 +11,7 @@ class AdministratorsControllerTest < ActionController::TestCase
 
     @employee1   = employees(:one)
     @employee2   = employees(:two)
-    @employee3   = employees(:three) # still available for the employees test
+    @employee3   = employees(:three)
     @fiscal_year = fiscal_years(:one)
 
     @fye1        = fiscal_year_employees(:one)
@@ -62,7 +62,6 @@ class AdministratorsControllerTest < ActionController::TestCase
     emp_ids = fye_hashes.map { |h| h[:employee_id] }
     assert_includes emp_ids, @employee1.id
     assert_includes emp_ids, @employee2.id
-    # removed assertion for @employee3.id since no FYE exists for that fixture
 
     record = fye_hashes.find { |h| h[:employee_id] == @employee1.id }
     assert record, "expected a record for employee ##{@employee1.id}"
