@@ -20,6 +20,8 @@ class SupervisorsControllerTest < ActionDispatch::IntegrationTest
     @fye2 = fiscal_year_employees(:two)
   end
 
+  # Author: William Pevytoe
+  # Date: 7/2/2025
   test "show defaults to current fiscal year" do
     get supervisor_url(@supervisor)
     assert_response :success
@@ -31,6 +33,8 @@ class SupervisorsControllerTest < ActionDispatch::IntegrationTest
     assert_equal current_fy.id, assigns(:selected_fy).id
   end
 
+  # Author: William Pevytoe
+  # Date: 7/2/2025
   test "show respects fiscal_year_id param" do
     get supervisor_url(@supervisor), params: { fiscal_year_id: @fy1.id }
     assert_response :success
@@ -39,6 +43,8 @@ class SupervisorsControllerTest < ActionDispatch::IntegrationTest
     assert_equal @fy1.id, selected.id
   end
 
+  # Author: William Pevytoe
+  # Date: 7/2/2025
   test "show filters by status" do
     @req2.update!(final_decision_date: Date.current)
     get supervisor_url(@supervisor), params: { status: 'decided', fiscal_year_id: @fy2.id }
@@ -49,6 +55,8 @@ class SupervisorsControllerTest < ActionDispatch::IntegrationTest
     assert payload.all? { |r| r[:status] == 'decided' }
   end
 
+  # Author: William Pevytoe
+  # Date: 7/2/2025
   test "show assigns selected_fy default to current" do
     get supervisor_url(@supervisor)
     assert_response :success
@@ -58,6 +66,8 @@ class SupervisorsControllerTest < ActionDispatch::IntegrationTest
     assert_equal current_fy.id, selected.id
   end
 
+  # Author: William Pevytoe
+  # Date: 7/2/2025
   test "show assigns selected_fy from param" do
     get supervisor_url(@supervisor), params: { fiscal_year_id: @fy1.id }
     assert_response :success
@@ -66,6 +76,8 @@ class SupervisorsControllerTest < ActionDispatch::IntegrationTest
     assert_equal @fy1.id, selected.id
   end
 
+  # Author: William Pevytoe
+  # Date: 7/2/2025
   test "employee_records loads correct records" do
     get supervisor_url(@supervisor)
     assert_response :success
@@ -77,6 +89,8 @@ class SupervisorsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  # Author: William Pevytoe
+  # Date: 7/2/2025
   test "calendar data is grouped by date" do
     get supervisor_url(@supervisor)
     assert_response :success
@@ -85,6 +99,8 @@ class SupervisorsControllerTest < ActionDispatch::IntegrationTest
     assert_kind_of Hash, calendar_data
   end
 
+  # Author: William Pevytoe
+  # Date: 7/2/2025
   test "show falls back to first fiscal year when no current exists" do
     FiscalYear.update_all(start_date: 5.years.ago, end_date: 4.years.ago)
 
@@ -96,6 +112,8 @@ class SupervisorsControllerTest < ActionDispatch::IntegrationTest
     assert_equal expected.id, selected.id
   end
 
+  # Author: William Pevytoe
+  # Date: 7/2/2025
   test "show handles supervisor with no team" do
     Employee.where(supervisor_id: @supervisor.id).update_all(supervisor_id: nil)
 
@@ -106,6 +124,8 @@ class SupervisorsControllerTest < ActionDispatch::IntegrationTest
     assert_equal({}, assigns(:calendar_data))
   end
 
+  # Author: William Pevytoe
+  # Date: 7/2/2025
   test "calendar data entries include required keys" do
     get supervisor_url(@supervisor)
     assert_response :success
@@ -125,6 +145,8 @@ class SupervisorsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  # Author: William Pevytoe
+  # Date: 7/2/2025
   test "time_off_requests_payload includes decision breakdown keys" do
     get supervisor_url(@supervisor)
     assert_response :success
@@ -139,6 +161,8 @@ class SupervisorsControllerTest < ActionDispatch::IntegrationTest
     assert breakdown.key?("pending")
   end
 
+  # Author: William Pevytoe
+  # Date: 7/2/2025
   test "fye_records is empty if no fiscal year param and no current FY" do
     FiscalYear.update_all(start_date: 10.years.ago, end_date: 9.years.ago)
 
@@ -154,6 +178,8 @@ class SupervisorsControllerTest < ActionDispatch::IntegrationTest
     assert_equal [], assigns(:fye_records)
   end
 
+  # Author: William Pevytoe
+  # Date: 7/2/2025
   test "show handles nonexistent fiscal_year_id param" do
     get supervisor_url(@supervisor), params: { fiscal_year_id: 999_999 }
     assert_response :success
@@ -166,6 +192,8 @@ class SupervisorsControllerTest < ActionDispatch::IntegrationTest
     assert payload.any?, "Expected some requests when fiscal_year_id is invalid"
   end
 
+  # Author: William Pevytoe
+  # Date: 7/2/2025
   test "show filters by status with no matches yields empty payload" do
     get supervisor_url(@supervisor), params: { status: 'nonexistent', fiscal_year_id: @fy1.id }
     assert_response :success
@@ -174,6 +202,8 @@ class SupervisorsControllerTest < ActionDispatch::IntegrationTest
                  "Expected no requests when filtering by a status that doesn't exist"
   end
 
+  # Author: William Pevytoe
+  # Date: 7/2/2025
   test "show does not filter by status when status param is blank" do
     get supervisor_url(@supervisor), params: { status: '', fiscal_year_id: @fy1.id }
     assert_response :success

@@ -18,6 +18,8 @@ class AdministratorsControllerTest < ActionController::TestCase
     @fye2        = fiscal_year_employees(:two)
   end
 
+  # Author: William Pevytoe
+  # Date: 7/10/2025
   test "dashboard assigns employees array of hashes" do
     get :dashboard
     assert_response :success
@@ -30,6 +32,8 @@ class AdministratorsControllerTest < ActionController::TestCase
     assert_includes ids, @employee3.id
   end
 
+  # Author: William Pevytoe
+  # Date: 7/10/2025
   test "dashboard assigns fiscal years as hash list" do
     get :dashboard
     assert_response :success
@@ -47,6 +51,8 @@ class AdministratorsControllerTest < ActionController::TestCase
     assert_equal expected, fiscal_years_assigned
   end
 
+  # Author: William Pevytoe
+  # Date: 7/10/2025
   test "dashboard assigns fiscal_year_employees array of hashes" do
     get :dashboard
     assert_response :success

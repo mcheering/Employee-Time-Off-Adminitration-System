@@ -20,20 +20,22 @@ class EmployeesControllerTest < ActionDispatch::IntegrationTest
     )
     sign_in @admin
   end
-
+  
+  # Author: William Pevytoe
+  # Date: 7/10/2025
   test "should get index HTML" do
     get employees_url
     assert_response :success
     assert_select "#employees-react-table"
   end
 
+  # Author: William Pevytoe
+  # Date: 7/10/2025
   test "should get index JSON" do
     get employees_url, as: :json
     assert_response :success
     body = JSON.parse(response.body)
-    # current controller renders a bare array
     assert_kind_of Array, body, "Expected root JSON to be an Array"
-    # spot-check actual fields in each employee hash
     body.each do |e|
       assert e.key?("id"),          "JSON employee hash is missing 'id'"
       assert e.key?("first_name"),  "JSON employee hash is missing 'first_name'"
@@ -42,12 +44,16 @@ class EmployeesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  # Author: William Pevytoe
+  # Date: 7/10/2025  
   test "should get new" do
     get new_employee_url
     assert_response :success
     assert_not_empty assigns(:supervisors)
   end
 
+  # Author: William Pevytoe
+  # Date: 7/10/2025  
   test "should create employee HTML" do
     initial = Employee.count
     post employees_url, params: { employee: {
@@ -64,6 +70,8 @@ class EmployeesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to employee_path(Employee.last)
   end
 
+  # Author: William Pevytoe
+  # Date: 7/10/2025
   test "should not create invalid employee HTML" do
     initial = Employee.count
     post employees_url, params: { employee: { email: "" } }
@@ -72,6 +80,8 @@ class EmployeesControllerTest < ActionDispatch::IntegrationTest
     assert_select "#new-employee-form"
   end
 
+  # Author: William Pevytoe
+  # Date: 7/10/2025
   test "should create employee JSON success" do
     post employees_url, params: { employee: {
       first_name: "Mark",
@@ -88,6 +98,8 @@ class EmployeesControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Mark", body["first_name"]
   end
 
+  # Author: William Pevytoe
+  # Date: 7/10/2025  
   test "should create employee JSON failure" do
     post employees_url, params: { employee: { email: "" } }, as: :json
     assert_response :unprocessable_entity
@@ -95,6 +107,8 @@ class EmployeesControllerTest < ActionDispatch::IntegrationTest
     assert body.any?
   end
 
+  # Author: William Pevytoe
+  # Date: 7/10/2025
   test "should show employee HTML" do
     get employee_url(@employee)
     assert_response :success
@@ -103,6 +117,8 @@ class EmployeesControllerTest < ActionDispatch::IntegrationTest
     assert assigns(:fiscal_years)
   end
 
+  # Author: William Pevytoe
+  # Date: 7/10/2025
   test "should show employee JSON" do
     get employee_url(@employee), as: :json
     assert_response :success
@@ -111,30 +127,40 @@ class EmployeesControllerTest < ActionDispatch::IntegrationTest
     assert body.key?("summary")
   end
 
+  # Author: William Pevytoe
+  # Date: 7/10/2025
   test "show not found redirects HTML" do
     get employee_url(id: "999999")
     assert_redirected_to employees_url
     assert_equal "Employee not found.", flash[:alert]
   end
 
+  # Author: William Pevytoe
+  # Date: 7/10/2025
   test "show not found JSON returns redirect" do
     get employee_url(id: "999999"), as: :json
-    assert_response :found   # 302 redirect for JSON
+    assert_response :found
     assert_redirected_to employees_url
   end
 
+  # Author: William Pevytoe
+  # Date: 7/10/2025
   test "should get edit" do
     get edit_employee_url(@employee)
     assert_response :success
     assert_not_empty assigns(:supervisors)
   end
 
+  # Author: William Pevytoe
+  # Date: 7/10/2025
   test "edit not found redirects" do
     get edit_employee_url(id: "999999")
     assert_redirected_to employees_url
     assert_equal "Employee not found.", flash[:alert]
   end
 
+  # Author: William Pevytoe
+  # Date: 7/10/2025
   test "should update employee HTML" do
     patch employee_url(@employee), params: { employee: { last_name: "Smith" } }
     assert_redirected_to employee_path(@employee)
@@ -142,6 +168,8 @@ class EmployeesControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Smith", @employee.last_name
   end
 
+  # Author: William Pevytoe
+  # Date: 7/10/2025
   test "should not update invalid employee HTML" do
     original = @employee.last_name
     patch employee_url(@employee), params: { employee: { last_name: "" } }
@@ -150,6 +178,8 @@ class EmployeesControllerTest < ActionDispatch::IntegrationTest
     assert_equal original, @employee.last_name
   end
 
+  # Author: William Pevytoe
+  # Date: 7/10/2025
   test "should update employee JSON success" do
     patch employee_url(@employee), params: { employee: { last_name: "Chang" } }, as: :json
     assert_response :ok
@@ -157,6 +187,8 @@ class EmployeesControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Chang", body["last_name"]
   end
 
+  # Author: William Pevytoe
+  # Date: 7/10/2025
   test "should update employee JSON failure" do
     patch employee_url(@employee), params: { employee: { last_name: "" } }, as: :json
     assert_response :unprocessable_entity
@@ -164,24 +196,32 @@ class EmployeesControllerTest < ActionDispatch::IntegrationTest
     assert body.any?
   end
 
+  # Author: William Pevytoe
+  # Date: 7/10/2025
   test "should destroy employee HTML" do
     emp = @employee
     assert_difference("Employee.count", -1) { delete employee_url(emp) }
     assert_redirected_to employees_url
   end
 
+  # Author: William Pevytoe
+  # Date: 7/10/2025
   test "should not destroy non-existent HTML" do
     assert_no_difference("Employee.count") { delete employee_url(id: "999999") }
     assert_redirected_to employees_url
     assert_equal "Employee not found.", flash[:alert]
   end
 
+  # Author: William Pevytoe
+  # Date: 7/10/2025
   test "should destroy employee JSON" do
     emp = Employee.create!(first_name: "A", last_name: "B", email: "a.b@example.com", password: "P@ssw0rd1", hire_date: Date.today)
     assert_difference("Employee.count", -1) { delete employee_url(emp), as: :json }
     assert_response :no_content
   end
 
+  # Author: William Pevytoe
+  # Date: 7/10/2025
   test "show summary empty when no FiscalYearEmployee exists" do
     FiscalYearEmployee.where(employee_id: @employee.id).delete_all
     get employee_url(@employee)
@@ -189,7 +229,9 @@ class EmployeesControllerTest < ActionDispatch::IntegrationTest
     assert_equal({}, assigns(:summary))
   end
 
-  test "show summary numeric when a FiscalYearEmployee exists (fixture)" do
+  # Author: William Pevytoe
+  # Date: 7/10/2025
+  test "show summary numeric when a FiscalYearEmployee exists" do
     employee_with_fye = employees(:one)
     get employee_url(employee_with_fye)
     assert_response :success
@@ -203,6 +245,8 @@ class EmployeesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  # Author: William Pevytoe
+  # Date: 7/10/2025
   test "show JSON returns summary with numeric keys" do
     employee_with_fye = employees(:one)
     get employee_url(employee_with_fye), as: :json
@@ -218,6 +262,8 @@ class EmployeesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  # Author: William Pevytoe
+  # Date: 7/10/2025
   test "destroy non-existent employee JSON returns not_found" do
     missing_id = Employee.last.id + 1
     delete employee_url(missing_id), as: :json
@@ -225,6 +271,8 @@ class EmployeesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to employees_url
   end
 
+  # Author: William Pevytoe
+  # Date: 7/10/2025
   test "show JSON returns empty summary when no FiscalYearEmployee exists" do
     FiscalYearEmployee.where(employee_id: @employee.id).delete_all
     get employee_url(@employee), as: :json
@@ -233,8 +281,9 @@ class EmployeesControllerTest < ActionDispatch::IntegrationTest
     assert_equal({}, body["summary"])
   end
 
+  # Author: William Pevytoe
+  # Date: 7/10/2025
   test "should populate attention_requests when waiting_information exists" do
-    # create a FYE and a request with a waiting_information date
     fy  = fiscal_years(:one)
     fye = FiscalYearEmployee.create!(employee: @employee, fiscal_year: fy)
     req = TimeOffRequest.create!(
